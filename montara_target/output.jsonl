@@ -1,0 +1,8 @@
+{"output": "\u001b[0m19:27:01  Running with dbt=1.7.14"}
+"\n"
+{"output": "\u001b[0m19:27:01  Registered adapter: postgres=1.7.14"}
+"\n"
+{"output": "\u001b[0m19:27:01  Found 35 models, 2 operations, 4 sources, 0 exposures, 0 metrics, 1191 macros, 0 groups, 0 semantic models"}
+"\n"
+{"output": "\u001b[0m19:27:01"}
+"\n"

@@ -1,3 +1,4 @@
 .vscode
 dist
 dbt_run_visualizer.egg-info
+build

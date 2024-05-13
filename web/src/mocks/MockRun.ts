@@ -1,9 +1,12 @@
 import {
   GenericStatus,
+  GetModelRunsTestDetailsResponse,
   GetRunByIdQueryResponse,
   ModelRunStatus,
   RunEnvironment,
   RunType,
+  TestStatus,
+  TestType,
 } from "@montara-io/core-data-types";
 
 export const MockRun: GetRunByIdQueryResponse = {
@@ -72,4 +75,21 @@ export const MockRun: GetRunByIdQueryResponse = {
     runEnvironment: RunEnvironment.Production,
     triggerRunType: RunType.Manual,
   },
+};
+
+export const MockRunTestsData: GetModelRunsTestDetailsResponse = {
+  getModelRunsTestDetails: [
+    {
+      columnName: "column1",
+      faultyRecords: 0,
+      modelName: "model1",
+      pipelineId: "",
+      runId: "",
+      status: TestStatus.Failure,
+      testName: "test1",
+      totalRecords: 0,
+      testType: TestType.Generic,
+      toleranceLevel: 0,
+    },
+  ],
 };

@@ -3,7 +3,6 @@ import {
   DbtRunTestErrorType,
   GenericStatus,
   GetLineageByRunIdQueryResponse,
-  GetModelRunsTestDetailsResponse,
   GetRunByIdQueryResponse,
   ModelRunStatus,
   SingleRun,
@@ -15,10 +14,6 @@ import { formatDate, getSecondsDiffBetweenDates } from "../utils/date";
 import Stopwatch from "../stories/Stopwatch";
 import { formatDuration } from "../utils/time";
 import { LineageProps } from "../components/common/Lineage/helpers";
-
-export const MockRunTestsData: GetModelRunsTestDetailsResponse = {
-  getModelRunsTestDetails: [],
-};
 
 export const MockLineage: GetLineageByRunIdQueryResponse = {
   getLineageByRunId: {

@@ -10,7 +10,6 @@ import {
 } from "@montara-io/core-data-types";
 
 type RunLogProps = {
-  runId: string;
   isInProgressRun: boolean;
 };
 

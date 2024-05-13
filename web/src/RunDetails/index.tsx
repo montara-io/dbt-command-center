@@ -8,6 +8,9 @@ import Scorecard from "../stories/Scorecard";
 import Tabs from "../stories/Tabs";
 import { MockRun } from "../mocks/MockRun";
 import RunDetailsGraph from "./RunDetailsGraph";
+import RunValidations from "./RunValidations";
+import { RunEnvironment } from "@montara-io/core-data-types";
+import RunLog from "./RunLog";
 
 const StyledRunDetails = styled.div`
   min-height: 95vh;
@@ -67,40 +70,27 @@ function RunDetails() {
                 icon: "box",
                 content: <RunDetailsModels runData={MockRun} />,
               },
-              // {
-              //   header: "Validations",
-              //   icon: "verified",
-              //   content:
-              //     activeIndex === RunDetailsTab.Validations ? (
-              //       <RunValidations
-              //         runId={runId}
-              //         runEnvironment={
-              //           runData?.getRunById?.runEnvironment ??
-              //           RunEnvironment.Production
-              //         }
-              //         isInProgressRun={isInProgressRun}
-              //         onErrorClick={() => {
-              //           setActiveIndex(RunDetailsTab.Issues);
-              //         }}
-              //         onClose={onClose}
-              //       />
-              //     ) : (
-              //       <></>
-              //     ),
-              // },
-              // {
-              //   header: "Errors",
-              //   icon: "exclamation-circle",
-              //   content: (
-              //     <RunLog
-              //       onClose={() => {
-              //         onClose();
-              //       }}
-              //       runId={runId}
-              //       isInProgressRun={isInProgressRun}
-              //     />
-              //   ),
-              // },
+              {
+                header: "Validations",
+                icon: "verified",
+                content:
+                  activeIndex === RunDetailsTab.Validations ? (
+                    <RunValidations
+                      runEnvironment={RunEnvironment.Production}
+                      isInProgressRun={false}
+                      onErrorClick={() => {
+                        setActiveIndex(RunDetailsTab.Issues);
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  ),
+              },
+              {
+                header: "Errors",
+                icon: "exclamation-circle",
+                content: <RunLog isInProgressRun={false} />,
+              },
             ]}
           />
         </>

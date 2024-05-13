@@ -4,10 +4,9 @@ import RunValidationsTable from "./RunValidationTable";
 import { RunEnvironment } from "@montara-io/core-data-types";
 import { CHECK, required } from "../constants/colors";
 import Typography from "../stories/Typography";
-import { MockRunTestsData } from "./helpers";
+import { MockRunTestsData } from "../mocks/MockRun";
 
 type RunTestsProps = {
-  runId: string;
   runEnvironment: RunEnvironment;
   isInProgressRun: boolean;
   onErrorClick: () => void;

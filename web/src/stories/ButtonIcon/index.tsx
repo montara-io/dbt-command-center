@@ -1,26 +1,15 @@
-import ActionButton from '../ActionButton/ActionButton';
-import { IconType } from '../Icon';
-import { generateHtmlId } from '../../utils/uuid';
-import Popover from '../Popover';
-import { PopoverPosition } from '@blueprintjs/core';
-import styled from 'styled-components';
-import {
-  BUTTON_FONT_SIZE,
-  DEFAULT_BORDER_RADIUS,
-  LARGE_FONT_SIZE,
-  SMALL_SPACING,
-} from '../../styles/style-units';
-import Loading from '../Loading';
-import {
-  ReleasedFeature,
-  setFeatureAnnouncementViewed,
-} from '../../services/feature-announcements';
-import FeatureAnnouncementPopover from '../../components/common/FeatureAnnouncement/FeatureAnnouncementPopover';
-import { blue, gray200, white } from '../../styles/colors';
+import ActionButton from "../ActionButton/ActionButton";
+import { IconType } from "../Icon";
+import Popover from "../Popover";
+import { PopoverPosition } from "@blueprintjs/core";
+import Loading from "../Loading";
+import { StyledButtonIcon } from "./StyledButtonIcon";
+import { generateHtmlId } from "../../utils/uuid";
+import { LARGE_FONT_SIZE } from "../../constants/style-units";
 
 export type ButtonIconProps = {
   icon: IconType;
-  onClick?: (e: any) => void;
+  onClick?: (e: unknown) => void;
   label?: string;
   backgroundColor?: string;
   color?: string;
@@ -33,50 +22,8 @@ export type ButtonIconProps = {
   iconSize?: string;
   isLoading?: boolean;
   loadingText?: string;
-  featureAnnouncement?: ReleasedFeature;
   style?: React.CSSProperties;
 };
-
-const StyledButtonIcon = styled.span<{ isDisabled: boolean; hasLabel: boolean }>`
-  .m-action-button {
-    color: ${blue};
-    border: none;
-    border-radius: ${DEFAULT_BORDER_RADIUS};
-    outline: none;
-    font-family: inherit;
-    font-weight: 500;
-    height: inherit;
-    width: auto;
-    background: transparent;
-    padding: ${SMALL_SPACING};
-    display: flex;
-    gap: ${({ hasLabel }) => (hasLabel ? SMALL_SPACING : 0)};
-    &:enabled:hover {
-      background-color: ${white};
-      color: ${blue};
-    }
-    &:disabled {
-      background-color: ${white};
-      color: ${gray200};
-    }
-
-    &:focus {
-      outline: none;
-      box-shadow: none;
-    }
-  }
-  cursor: ${({ isDisabled }) => (isDisabled ? 'not-allowed' : 'pointer')};
-  button {
-    font-size: ${BUTTON_FONT_SIZE} !important;
-  }
-
-  .p-button-label {
-    font-family: Poppins !important;
-  }
-  .m-icon {
-    line-height: 1.2;
-  }
-`;
 
 export const ButtonIcon = ({
   label,
@@ -86,14 +33,13 @@ export const ButtonIcon = ({
   color,
   isDisabled = false,
   id = generateHtmlId(),
-  className = '',
+  className = "",
   tooltip,
   isTooltipShown = true,
-  tooltipPosition = 'top',
+  tooltipPosition = "top",
   iconSize,
   isLoading,
   loadingText,
-  featureAnnouncement,
   style,
 }: ButtonIconProps) => {
   const actionButtonContent = (
@@ -104,10 +50,9 @@ export const ButtonIcon = ({
       label={label}
       icon={icon}
       iconSize={iconSize}
-      iconPos={'left'}
+      iconPos={"left"}
       onClick={(e) => {
-        !!featureAnnouncement && setFeatureAnnouncementViewed(featureAnnouncement);
-        typeof onClick === 'function' && onClick(e);
+        typeof onClick === "function" && onClick(e);
       }}
       style={style}
       disabled={isDisabled}
@@ -121,13 +66,17 @@ export const ButtonIcon = ({
       hasLabel={!!label}
     >
       {isLoading ? (
-        <Loading loadingText={loadingText} variant="spinner" width={LARGE_FONT_SIZE} />
-      ) : featureAnnouncement ? (
-        <FeatureAnnouncementPopover releasedFeature={featureAnnouncement}>
-          {actionButtonContent}
-        </FeatureAnnouncementPopover>
+        <Loading
+          loadingText={loadingText}
+          variant="spinner"
+          width={LARGE_FONT_SIZE}
+        />
       ) : !!tooltip && !!isTooltipShown ? (
-        <Popover content={tooltip} isActive={isTooltipShown} position={tooltipPosition}>
+        <Popover
+          content={tooltip}
+          isActive={isTooltipShown}
+          position={tooltipPosition}
+        >
           {actionButtonContent}
         </Popover>
       ) : (

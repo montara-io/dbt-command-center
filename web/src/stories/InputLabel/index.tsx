@@ -1,15 +1,19 @@
-import styled from 'styled-components';
-import { primary, required } from '../../styles/colors';
-import HelpIcon from '../HelpIcon';
-import LearnMore from '../LearnMore';
-import { MontaraDocsPage } from '../../services/montara-docs.service';
-import { DEFAULT_FONT_SIZE, LIGHT_BOLD, SMALL_SPACING } from '../../styles/style-units';
+import styled from "styled-components";
+import HelpIcon from "../HelpIcon";
+import LearnMore from "../LearnMore";
+import { MontaraDocsPage } from "../../services/montara-docs.service";
+import { primary, required } from "../../constants/colors";
+import {
+  DEFAULT_FONT_SIZE,
+  LIGHT_BOLD,
+  SMALL_SPACING,
+} from "../../constants/style-units";
 
 export type InputLabelProps = {
   inputId: string;
   labelText?: string;
   helpLinkTooltip?: string;
-  type?: 'bold' | 'normal';
+  type?: "bold" | "normal";
   isRequired?: boolean;
   learnMorePage?: MontaraDocsPage;
   noMargin?: boolean;
@@ -18,7 +22,7 @@ export type InputLabelProps = {
 
 const StyledInputLabel = styled.label<{ noMargin: boolean }>`
   display: block;
-  margin-bottom: ${(props) => (props.noMargin ? '0' : SMALL_SPACING)};
+  margin-bottom: ${(props) => (props.noMargin ? "0" : SMALL_SPACING)};
   font-size: ${DEFAULT_FONT_SIZE};
   &.m-bold {
     font-weight: ${LIGHT_BOLD};
@@ -33,22 +37,26 @@ const StyledInputLabel = styled.label<{ noMargin: boolean }>`
 function InputLabel({
   inputId,
   labelText,
-  helpLinkTooltip = '',
-  type = 'bold',
+  helpLinkTooltip = "",
+  type = "bold",
   isRequired = false,
 
   learnMorePage,
   noMargin = false,
-  className = '',
+  className = "",
 }: Readonly<InputLabelProps>) {
   return (
     <StyledInputLabel
-      className={`m-input-label ${type === 'bold' ? 'm-bold' : 'm-normal'} ${className}`}
+      className={`m-input-label ${
+        type === "bold" ? "m-bold" : "m-normal"
+      } ${className}`}
       htmlFor={inputId}
       noMargin={noMargin}
     >
       {labelText}
-      {!!isRequired && <span style={{ color: required, marginLeft: '0.25rem' }}>*</span>}
+      {!!isRequired && (
+        <span style={{ color: required, marginLeft: "0.25rem" }}>*</span>
+      )}
       {!!helpLinkTooltip && <HelpIcon helpLinkTooltip={helpLinkTooltip} />}
       {!!learnMorePage && <LearnMore path={learnMorePage} />}
     </StyledInputLabel>

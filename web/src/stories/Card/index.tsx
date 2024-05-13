@@ -1,7 +1,11 @@
-import styled from 'styled-components';
-import { DEFAULT_BORDER_RADIUS, SMALL_SPACING } from '../../styles/style-units';
+import styled from "styled-components";
+import {
+  DEFAULT_BORDER_RADIUS,
+  SMALL_SPACING,
+} from "../../constants/style-units";
 
 export type CardProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children?: any;
   className?: string;
 };
@@ -18,7 +22,7 @@ const StyledCard = styled.div`
   }
 `;
 
-function Card({ children, className = '' }: Readonly<CardProps>) {
+function Card({ children, className = "" }: Readonly<CardProps>) {
   return (
     <StyledCard className={`m-card ${className}`}>
       <div className="m-children-container">{children}</div>

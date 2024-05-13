@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import Popover from '../Popover';
-import { Button } from 'primereact/button';
-import { blue, gray200 } from '../../styles/colors';
-import Icon, { IconType } from '../Icon';
-import { DEFAULT_FONT_SIZE, SMALL_SPACING } from '../../styles/style-units';
+import styled from "styled-components";
+import Popover from "../Popover";
+import { Button } from "primereact/button";
+import Icon, { IconType } from "../Icon";
+import { DEFAULT_FONT_SIZE, SMALL_SPACING } from "../../constants/style-units";
+import { blue, gray200 } from "../../constants/colors";
 
 type ButtonLinkProps = {
   label: string;
@@ -59,7 +59,7 @@ function ButtonLink({
   onClick,
   tooltip,
   fontSize = DEFAULT_FONT_SIZE,
-  className = '',
+  className = "",
   isDisabled,
   icon,
   color = blue,
@@ -78,11 +78,20 @@ function ButtonLink({
         icon={icon}
       />
       {!!icon && (
-        <Icon onClick={onClick} iconName={icon} size={fontSize || DEFAULT_FONT_SIZE} color={blue} />
+        <Icon
+          onClick={onClick}
+          iconName={icon}
+          size={fontSize || DEFAULT_FONT_SIZE}
+          color={blue}
+        />
       )}
     </StyledButtonLink>
   );
-  return tooltip ? <Popover content={tooltip}>{innerButton}</Popover> : innerButton;
+  return tooltip ? (
+    <Popover content={tooltip}>{innerButton}</Popover>
+  ) : (
+    innerButton
+  );
 }
 
 export default ButtonLink;

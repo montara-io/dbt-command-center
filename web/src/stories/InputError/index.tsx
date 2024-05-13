@@ -1,7 +1,7 @@
-import { required } from '../../styles/colors';
-import { SMALL_SPACING } from '../../styles/style-units';
-import { isMobileDevice } from '../../utils/responsiveness';
-import Typography from '../Typography';
+import { required } from "../../constants/colors";
+import { SMALL_SPACING } from "../../constants/style-units";
+import { isMobileDevice } from "../../utils/responsiveness";
+import Typography from "../Typography";
 
 type InputErrorProps = {
   errorMessage: string;
@@ -11,10 +11,10 @@ function InputError({ errorMessage }: Readonly<InputErrorProps>) {
   return (
     <Typography
       style={{
-        display: 'block',
+        display: "block",
         marginTop: SMALL_SPACING,
         color: required,
-        maxWidth: isMobileDevice() ? '45rem' : '25rem',
+        maxWidth: isMobileDevice() ? "45rem" : "25rem",
       }}
       variant="small-text"
       className="m-input-error"

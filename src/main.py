@@ -10,7 +10,7 @@ import threading
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # content of the html file from the web_application/index.h
-        with open("web_application/index.html", "r") as file:
+        with open("web_application/public/index.html", "r") as file:
             html_content = file.read()
         parsed_path = urlparse(self.path)
         print(parsed_path.path)

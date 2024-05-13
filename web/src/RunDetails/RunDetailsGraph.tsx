@@ -29,11 +29,9 @@ const StyledRunDetailsGraph = styled.div`
 function RunDetailsGraph({
   runData,
   setActiveIndex,
-  onClose,
 }: Readonly<{
   runData: GetRunByIdQueryResponse;
   setActiveIndex: React.Dispatch<React.SetStateAction<RunDetailsTab>>;
-  onClose: () => void;
 }>) {
   const lineageData = MockLineage;
 
@@ -66,9 +64,6 @@ function RunDetailsGraph({
           onNodeMenuClick={(p) => {
             p.menuId === NodeMenuId.ShowError &&
               setActiveIndex(RunDetailsTab.Issues);
-            if (p.menuId === NodeMenuId.ViewModel) {
-              onClose();
-            }
           }}
           isFilterByPipelineEnabled={false}
         />

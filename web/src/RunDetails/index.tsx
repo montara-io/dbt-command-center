@@ -7,6 +7,7 @@ import { AnalyticsEvent, trackEvent } from "../services/analytics";
 import Scorecard from "../stories/Scorecard";
 import Tabs from "../stories/Tabs";
 import { MockRun } from "../mocks/MockRun";
+import RunDetailsGraph from "./RunDetailsGraph";
 
 const StyledRunDetails = styled.div`
   min-height: 95vh;
@@ -51,17 +52,16 @@ function RunDetails() {
             externalOnTabChange={setActiveIndex}
             noPadding={true}
             tabPanels={[
-              // {
-              //   header: "Pipeline",
-              //   icon: "share-alt",
-              //   content: (
-              //     <RunDetailsGraph
-              //       setActiveIndex={setActiveIndex}
-              //       runData={MockRun}
-              //       onClose={onClose}
-              //     />
-              //   ),
-              // },
+              {
+                header: "Pipeline",
+                icon: "share-alt",
+                content: (
+                  <RunDetailsGraph
+                    setActiveIndex={setActiveIndex}
+                    runData={MockRun}
+                  />
+                ),
+              },
               {
                 header: "Models",
                 icon: "box",

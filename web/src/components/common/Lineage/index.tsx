@@ -97,6 +97,7 @@ function Lineage({
 
           <Flow
             {...formatted}
+            hideLegend={true}
             height={isLineageFilterShown ? `calc(${height} - 4rem)` : height}
             fitView={fitView}
             variant={variant}

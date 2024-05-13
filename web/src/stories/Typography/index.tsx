@@ -6,42 +6,43 @@ import {
   LIGHT_BOLD,
   MID_FONT_SIZE,
   SMALL_FONT_SIZE,
-} from '../../styles/style-units';
-import { isMobileDevice } from '../../utils/responsiveness';
-import { generateHtmlId } from '../../utils/uuid';
-import Icon, { IconType } from '../Icon';
-import Tooltip, { TooltipProps } from '../Tooltip';
+} from "../../constants/style-units";
+import { isMobileDevice } from "../../utils/responsiveness";
+import { generateHtmlId } from "../../utils/uuid";
+import Icon, { IconType } from "../Icon";
+import Tooltip, { TooltipProps } from "../Tooltip";
 
 export type TypographyProps = {
-  variant?: 'title' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal-text' | 'small-text';
+  variant?: "title" | "h1" | "h2" | "h3" | "h4" | "normal-text" | "small-text";
   icon?: IconType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children: any;
   style?: React.CSSProperties;
   className?: string;
   tooltip?: string;
-  tooltipPosition?: TooltipProps['position'];
+  tooltipPosition?: TooltipProps["position"];
   isEllipsis?: boolean;
   id?: string;
 };
 
 function Typography({
   id,
-  variant = 'normal-text',
+  variant = "normal-text",
   icon,
   children,
   style = {},
-  className = '',
+  className = "",
   tooltip,
   tooltipPosition,
   isEllipsis = false,
 }: Readonly<TypographyProps>) {
   const elementId = id || generateHtmlId();
   switch (variant) {
-    case 'title':
+    case "title":
       return (
         <h1
           style={{
-            textAlign: 'center',
+            textAlign: "center",
             fontSize: HUGE_FONT_SIZE,
             fontWeight: LIGHT_BOLD,
             ...style,
@@ -52,10 +53,13 @@ function Typography({
         </h1>
       );
 
-    case 'h1':
+    case "h1":
       return (
         <h1
-          style={{ fontSize: isMobileDevice() ? LARGER_FONT_SIZE : undefined, ...style }}
+          style={{
+            fontSize: isMobileDevice() ? LARGER_FONT_SIZE : undefined,
+            ...style,
+          }}
           className={`m-typography ${className}`}
         >
           {icon && <Icon iconName={icon} />}
@@ -63,9 +67,12 @@ function Typography({
         </h1>
       );
 
-    case 'h2':
+    case "h2":
       return (
-        <h2 style={{ fontSize: LARGE_FONT_SIZE, ...style }} className={`m-typography ${className}`}>
+        <h2
+          style={{ fontSize: LARGE_FONT_SIZE, ...style }}
+          className={`m-typography ${className}`}
+        >
           {icon && (
             <>
               <Icon iconName={icon} />
@@ -75,12 +82,12 @@ function Typography({
           {children}
         </h2>
       );
-    case 'h3':
+    case "h3":
       return (
         <h3
           style={{
-            marginBottom: '1rem',
-            fontSize: isMobileDevice() ? '2.25rem' : 'inherit',
+            marginBottom: "1rem",
+            fontSize: isMobileDevice() ? "2.25rem" : "inherit",
             ...style,
           }}
           className={`m-typography ${className}`}
@@ -94,18 +101,20 @@ function Typography({
           {children}
         </h3>
       );
-    case 'h4':
+    case "h4":
       return (
         <h4
           style={{ fontSize: MID_FONT_SIZE, ...style }}
-          className={`m-typography ${className} ${icon ? 'm-flex-align-center' : ''}`}
+          className={`m-typography ${className} ${
+            icon ? "m-flex-align-center" : ""
+          }`}
         >
           {icon && <Icon iconName={icon} size={MID_FONT_SIZE} />}
           {children}
         </h4>
       );
 
-    case 'normal-text':
+    case "normal-text":
       return (
         <>
           {!!tooltip && (
@@ -118,11 +127,11 @@ function Typography({
           )}
           <p
             style={{
-              margin: '0.5rem 0',
+              margin: "0.5rem 0",
               fontSize: DEFAULT_FONT_SIZE,
-              overflow: isEllipsis ? 'hidden' : undefined,
-              textOverflow: isEllipsis ? 'ellipsis' : undefined,
-              whiteSpace: isEllipsis ? 'nowrap' : undefined,
+              overflow: isEllipsis ? "hidden" : undefined,
+              textOverflow: isEllipsis ? "ellipsis" : undefined,
+              whiteSpace: isEllipsis ? "nowrap" : undefined,
               ...style,
             }}
             className={`m-typography ${className}`}
@@ -139,7 +148,7 @@ function Typography({
         </>
       );
 
-    case 'small-text':
+    case "small-text":
       return (
         <small
           style={{

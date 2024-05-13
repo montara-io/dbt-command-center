@@ -1,7 +1,14 @@
-import styled from 'styled-components';
-import { gray220 } from '../../styles/colors';
-import Card from '../Card';
-import Loading from '../Loading';
+import styled from "styled-components";
+import Card from "../Card";
+import Loading from "../Loading";
+import Typography from "../Typography";
+import Tag from "../Tag";
+import { ReactNode, useState } from "react";
+import Icon, { IconType } from "../Icon";
+import EllipsisText from "../Typography/EllipsisText";
+import { NOT_AVAILABLE_DASH, NOT_AVAILABLE_TEXT } from "../../constants";
+import HelpIcon from "../HelpIcon";
+import { GenericStatus } from "../../enums";
 import {
   BOLD,
   DEFAULT_FONT_SIZE,
@@ -9,17 +16,10 @@ import {
   MID_SPACING,
   SMALL_SPACING,
   TINY_SPACING,
-} from '../../styles/style-units';
-import Typography from '../Typography';
-import Tag from '../Tag';
-import { GenericStatus } from '../../utils/enums';
-import { ReactNode, useState } from 'react';
-import { isMobileDevice } from '../../utils/responsiveness';
-import Icon, { IconType } from '../Icon';
-import EllipsisText from '../Typography/EllipsisText';
-import CopyToClipboardButton from '../CopyToClipboardButton';
-import { NOT_AVAILABLE_DASH, NOT_AVAILABLE_TEXT } from '../../constants';
-import HelpIcon from '../HelpIcon';
+} from "../../constants/style-units";
+import { isMobileDevice } from "../../utils/responsiveness";
+import { gray220 } from "../../constants/colors";
+import CopyToClipboardButton from "../CopyToClipboardButton";
 
 export interface ScorecardProps {
   items: {
@@ -45,7 +45,7 @@ export interface ScorecardProps {
 
 const StyledScorecard = styled.div`
   margin-bottom: ${DEFAULT_SPACING};
-  width: ${isMobileDevice() ? '100%' : 'fit-content'};
+  width: ${isMobileDevice() ? "100%" : "fit-content"};
   .m-scorecard-header {
     margin-bottom: ${DEFAULT_SPACING};
   }
@@ -99,19 +99,26 @@ function StringScorecardValue({
   return (
     <span
       className="m-scorecard-value-string"
-      onMouseEnter={(e) => {
+      onMouseEnter={() => {
         isCopyable && setIsCopyButtonVisible(true);
       }}
-      onMouseLeave={(e) => {
+      onMouseLeave={() => {
         isCopyable && setIsCopyButtonVisible(false);
       }}
     >
-      <EllipsisText tooltipPosition="top" className="m-scorecard-value-ellipsis">
+      <EllipsisText
+        tooltipPosition="top"
+        className="m-scorecard-value-ellipsis"
+      >
         {value}
       </EllipsisText>
       {!!helpTooltip && <HelpIcon helpLinkTooltip={helpTooltip} />}
       {!!isCopyButtonVisible && !EMPTY_VALUES.includes(value) && (
-        <CopyToClipboardButton tooltip="Copy to clipboard" tooltipPosition="top" content={value} />
+        <CopyToClipboardButton
+          tooltip="Copy to clipboard"
+          tooltipPosition="top"
+          content={value}
+        />
       )}
     </span>
   );
@@ -123,13 +130,13 @@ function Scorecard({
   items,
   isLoading,
   emptyText,
-  className = '',
+  className = "",
 }: Readonly<ScorecardProps>) {
   return (
     <StyledScorecard className={`m-scorecard ${className}`}>
       {!!header && (
         <Typography
-          variant={isMobileDevice() ? 'h4' : 'h3'}
+          variant={isMobileDevice() ? "h4" : "h3"}
           style={{ marginBottom: SMALL_SPACING, marginTop: DEFAULT_SPACING }}
           className="m-scorecard-header"
         >
@@ -157,18 +164,26 @@ function Scorecard({
                 &nbsp;
                 <span className="m-scorecard-value">
                   {item.isTag ? (
-                    <Tag status={item.value as GenericStatus} isLoading={item.isTagLoading} />
+                    <Tag
+                      status={item.value as GenericStatus}
+                      isLoading={item.isTagLoading}
+                    />
                   ) : (
                     <span
                       style={{
                         color: item.color,
                         textDecoration:
-                          typeof item?.onClick === 'function' ? 'underline' : undefined,
-                        cursor: typeof item?.onClick === 'function' ? 'pointer' : undefined,
+                          typeof item?.onClick === "function"
+                            ? "underline"
+                            : undefined,
+                        cursor:
+                          typeof item?.onClick === "function"
+                            ? "pointer"
+                            : undefined,
                       }}
                       onClick={item?.onClick}
                     >
-                      {typeof item.value === 'string' ? (
+                      {typeof item.value === "string" ? (
                         <StringScorecardValue
                           helpTooltip={item.helpTooltip}
                           value={item.value}

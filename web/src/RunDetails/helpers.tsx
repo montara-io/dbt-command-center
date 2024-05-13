@@ -1,8 +1,4 @@
-import {
-  ModelRunStatus,
-  RunEnvironment,
-  TestStatus,
-} from "@montara-io/core-data-types";
+import { ModelRunStatus, TestStatus } from "@montara-io/core-data-types";
 import { GenericStatus } from "../enums";
 import { ScorecardProps } from "../stories/Scorecard";
 import { GetRunByIdQueryResponse, SingleRun } from "../types/run";
@@ -10,6 +6,29 @@ import { formatDate, getSecondsDiffBetweenDates } from "../utils/date";
 import Stopwatch from "../stories/Stopwatch";
 import { formatDuration } from "../utils/time";
 import { DbtRunTestErrorType } from "../types/dbt-run-error";
+
+export const MockRun: GetRunByIdQueryResponse = {
+  getRunById: {
+    endDatetime: "2021-09-01T00:00:00.000Z",
+    errors: {
+      generalErrors: [],
+      modelErrors: {},
+      sourceErrors: {},
+    },
+    fullRefresh: false,
+    isSmartRun: false,
+    logsUrl: "",
+    modelRunsDetails: [],
+    projectId: "",
+    runId: "",
+    startDatetime: "2021-09-01T00:00:00.000Z",
+    status: GenericStatus.completed,
+    user: {
+      email: "",
+    },
+    versionNumber: 0,
+  },
+};
 
 export const ModelRunStatusToGenericStatusMap: Record<
   ModelRunStatus,
@@ -99,20 +118,6 @@ export function getScorecardFromRunDetails({
   ];
 }
 
-// export function getModelRunStatusMap(
-//   runsData: GetRunByIdQueryResponse
-// ): LineageProps["modelToRunStatus"] {
-//   const modelToRunStatus: LineageProps["modelToRunStatus"] = {};
-
-//   (runsData.getRunById?.modelRunsDetails ?? []).forEach(
-//     (model: { name: string | number; status: GenericStatus }) => {
-//       modelToRunStatus[model.name] = model.status || ModelRunStatus.Skipped;
-//     }
-//   );
-
-//   return modelToRunStatus;
-// }
-
 export enum RunDetailsTab {
   Pipeline,
   Models,
@@ -137,13 +142,9 @@ export function buildInProgressMessage(runData: GetRunByIdQueryResponse) {
   const numPendingModels = (
     runData?.getRunById?.modelRunsDetails ?? []
   )?.filter(
-    (m: { status: GenericStatus }) => m?.status === ModelRunStatus.Pending
+    (m: { status: ModelRunStatus }) => m?.status === ModelRunStatus.Pending
   );
-  const showSkippedModels =
-    runData?.getRunById?.runEnvironment === RunEnvironment.Staging;
-  const numSkippedModels = (runData?.getRunById?.modelRunsDetails ?? []).filter(
-    (m) => m?.status === ModelRunStatus.Skipped
-  );
+
   const numInProgressModels = (
     runData?.getRunById?.modelRunsDetails ?? []
   ).filter((m) => m?.status === ModelRunStatus.InProgress);
@@ -156,10 +157,6 @@ export function buildInProgressMessage(runData: GetRunByIdQueryResponse) {
   ) {
     return "All models ran successfully";
   } else {
-    return `Pending: ${numPendingModels?.length}, ${
-      showSkippedModels ? `Skipped: ${numSkippedModels?.length},` : ""
-    } In progress: ${numInProgressModels?.length}, Completed: ${
-      numCompletedModels?.length
-    }/${totalModels}`;
+    return `Pending: ${numPendingModels?.length},  In progress: ${numInProgressModels?.length}, Completed: ${numCompletedModels?.length}/${totalModels}`;
   }
 }

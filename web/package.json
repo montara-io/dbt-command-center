@@ -11,9 +11,19 @@
   },
   "dependencies": {
     "@montara-io/core-data-types": "0.0.35",
+    "@blueprintjs/core": "^4.17.8",
+    "@blueprintjs/select": "^4.9.12",
+    "classnames": "^2.5.1",
+    "fuzzysort": "^2.0.4",
+    "moment": "^2.29.4",
+    "primeflex": "^3.3.0",
+    "primeicons": "^6.0.1",
+    "primereact": "^8.7.3",
     "react": "^18.2.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "@tabler/icons-react": "^2.16.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

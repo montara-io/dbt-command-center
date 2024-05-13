@@ -1,26 +1,23 @@
-import styled from 'styled-components';
-import { TabView, TabPanel } from 'primereact/tabview';
-import { ACCENT, ALERT_SUCCESS, blue, white } from '../../styles/colors';
-import { BOLD, DEFAULT_FONT_SIZE, DEFAULT_SPACING, MID_FONT_SIZE } from '../../styles/style-units';
-import { useState } from 'react';
-import Icon, { IconType } from '../Icon';
-import NotificationDot from '../../components/common/NotificationDot';
+import styled from "styled-components";
+import { TabView, TabPanel } from "primereact/tabview";
+import { useState } from "react";
+import Icon, { IconType } from "../Icon";
+import NotificationDot from "../NotificationDot";
+
 import {
-  ReleasedFeature,
-  getReleasedFeatureTexts,
-  setFeatureAnnouncementViewed,
-} from '../../services/feature-announcements';
-import FeatureAnnouncementPopover from '../../components/common/FeatureAnnouncement/FeatureAnnouncementPopover';
-import { GlobalStorageKey, setStorageItem } from '../../services/storage';
-import { getInitialActiveIndex } from './helpers';
-import { isMobileDevice } from '../../utils/responsiveness';
+  BOLD,
+  DEFAULT_FONT_SIZE,
+  DEFAULT_SPACING,
+  MID_FONT_SIZE,
+} from "../../constants/style-units";
+import { ACCENT, blue, white } from "../../constants/colors";
+import { isMobileDevice } from "../../utils/responsiveness";
 
 export type TabsProps = {
   tabPanels: {
     icon?: IconType;
     iconSize?: string;
     header: string;
-    featureAnnouncement?: ReleasedFeature;
     content: React.ReactNode;
     isHidden?: boolean;
     showNotificationDot?: boolean;
@@ -32,13 +29,16 @@ export type TabsProps = {
   headerMaxWidth?: string;
   renderActiveOnly?: boolean;
   noPadding?: boolean;
-  localStorageKey?: GlobalStorageKey;
   className?: string;
   maxHeight?: string;
   onTabChangeCallback?: (index: number) => void;
 };
 
-const StyledTabs = styled.div<{ headerMaxWidth: string; noPadding: boolean; maxHeight?: string }>`
+const StyledTabs = styled.div<{
+  headerMaxWidth: string;
+  noPadding: boolean;
+  maxHeight?: string;
+}>`
   .p-tabview-nav-container {
     margin-bottom: ${DEFAULT_SPACING};
     max-width: ${({ headerMaxWidth }) => headerMaxWidth};
@@ -51,7 +51,7 @@ const StyledTabs = styled.div<{ headerMaxWidth: string; noPadding: boolean; maxH
   .p-tabview .p-tabview-nav li .p-tabview-nav-link {
     box-shadow: none !important;
     font-weight: 500;
-    padding-bottom: ${isMobileDevice() ? '1.5rem' : '0.75rem'};
+    padding-bottom: ${isMobileDevice() ? "1.5rem" : "0.75rem"};
   }
   .p-tabview .p-tabview-panels {
     padding: 0;
@@ -81,14 +81,13 @@ function Tabs({
   extenalActiveIndex,
   externalOnTabChange,
   onTabChangeCallback,
-  headerMaxWidth = '100%',
+  headerMaxWidth = "100%",
   renderActiveOnly = true,
   noPadding = false,
-  localStorageKey,
-  className = '',
+  className = "",
   maxHeight,
 }: Readonly<TabsProps>) {
-  const [activeIndex, setActiveIndex] = useState(getInitialActiveIndex({ localStorageKey }));
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <StyledTabs
@@ -104,33 +103,22 @@ function Tabs({
     >
       <TabView
         renderActiveOnly={renderActiveOnly}
-        activeIndex={extenalActiveIndex !== undefined ? extenalActiveIndex : activeIndex}
+        activeIndex={
+          extenalActiveIndex !== undefined ? extenalActiveIndex : activeIndex
+        }
         onTabChange={(e) => {
-          const tabPanel = tabPanels[e.index];
-          tabPanel?.featureAnnouncement &&
-            setFeatureAnnouncementViewed(tabPanel.featureAnnouncement);
-          typeof externalOnTabChange === 'function'
+          typeof externalOnTabChange === "function"
             ? externalOnTabChange(e?.index)
             : setActiveIndex(e.index);
-          localStorageKey &&
-            setStorageItem({
-              key: localStorageKey,
-              value: e.index,
-              userId: '',
-            });
-          typeof onTabChangeCallback === 'function' && onTabChangeCallback(e.index);
+
+          typeof onTabChangeCallback === "function" &&
+            onTabChangeCallback(e.index);
         }}
       >
         {(tabPanels || [])
           .filter((t) => !t.isHidden)
           .map((tabPanel) => {
-            const featureAnnouncementTexts = tabPanel.featureAnnouncement
-              ? getReleasedFeatureTexts(tabPanel.featureAnnouncement)
-              : undefined;
-
-            const dotBackground =
-              tabPanel?.notificationDotBackground ||
-              (featureAnnouncementTexts ? ALERT_SUCCESS : ACCENT);
+            const dotBackground = tabPanel?.notificationDotBackground || ACCENT;
 
             return (
               <TabPanel
@@ -139,22 +127,20 @@ function Tabs({
                   <>
                     {tabPanel.icon && (
                       <>
-                        <Icon iconName={tabPanel.icon} size={tabPanel?.iconSize || MID_FONT_SIZE} />
+                        <Icon
+                          iconName={tabPanel.icon}
+                          size={tabPanel?.iconSize || MID_FONT_SIZE}
+                        />
                         &nbsp;&nbsp;
                       </>
                     )}
-                    {!featureAnnouncementTexts && tabPanel.header}
-                    {(!!tabPanel.showNotificationDot || !!featureAnnouncementTexts) &&
-                      (featureAnnouncementTexts?.description ? (
-                        <FeatureAnnouncementPopover releasedFeature={tabPanel.featureAnnouncement!}>
-                          {tabPanel.header}
-                        </FeatureAnnouncementPopover>
-                      ) : (
-                        <NotificationDot
-                          className="m-notification-dot"
-                          dotBackground={dotBackground}
-                        />
-                      ))}
+                    {tabPanel.header}
+                    {!!tabPanel.showNotificationDot && (
+                      <NotificationDot
+                        className="m-notification-dot"
+                        dotBackground={dotBackground}
+                      />
+                    )}
                   </>
                 }
               >

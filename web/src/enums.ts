@@ -6,3 +6,8 @@ export enum GenericStatus {
   failed = "failed",
   neutral = "neutral",
 }
+
+export enum AssetType {
+  Model = "Model",
+  Source = "Source",
+}

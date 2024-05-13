@@ -1,15 +1,11 @@
 import styled from "styled-components";
-import { RunDetailsTab, getScorecardFromRunDetails } from "./helpers";
+import { MockRun, RunDetailsTab, getScorecardFromRunDetails } from "./helpers";
 import { useEffect, useState } from "react";
-
-import RunDetailsGraph from "./RunDetailsGraph";
-
-import RunValidations from "./RunValidations";
-import RunLog from "./RunLog";
 
 import RunDetailsModels from "./RunDetailsModels";
 import { AnalyticsEvent, trackEvent } from "../services/analytics";
 import Scorecard from "../stories/Scorecard";
+import Tabs from "../stories/Tabs";
 
 const StyledRunDetails = styled.div`
   min-height: 95vh;
@@ -40,91 +36,70 @@ function RunDetails() {
         <>
           <Scorecard
             items={getScorecardFromRunDetails({
-              run: runData,
-              onVersionClick: (versionNumber) => {
-                onClose();
-                navigate(
-                  getVersionsDetailsPath({
-                    versionNumber,
-                  })
-                );
-              },
-              onReleaseVersionClick: () => {
-                onClose();
-                navigate(
-                  getRoute({
-                    path: Route.Versions,
-                    urlParams: {
-                      [UrlParam.TriggerReleaseVersion]: "true",
-                    },
-                  })
-                );
-              },
+              run: MockRun,
             })}
             isLoading={false}
-            header={isMobileDevice() ? "" : "Overview"}
+            header={"Overview"}
             emptyText={""}
           />
 
           <Tabs
-            headerMaxWidth={isMobileDevice() ? "100%" : "28.5rem"}
+            headerMaxWidth={"28.5rem"}
             renderActiveOnly={false}
             extenalActiveIndex={activeIndex}
             externalOnTabChange={setActiveIndex}
             noPadding={true}
             tabPanels={[
-              {
-                header: "Pipeline",
-                icon: "share-alt",
-                content: (
-                  <RunDetailsGraph
-                    setActiveIndex={setActiveIndex}
-                    runData={runData!}
-                    onClose={onClose}
-                  />
-                ),
-              },
+              // {
+              //   header: "Pipeline",
+              //   icon: "share-alt",
+              //   content: (
+              //     <RunDetailsGraph
+              //       setActiveIndex={setActiveIndex}
+              //       runData={MockRun}
+              //       onClose={onClose}
+              //     />
+              //   ),
+              // },
               {
                 header: "Models",
                 icon: "box",
-                content: (
-                  <RunDetailsModels runData={runData} onClose={onClose} />
-                ),
+                content: <RunDetailsModels runData={MockRun} />,
               },
-              {
-                header: "Validations",
-                icon: "verified",
-                content:
-                  activeIndex === RunDetailsTab.Validations ? (
-                    <RunValidations
-                      runId={runId}
-                      runEnvironment={
-                        runData?.getRunById?.runEnvironment ??
-                        RunEnvironment.Production
-                      }
-                      isInProgressRun={isInProgressRun}
-                      onErrorClick={() => {
-                        setActiveIndex(RunDetailsTab.Issues);
-                      }}
-                      onClose={onClose}
-                    />
-                  ) : (
-                    <></>
-                  ),
-              },
-              {
-                header: "Errors",
-                icon: "exclamation-circle",
-                content: (
-                  <RunLog
-                    onClose={() => {
-                      onClose();
-                    }}
-                    runId={runId}
-                    isInProgressRun={isInProgressRun}
-                  />
-                ),
-              },
+              // {
+              //   header: "Validations",
+              //   icon: "verified",
+              //   content:
+              //     activeIndex === RunDetailsTab.Validations ? (
+              //       <RunValidations
+              //         runId={runId}
+              //         runEnvironment={
+              //           runData?.getRunById?.runEnvironment ??
+              //           RunEnvironment.Production
+              //         }
+              //         isInProgressRun={isInProgressRun}
+              //         onErrorClick={() => {
+              //           setActiveIndex(RunDetailsTab.Issues);
+              //         }}
+              //         onClose={onClose}
+              //       />
+              //     ) : (
+              //       <></>
+              //     ),
+              // },
+              // {
+              //   header: "Errors",
+              //   icon: "exclamation-circle",
+              //   content: (
+              //     <RunLog
+              //       onClose={() => {
+              //         onClose();
+              //       }}
+              //       runId={runId}
+              //       isInProgressRun={isInProgressRun}
+              //     />
+              //   ),
+              // },
             ]}
           />
         </>

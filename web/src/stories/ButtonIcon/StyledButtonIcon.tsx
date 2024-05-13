@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { blue } from "../../constants/colors";
+import { blue, gray200, white } from "../../constants/colors";
+import {
+  BUTTON_FONT_SIZE,
+  DEFAULT_BORDER_RADIUS,
+  SMALL_SPACING,
+} from "../../constants/style-units";
 
 export const StyledButtonIcon = styled.span<{
   isDisabled: boolean;

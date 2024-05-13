@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { STATUS_TO_CONFIG } from "./helpers";
 import Loading from "../Loading";
 import { GenericStatus } from "../../enums";
-import { PRIMARY } from "../../constants/colors";
 import { SMALL_FONT_SIZE } from "../../constants/style-units";
+import { primary } from "../../constants/colors";
 
 export interface TagProps {
   status?: GenericStatus;
@@ -48,7 +48,7 @@ const StyledTag = styled.div<{
 
   .m-tag-label {
     font-size: var(--smaller-font-size) !important;
-    color: ${PRIMARY};
+    color: ${primary};
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

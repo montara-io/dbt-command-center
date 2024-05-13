@@ -1,14 +1,15 @@
-import { Tooltip as PrimeTooltip } from 'primereact/tooltip';
-import { isDesktopDevice } from '../../utils/responsiveness';
+import { Tooltip as PrimeTooltip } from "primereact/tooltip";
+import { isDesktopDevice } from "../../utils/responsiveness";
 
 const MIN_ELLIPSIS_LENGTH = 16;
 
 export type TooltipProps = {
   tooltip: string;
   elementId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children?: any;
   isEllipsis?: boolean;
-  position?: 'top' | 'bottom' | 'left' | 'right';
+  position?: "top" | "bottom" | "left" | "right";
 };
 
 function Tooltip({
@@ -26,7 +27,7 @@ function Tooltip({
           content={tooltip}
           disabled={isEllipsis ? tooltip.length < MIN_ELLIPSIS_LENGTH : false}
           position={position}
-          style={{ maxWidth: isDesktopDevice() ? '25rem' : '40rem' }}
+          style={{ maxWidth: isDesktopDevice() ? "25rem" : "40rem" }}
         />
       }
       {!!children && children}

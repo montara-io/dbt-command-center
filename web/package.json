@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@montara-io/core-data-types": "0.0.35",
+    "@dagrejs/graphlib": "^2.1.13",
+    "@montara-io/core-data-types": "0.0.35-dadi-09",
     "@blueprintjs/core": "^4.17.8",
     "@blueprintjs/select": "^4.9.12",
     "classnames": "^2.5.1",
@@ -26,6 +27,8 @@
     "@tabler/icons-react": "^2.16.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",

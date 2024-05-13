@@ -1,18 +1,16 @@
-import styled from 'styled-components';
-
-import Typography from '../../../stories/Typography';
-import { useGetModelRunsTestDetails } from '../../../hooks/useRunTests';
-import GqlElement from '../../common/GqlElement';
-import RunValidationsTable from './RunValidationTable';
-import { CHECK, required } from '../../../styles/colors';
-import { RunEnvironment } from '@montara-io/core-data-types';
+/* eslint-disable no-constant-condition */
+import styled from "styled-components";
+import RunValidationsTable from "./RunValidationTable";
+import { RunEnvironment } from "@montara-io/core-data-types";
+import { CHECK, required } from "../constants/colors";
+import Typography from "../stories/Typography";
+import { MockRunTestsData } from "./helpers";
 
 type RunTestsProps = {
   runId: string;
   runEnvironment: RunEnvironment;
   isInProgressRun: boolean;
   onErrorClick: () => void;
-  onClose: () => void;
 };
 
 const StyledRunValidations = styled.div`
@@ -31,51 +29,32 @@ const StyledRunValidations = styled.div`
 `;
 
 function RunValidations({
-  runId,
-  runEnvironment,
   isInProgressRun,
   onErrorClick,
-  onClose,
 }: Readonly<RunTestsProps>) {
-  const {
-    error: runTestsError,
-    loading: runTestsLoading,
-    data: runTestsData,
-  } = useGetModelRunsTestDetails({
-    runId,
-    runEnvironment,
-  });
-
+  const runTestsData = MockRunTestsData;
   return (
     <StyledRunValidations>
-      <GqlElement
-        loadingText="Loading validations"
-        error={runTestsError}
-        isLoading={runTestsLoading}
-      >
-        {runTestsData?.getModelRunsTestDetails?.length ? (
-          <>
-            <RunValidationsTable
-              isGenericValidation={true}
-              onErrorClick={onErrorClick}
-              runValidations={runTestsData?.getModelRunsTestDetails}
-              onClose={onClose}
-            />
-            <RunValidationsTable
-              isGenericValidation={false}
-              onErrorClick={onErrorClick}
-              runValidations={runTestsData?.getModelRunsTestDetails}
-              onClose={onClose}
-            />
-          </>
-        ) : (
-          <Typography variant="h2" style={{ textAlign: 'center' }}>
-            {isInProgressRun
-              ? 'Run is in progress. Please wait for validations to complete.'
-              : 'No model validations found for this run.'}
-          </Typography>
-        )}
-      </GqlElement>
+      {true ? (
+        <>
+          <RunValidationsTable
+            isGenericValidation={true}
+            onErrorClick={onErrorClick}
+            runValidations={runTestsData?.getModelRunsTestDetails}
+          />
+          <RunValidationsTable
+            isGenericValidation={false}
+            onErrorClick={onErrorClick}
+            runValidations={runTestsData?.getModelRunsTestDetails}
+          />
+        </>
+      ) : (
+        <Typography variant="h2" style={{ textAlign: "center" }}>
+          {isInProgressRun
+            ? "Run is in progress. Please wait for validations to complete."
+            : "No model validations found for this run."}
+        </Typography>
+      )}
     </StyledRunValidations>
   );
 }

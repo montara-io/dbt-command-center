@@ -1,10 +1,17 @@
-import { CustomEvent as CustomEventType } from '../../constants/CustomEvent';
-import { UrlParam } from '../../constants/UrlParams';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { CustomEvent as CustomEventType } from "../../constants/CustomEvent";
+import { UrlParam } from "../../constants/UrlParams";
 
-export function downloadTextFile({ filename, text }: { filename: string; text: string }) {
-  const blob = new Blob([text], { type: 'text/plain' });
+export function downloadTextFile({
+  filename,
+  text,
+}: {
+  filename: string;
+  text: string;
+}) {
+  const blob = new Blob([text], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.download = filename;
   link.href = url;
   document.body.appendChild(link);
@@ -13,16 +20,17 @@ export function downloadTextFile({ filename, text }: { filename: string; text: s
   URL.revokeObjectURL(url);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isObjectDeepEqual(a: any, b: any) {
   return JSON.stringify(a) === JSON.stringify(b);
 }
 
 export function getAllUrlParams() {
   const query = window.location.search.substring(1);
-  const vars = query.split('&');
+  const vars = query.split("&");
   const params = {};
   for (let i = 0; i < vars.length; i++) {
-    const pair = vars[i].split('=');
+    const pair = vars[i].split("=");
     params[pair[0]] = decodeURIComponent(pair[1]);
   }
   return params;
@@ -38,15 +46,15 @@ export function copyToClipboard(text) {
 }
 
 export function getCookie(name: string) {
-  var value = '; ' + document.cookie;
-  var parts = value.split('; ' + name + '=');
+  const value = "; " + document.cookie;
+  const parts = value.split("; " + name + "=");
   if (parts.length === 2) {
-    return parts?.pop()?.split(';').shift();
+    return parts?.pop()?.split(";").shift();
   }
 }
 
 export function downloadFile({ url }: { url: string }) {
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = url;
   link.click();
   link.remove();

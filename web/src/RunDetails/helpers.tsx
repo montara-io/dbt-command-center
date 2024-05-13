@@ -1,11 +1,21 @@
-import { ModelRunStatus, TestStatus } from "@montara-io/core-data-types";
-import { GenericStatus } from "../enums";
+import {
+  DbtRunTestErrorType,
+  GenericStatus,
+  GetLineageByRunIdQueryResponse,
+  GetModelRunsTestDetailsResponse,
+  GetRunByIdQueryResponse,
+  ModelRunStatus,
+  RunEnvironment,
+  RunType,
+  SingleRun,
+  TestStatus,
+} from "@montara-io/core-data-types";
 import { ScorecardProps } from "../stories/Scorecard";
-import { GetRunByIdQueryResponse, SingleRun } from "../types/run";
+
 import { formatDate, getSecondsDiffBetweenDates } from "../utils/date";
 import Stopwatch from "../stories/Stopwatch";
 import { formatDuration } from "../utils/time";
-import { DbtRunTestErrorType } from "../types/dbt-run-error";
+import { LineageProps } from "../components/common/Lineage/helpers";
 
 export const MockRun: GetRunByIdQueryResponse = {
   getRunById: {
@@ -23,10 +33,27 @@ export const MockRun: GetRunByIdQueryResponse = {
     runId: "",
     startDatetime: "2021-09-01T00:00:00.000Z",
     status: GenericStatus.completed,
+    pipeline: {
+      id: "",
+      name: "",
+    },
     user: {
       email: "",
     },
     versionNumber: 0,
+    runEnvironment: RunEnvironment.Production,
+    triggerRunType: RunType.Manual,
+  },
+};
+
+export const MockRunTestsData: GetModelRunsTestDetailsResponse = {
+  getModelRunsTestDetails: [],
+};
+
+export const MockLineage: GetLineageByRunIdQueryResponse = {
+  getLineageByRunId: {
+    edges: [],
+    nodes: [],
   },
 };
 
@@ -116,6 +143,18 @@ export function getScorecardFromRunDetails({
       ),
     },
   ];
+}
+
+export function getModelRunStatusMap(
+  runsData: GetRunByIdQueryResponse
+): LineageProps["modelToRunStatus"] {
+  const modelToRunStatus: LineageProps["modelToRunStatus"] = {};
+
+  (runsData.getRunById?.modelRunsDetails ?? []).forEach((model) => {
+    modelToRunStatus[model.name] = model.status || ModelRunStatus.Skipped;
+  });
+
+  return modelToRunStatus;
 }
 
 export enum RunDetailsTab {

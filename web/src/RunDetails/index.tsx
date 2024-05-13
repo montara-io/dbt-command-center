@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { MockRun, RunDetailsTab, getScorecardFromRunDetails } from "./helpers";
+import { RunDetailsTab, getScorecardFromRunDetails } from "./helpers";
 import { useEffect, useState } from "react";
 
 import RunDetailsModels from "./RunDetailsModels";
 import { AnalyticsEvent, trackEvent } from "../services/analytics";
 import Scorecard from "../stories/Scorecard";
 import Tabs from "../stories/Tabs";
+import { MockRun } from "../mocks/MockRun";
 
 const StyledRunDetails = styled.div`
   min-height: 95vh;

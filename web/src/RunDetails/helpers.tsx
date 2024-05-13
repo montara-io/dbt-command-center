@@ -1,12 +1,11 @@
 import {
+  AssetType,
   DbtRunTestErrorType,
   GenericStatus,
   GetLineageByRunIdQueryResponse,
   GetModelRunsTestDetailsResponse,
   GetRunByIdQueryResponse,
   ModelRunStatus,
-  RunEnvironment,
-  RunType,
   SingleRun,
   TestStatus,
 } from "@montara-io/core-data-types";
@@ -17,43 +16,25 @@ import Stopwatch from "../stories/Stopwatch";
 import { formatDuration } from "../utils/time";
 import { LineageProps } from "../components/common/Lineage/helpers";
 
-export const MockRun: GetRunByIdQueryResponse = {
-  getRunById: {
-    endDatetime: "2021-09-01T00:00:00.000Z",
-    errors: {
-      generalErrors: [],
-      modelErrors: {},
-      sourceErrors: {},
-    },
-    fullRefresh: false,
-    isSmartRun: false,
-    logsUrl: "",
-    modelRunsDetails: [],
-    projectId: "",
-    runId: "",
-    startDatetime: "2021-09-01T00:00:00.000Z",
-    status: GenericStatus.completed,
-    pipeline: {
-      id: "",
-      name: "",
-    },
-    user: {
-      email: "",
-    },
-    versionNumber: 0,
-    runEnvironment: RunEnvironment.Production,
-    triggerRunType: RunType.Manual,
-  },
-};
-
 export const MockRunTestsData: GetModelRunsTestDetailsResponse = {
   getModelRunsTestDetails: [],
 };
 
 export const MockLineage: GetLineageByRunIdQueryResponse = {
   getLineageByRunId: {
-    edges: [],
-    nodes: [],
+    nodes: [
+      {
+        name: "node1",
+        type: AssetType.Model,
+        metadata: {},
+      },
+      {
+        name: "node2",
+        type: AssetType.Model,
+        metadata: {},
+      },
+    ],
+    edges: [{ from: "node1", to: "node2" }],
   },
 };
 

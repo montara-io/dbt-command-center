@@ -1,10 +1,10 @@
+import { GenericStatus } from "@montara-io/core-data-types";
 import {
   ALERT_SUCCESS,
   ALERT_WARNING,
   FAILURE,
   NEUTRAL,
 } from "../../constants/colors";
-import { GenericStatus } from "../../enums";
 
 export const STATUS_TO_CONFIG: Record<
   GenericStatus,

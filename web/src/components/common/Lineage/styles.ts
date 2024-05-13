@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { DEFAULT_SPACING, SMALL_SPACING } from '../../../styles/style-units';
+import styled from "styled-components";
+import { DEFAULT_SPACING, SMALL_SPACING } from "../../../constants/style-units";
 
 export const StyledLineageComponent = styled.div<{ height?: string }>`
-  ${({ height }) => (height ? `height: ${height};` : '')}
+  ${({ height }) => (height ? `height: ${height};` : "")}
   .m-lineage-warning {
     display: flex;
     gap: ${DEFAULT_SPACING};

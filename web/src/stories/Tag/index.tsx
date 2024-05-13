@@ -2,9 +2,9 @@ import HelpIcon from "../HelpIcon";
 import styled from "styled-components";
 import { STATUS_TO_CONFIG } from "./helpers";
 import Loading from "../Loading";
-import { GenericStatus } from "../../enums";
 import { SMALL_FONT_SIZE } from "../../constants/style-units";
 import { primary } from "../../constants/colors";
+import { GenericStatus } from "@montara-io/core-data-types";
 
 export interface TagProps {
   status?: GenericStatus;

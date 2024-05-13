@@ -1,4 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+
+import { isMobileDevice } from "../../utils/responsiveness";
 import {
   DEFAULT_BORDER_RADIUS,
   DEFAULT_FONT_SIZE,
@@ -6,15 +8,14 @@ import {
   MID_SPACING,
   SMALL_SPACING,
   TINY_SPACING,
-} from '../../styles/style-units';
-import { BORDER_LIGHT, white } from '../../styles/colors';
-import { isMobileDevice } from '../../utils/responsiveness';
+} from "../../constants/style-units";
+import { BORDER_LIGHT, white } from "../../constants/colors";
 
 const DEFAULT_HEIGHT_REM = isMobileDevice() ? 70 : 20;
 
 export const StyledFlow = styled.div<{ height?: string }>`
   position: relative;
-  height: ${({ height }) => height || DEFAULT_HEIGHT_REM + 'rem'};
+  height: ${({ height }) => height || DEFAULT_HEIGHT_REM + "rem"};
   }};
   width: 100%;
   .m-lineage-legend {

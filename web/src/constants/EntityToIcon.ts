@@ -1,4 +1,4 @@
-import { AssetType } from "../enums";
+import { AssetType } from "@montara-io/core-data-types";
 import { IconType } from "../stories/Icon";
 
 const EntityToIcon: Record<

@@ -1,36 +1,23 @@
-import { memo } from 'react';
-import { Handle, Position } from 'reactflow';
-import styled from 'styled-components';
-import Icon, { IconType } from '../Icon';
+import { memo } from "react";
+import { Handle, Position } from "reactflow";
+import styled from "styled-components";
+import Icon from "../Icon";
+import Typography from "../Typography";
+import { FlowNode } from "./helpers";
+import { isMobileDevice } from "../../utils/responsiveness";
+import Tag from "../Tag";
 import {
   BOLD,
   DEFAULT_BORDER_RADIUS,
   DEFAULT_SPACING,
   SMALLER_FONT_SIZE,
-  SMALL_FONT_SIZE,
   SMALL_SPACING,
   TINY_SPACING,
-} from '../../styles/style-units';
-import Typography from '../Typography';
-import Menu from '../Menu';
-import { BORDER, alertInfo, blue, primary } from '../../styles/colors';
-import { FlowNode, NodeMenuId } from './helpers';
-import { isMobileDevice } from '../../utils/responsiveness';
-import Tag from '../Tag';
-import { GenericStatus } from '../../utils/enums';
+} from "../../constants/style-units";
+import { BORDER, alertInfo, blue, primary } from "../../constants/colors";
+import { GenericStatus } from "@montara-io/core-data-types";
 
 const ImageDimensions = SMALLER_FONT_SIZE;
-
-const NodeMenuIdToConfig: Record<NodeMenuId, { label: string; icon: IconType }> = {
-  [NodeMenuId.HighlightLineage]: { label: 'Highlight lineage', icon: 'search' },
-  [NodeMenuId.RemoveHighlight]: { label: 'Remove highlight', icon: 'search-off' },
-  [NodeMenuId.AddUpstream]: { label: 'Add upstream', icon: 'angle-double-left' },
-  [NodeMenuId.AddDownstream]: { label: 'Add downstream', icon: 'angle-double-right' },
-  [NodeMenuId.RemoveDownstream]: { label: 'Remove downstream', icon: 'route-off' },
-  [NodeMenuId.ShowError]: { label: 'Show error', icon: 'exclamation-circle' },
-  [NodeMenuId.FilterLineage]: { label: 'Filter lineage', icon: 'filter' },
-  [NodeMenuId.ViewModel]: { label: 'View model', icon: 'box' },
-};
 
 const StyledNodeWithIcon = styled.div<{
   isChecked: boolean;
@@ -42,10 +29,12 @@ const StyledNodeWithIcon = styled.div<{
   flex-direction: column;
   gap: ${SMALL_SPACING};
   border: ${({ isHighlighted, isCurrent }) => {
-    return isHighlighted ? `2px solid ${blue}` : `1px solid ${isCurrent ? primary : BORDER}`;
+    return isHighlighted
+      ? `2px solid ${blue}`
+      : `1px solid ${isCurrent ? primary : BORDER}`;
   }};
   font-weight: ${({ isHighlighted, isCurrent }) => {
-    return isHighlighted ? BOLD : isCurrent ? BOLD : 'normal';
+    return isHighlighted ? BOLD : isCurrent ? BOLD : "normal";
   }};
   .m-node-top-row {
     display: flex;
@@ -64,7 +53,7 @@ const StyledNodeWithIcon = styled.div<{
   white-space: nowrap;
   font-size: ${SMALLER_FONT_SIZE};
   gap: ${TINY_SPACING};
-  background-color: ${({ isChecked }) => (isChecked ? alertInfo : 'inherit')};
+  background-color: ${({ isChecked }) => (isChecked ? alertInfo : "inherit")};
   img {
     height: ${ImageDimensions};
     width: ${ImageDimensions};
@@ -91,8 +80,6 @@ function NodeWithIcon({
     iconPath,
     icon,
     isChecked = false,
-    menuItems = [],
-    onNodeMenuClick,
     isDisabled = false,
     tags,
     isHighlighted = false,
@@ -123,18 +110,24 @@ function NodeWithIcon({
           </Typography>
         </div>
 
-        <Menu
-          menuItems={[isHighlighted ? NodeMenuId.RemoveHighlight : NodeMenuId.HighlightLineage]
+        {/* <Menu
+          menuItems={[
+            isHighlighted
+              ? NodeMenuId.RemoveHighlight
+              : NodeMenuId.HighlightLineage,
+          ]
             .concat(menuItems)
             .filter((m) => (isCurrent ? m !== NodeMenuId.ViewModel : true))
             .map((menuId) => ({
               label: NodeMenuIdToConfig[menuId].label,
               icon: NodeMenuIdToConfig[menuId].icon,
-              onClick: () => typeof onNodeMenuClick === 'function' && onNodeMenuClick(menuId),
+              onClick: () =>
+                typeof onNodeMenuClick === "function" &&
+                onNodeMenuClick(menuId),
             }))}
           iconSize={SMALL_FONT_SIZE}
           iconName="ellipsis-h"
-        />
+        /> */}
       </div>
       {!!tags?.length && (
         <div className="m-node-tags-wrapper">
@@ -146,9 +139,16 @@ function NodeWithIcon({
         </div>
       )}
 
-      <Handle type="source" position={Position.Right} id="a" isConnectable={false} />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="a"
+        isConnectable={false}
+      />
     </StyledNodeWithIcon>
   );
 }
 
-export default memo(NodeWithIcon);
+const MemoizedNodeWithIcon = memo(NodeWithIcon);
+
+export default MemoizedNodeWithIcon;

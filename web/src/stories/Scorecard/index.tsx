@@ -8,7 +8,6 @@ import Icon, { IconType } from "../Icon";
 import EllipsisText from "../Typography/EllipsisText";
 import { NOT_AVAILABLE_DASH, NOT_AVAILABLE_TEXT } from "../../constants";
 import HelpIcon from "../HelpIcon";
-import { GenericStatus } from "../../enums";
 import {
   BOLD,
   DEFAULT_FONT_SIZE,
@@ -20,6 +19,7 @@ import {
 import { isMobileDevice } from "../../utils/responsiveness";
 import { gray220 } from "../../constants/colors";
 import CopyToClipboardButton from "../CopyToClipboardButton";
+import { GenericStatus } from "@montara-io/core-data-types";
 
 export interface ScorecardProps {
   items: {

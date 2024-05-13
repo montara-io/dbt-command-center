@@ -1,6 +1,6 @@
+import { AssetType } from "@montara-io/core-data-types";
 import EntityToIcon from "../constants/EntityToIcon";
 import { DEFAULT_FONT_SIZE } from "../constants/style-units";
-import { AssetType } from "../enums";
 import Icon from "../stories/Icon";
 import Typography from "../stories/Typography";
 

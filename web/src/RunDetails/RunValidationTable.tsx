@@ -1,9 +1,12 @@
-import { TestStatus, TestType } from "@montara-io/core-data-types";
-import { RunTest } from "../types/run";
+import {
+  AssetType,
+  RunTest,
+  TestStatus,
+  TestType,
+} from "@montara-io/core-data-types";
 import Accordion from "../stories/Accordion";
 import DataTable, { DataTableSortOrder } from "../stories/DataTable";
 import AssetTableCell from "../components/AssetTableCell";
-import { AssetType } from "../enums";
 import Tag from "../stories/Tag";
 import {
   RunTestStatusToGenericStatusMap,

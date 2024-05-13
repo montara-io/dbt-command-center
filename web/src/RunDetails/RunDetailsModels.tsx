@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { GetRunByIdQueryResponse, ModelRunDetails } from "../types/run";
 import DataTable, { DataTableSortOrder } from "../stories/DataTable";
 import {
   ModelRunStatusToGenericStatusMap,
@@ -7,12 +6,16 @@ import {
   RunDetailsColumnId,
 } from "./helpers";
 import AssetTableCell from "../components/AssetTableCell";
-import { AssetType } from "../enums";
 import { formatDuration } from "../utils/time";
 import NumberText from "../stories/Typography/NumberText";
 import { formatDate } from "../utils/date";
 import { NOT_AVAILABLE_DASH } from "../constants";
 import Tag from "../stories/Tag";
+import {
+  AssetType,
+  GetRunByIdQueryResponse,
+  ModelRunDetails,
+} from "@montara-io/core-data-types";
 
 const StyledRunDetailsModels = styled.div``;
 

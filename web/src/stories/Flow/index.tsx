@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -7,11 +8,10 @@ import ReactFlow, {
   Node,
   Position,
   ReactFlowInstance,
-} from 'reactflow';
+} from "reactflow";
 
-import 'reactflow/dist/style.css';
-import { BORDER } from '../../styles/colors';
-import Loading from '../Loading';
+import "reactflow/dist/style.css";
+import Loading from "../Loading";
 import {
   LineageAssetTypeToStyles,
   DEFAULT_NODE_WIDTH,
@@ -25,16 +25,17 @@ import {
   FlowProps,
   FlowNode,
   NodeMenuId,
-} from './helpers';
-import NodeWithIcon from './NodeWithIcon';
-import { StyledFlow } from './styles';
-import { ElkNode } from 'elkjs/lib/elk-api';
-import { DEFAULT_BORDER_RADIUS } from '../../styles/style-units';
-import HelpIcon from '../HelpIcon';
-import { isDesktopDevice } from '../../utils/responsiveness';
-import { getGraph } from '../../services/graph';
-import { CustomEvent } from '../../constants/CustomEvent';
-import { ModelRunStatus } from '@montara-io/core-data-types';
+} from "./helpers";
+import NodeWithIcon from "./NodeWithIcon";
+import { StyledFlow } from "./styles";
+import { ElkNode } from "elkjs/lib/elk-api";
+import HelpIcon from "../HelpIcon";
+import { isDesktopDevice } from "../../utils/responsiveness";
+import { CustomEvent } from "../../constants/CustomEvent";
+import { ModelRunStatus } from "@montara-io/core-data-types";
+import { getGraph } from "../../services/graph";
+import { DEFAULT_BORDER_RADIUS } from "../../constants/style-units";
+import { BORDER } from "../../constants/colors";
 
 const nodeTypes = {
   [NodeType.NodeWithIcon]: NodeWithIcon,
@@ -60,7 +61,9 @@ function Flow({
   const [edges, setEdges] = useState<Edge[]>(formatEdges(initialEdges));
 
   const AssetToStyleMapping =
-    variant === FlowVariant.Lineage ? LineageAssetTypeToStyles : RunGraphAssetTypeToStyles;
+    variant === FlowVariant.Lineage
+      ? LineageAssetTypeToStyles
+      : RunGraphAssetTypeToStyles;
 
   function onInit(flowInstance: ReactFlowInstance) {
     setFlowInstance(flowInstance);
@@ -70,9 +73,11 @@ function Flow({
     const listener = () => {
       flowInstance?.fitView();
     };
-    flowInstance && document.addEventListener(CustomEvent.TRIGGER_FIT_VIEW, listener);
+    flowInstance &&
+      document.addEventListener(CustomEvent.TRIGGER_FIT_VIEW, listener);
 
-    return () => document.removeEventListener(CustomEvent.TRIGGER_FIT_VIEW, listener);
+    return () =>
+      document.removeEventListener(CustomEvent.TRIGGER_FIT_VIEW, listener);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flowInstance]);
 
@@ -84,7 +89,7 @@ function Flow({
 
       try {
         const graph = {
-          id: 'root',
+          id: "root",
           children: initialNodes.map((n) => ({
             id: n.id,
             width: DEFAULT_NODE_WIDTH,
@@ -121,10 +126,11 @@ function Flow({
             data: {
               ...n,
               onNodeMenuClick: (menuId) => {
-                typeof onNodeMenuClick === 'function' &&
+                typeof onNodeMenuClick === "function" &&
                   onNodeMenuClick({ node: n, menuId: menuId });
                 setTimeout(() => {
-                  menuId === NodeMenuId.FilterLineage && flowInstance?.fitView();
+                  menuId === NodeMenuId.FilterLineage &&
+                    flowInstance?.fitView();
                 }, 500);
                 if (menuId === NodeMenuId.HighlightLineage) {
                   const newSelectedNodes =
@@ -158,7 +164,7 @@ function Flow({
             sourcePosition: Position.Right,
             targetPosition: Position.Left,
           };
-        }),
+        })
       );
 
       setEdges(formatEdges(initialEdges));
@@ -199,18 +205,20 @@ function Flow({
               const target = e.target as HTMLElement;
 
               if (
-                target.classList.contains('m-menu-icon') ||
-                target.classList.contains('mantine-Menu-itemLabel') ||
-                target.classList.contains('m-menu-item-icon')
+                target.classList.contains("m-menu-icon") ||
+                target.classList.contains("mantine-Menu-itemLabel") ||
+                target.classList.contains("m-menu-item-icon")
               ) {
                 return;
               }
-              let nodeId = target.getAttribute('data-id');
+              let nodeId = target.getAttribute("data-id");
               if (!nodeId) {
-                const parent = target.closest('.react-flow__node') as HTMLElement;
-                nodeId = parent ? parent.getAttribute('data-id') : null;
+                const parent = target.closest(
+                  ".react-flow__node"
+                ) as HTMLElement;
+                nodeId = parent ? parent.getAttribute("data-id") : null;
               }
-              typeof onNodeClick === 'function' &&
+              typeof onNodeClick === "function" &&
                 onNodeClick({
                   node: initialNodes.find((n) => n.id === nodeId) as FlowNode,
                 });
@@ -224,10 +232,14 @@ function Flow({
             <div className="m-lineage-legend">
               {Object.keys(AssetToStyleMapping).map((at) => (
                 <div key={at} className="lineage-legend__item">
-                  <LineageLegendColor color={AssetToStyleMapping[at].background} />
+                  <LineageLegendColor
+                    color={AssetToStyleMapping[at].background}
+                  />
                   <div>{AssetToStyleMapping[at].label}</div>
                   {!!AssetToStyleMapping[at].helpIconText && (
-                    <HelpIcon helpLinkTooltip={AssetToStyleMapping[at].helpIconText} />
+                    <HelpIcon
+                      helpLinkTooltip={AssetToStyleMapping[at].helpIconText}
+                    />
                   )}
                 </div>
               ))}

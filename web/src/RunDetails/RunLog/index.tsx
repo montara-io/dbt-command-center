@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import { GetRunLogsQueryResponse } from "./queries";
-import { MockRun } from "../helpers";
-import { GenericStatus } from "../../enums";
 import { useEffect } from "react";
 import Typography from "../../stories/Typography";
 import LogViewer from "../../stories/LogViewer";
 import { ButtonIcon } from "../../stories/ButtonIcon";
 import { downloadTextFile } from "../../utils/web";
+import {
+  GenericStatus,
+  GetRunLogsQueryResponse,
+} from "@montara-io/core-data-types";
 
 type RunLogProps = {
   runId: string;
@@ -31,7 +32,7 @@ function RunLog({ isInProgressRun }: Readonly<RunLogProps>) {
     },
   };
 
-  const runData = MockRun;
+  // const runData = MockRun;
 
   const isSuccessfulRun = runLog?.getRunLogs?.status !== GenericStatus.failed;
 

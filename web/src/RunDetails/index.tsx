@@ -1,16 +1,24 @@
 import styled from "styled-components";
-import { RunDetailsTab, getScorecardFromRunDetails } from "./helpers";
+import {
+  RunDetailsTab,
+  getScorecardFromRunDetails,
+  getRunByIdResponseFromDbtLog,
+} from "./helpers";
 import { useEffect, useState } from "react";
 
 import RunDetailsModels from "./RunDetailsModels";
 import { AnalyticsEvent, trackEvent } from "../services/analytics";
 import Scorecard from "../stories/Scorecard";
 import Tabs from "../stories/Tabs";
-import { MockRun } from "../mocks/MockRun";
 import RunDetailsGraph from "./RunDetailsGraph";
 import RunValidations from "./RunValidations";
-import { RunEnvironment } from "@montara-io/core-data-types";
+import {
+  GetRunByIdQueryResponse,
+  RunEnvironment,
+} from "@montara-io/core-data-types";
 import RunLog from "./RunLog";
+import { fetchJSONL } from "../services/json";
+import Loading from "../stories/Loading";
 
 const StyledRunDetails = styled.div`
   min-height: 95vh;
@@ -28,20 +36,28 @@ const StyledRunDetails = styled.div`
 
 function RunDetails() {
   const [activeIndex, setActiveIndex] = useState(RunDetailsTab.Pipeline);
+  const [runData, setRunData] = useState<GetRunByIdQueryResponse>();
 
   useEffect(() => {
     trackEvent({
       eventName: AnalyticsEvent.UserViewedRunDetails,
     });
+
+    const interval = setInterval(async () => {
+      const jsonArray = await fetchJSONL("/montara_target/output.jsonl");
+      setRunData(getRunByIdResponseFromDbtLog(jsonArray as any));
+    }, 2000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <StyledRunDetails>
-      {
+      {runData ? (
         <>
           <Scorecard
             items={getScorecardFromRunDetails({
-              run: MockRun,
+              run: runData,
             })}
             isLoading={false}
             header={"Overview"}
@@ -61,14 +77,14 @@ function RunDetails() {
                 content: (
                   <RunDetailsGraph
                     setActiveIndex={setActiveIndex}
-                    runData={MockRun}
+                    runData={runData}
                   />
                 ),
               },
               {
                 header: "Models",
                 icon: "box",
-                content: <RunDetailsModels runData={MockRun} />,
+                content: <RunDetailsModels runData={runData} />,
               },
               {
                 header: "Validations",
@@ -94,7 +110,9 @@ function RunDetails() {
             ]}
           />
         </>
-      }
+      ) : (
+        <Loading />
+      )}
     </StyledRunDetails>
   );
 }

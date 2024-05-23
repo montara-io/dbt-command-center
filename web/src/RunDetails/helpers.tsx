@@ -5,15 +5,72 @@ import {
   GetLineageByRunIdQueryResponse,
   GetRunByIdQueryResponse,
   ModelRunStatus,
+  RunEnvironment,
+  RunType,
   SingleRun,
   TestStatus,
 } from "@montara-io/core-data-types";
+import { extractAssetsFromDbtLogs } from "@montara-io/frontend-backend-common";
 import { ScorecardProps } from "../stories/Scorecard";
 
 import { formatDate, getSecondsDiffBetweenDates } from "../utils/date";
 import Stopwatch from "../stories/Stopwatch";
 import { formatDuration } from "../utils/time";
 import { LineageProps } from "../components/common/Lineage/helpers";
+
+export function getRunByIdResponseFromDbtLog(
+  dbtLog: { output: string }[]
+): GetRunByIdQueryResponse {
+  const strigifiedLog = dbtLog.map((log) => log.output).join("\n");
+
+  const assets = extractAssetsFromDbtLogs({
+    errorTestSeverity: true,
+    modelTests: {},
+    runLogs: strigifiedLog,
+  });
+
+  return {
+    getRunById: {
+      endDatetime: "",
+      errors: {
+        generalErrors: [],
+        modelErrors: {},
+        sourceErrors: {},
+      },
+      fullRefresh: false,
+      isSmartRun: false,
+      logsUrl: "",
+      modelRunsDetails: Object.entries(assets).map(([name, asset]) => ({
+        name,
+        lastUpdatedByUser: {
+          email: "",
+        },
+        lastUpdatedOn: "2021-09-01T00:00:00.000Z",
+        ownerUser: {
+          email: "",
+        },
+        pipelineId: "",
+        rowsAffected: 0,
+        status: asset.status || ModelRunStatus.InProgress,
+        totalRowsCount: 0,
+        versionNumber: "0",
+        created: "2021-09-01T00:00:00.000Z",
+        error: "",
+        executionTime: 30,
+        runId: "",
+      })),
+      runId: "",
+      pipeline: { id: "", name: "" },
+      projectId: "",
+      runEnvironment: RunEnvironment.Production,
+      startDatetime: "",
+      status: GenericStatus.pending,
+      triggerRunType: RunType.Manual,
+      user: { email: "" },
+      versionNumber: 1,
+    },
+  };
+}
 
 export const MockLineage: GetLineageByRunIdQueryResponse = {
   getLineageByRunId: {

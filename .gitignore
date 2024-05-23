@@ -4,3 +4,5 @@ dbt_run_visualizer.egg-info
 build
 logs
 montara_target
+.DS_Store
+src/*.html

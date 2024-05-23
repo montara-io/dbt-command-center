@@ -10,6 +10,6 @@ setup(
             "mnt=src.main:main",
         ]
     },
-    package_data={"src": ["index.html"]},
+    package_data={"src": ["main.py", "index.html"]},
     include_package_data=True,
 )

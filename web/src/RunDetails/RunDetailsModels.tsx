@@ -8,8 +8,6 @@ import {
 import AssetTableCell from "../components/AssetTableCell";
 import { formatDuration } from "../utils/time";
 import NumberText from "../stories/Typography/NumberText";
-import { formatDate } from "../utils/date";
-import { NOT_AVAILABLE_DASH } from "../constants";
 import Tag from "../stories/Tag";
 import {
   AssetType,
@@ -67,26 +65,7 @@ function RunDetailsModels({
               <NumberText>{totalRowsCount}</NumberText>
             ),
           },
-          {
-            field: RunDetailsColumnId.LastUpdatedByUser,
-            title: "Last edited",
-            sortable: true,
-            hideOnMobile: true,
-            template: ({ lastUpdatedOn }: ModelRunDetails) => {
-              return lastUpdatedOn
-                ? formatDate(lastUpdatedOn, { hideTime: false })
-                : NOT_AVAILABLE_DASH;
-            },
-          },
-          {
-            field: RunDetailsColumnId.LastUpdatedByUser,
-            title: "Updated by",
-            sortable: true,
-            hideOnMobile: true,
-            template: ({ lastUpdatedByUser }: ModelRunDetails) => {
-              return lastUpdatedByUser?.email || NOT_AVAILABLE_DASH;
-            },
-          },
+
           {
             field: RunDetailsColumnId.status,
             title: "Run status",

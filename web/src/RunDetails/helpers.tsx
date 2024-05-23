@@ -18,9 +18,24 @@ import Stopwatch from "../stories/Stopwatch";
 import { formatDuration } from "../utils/time";
 import { LineageProps } from "../components/common/Lineage/helpers";
 
-export function getRunByIdResponseFromDbtLog(
-  dbtLog: { output: string }[]
-): GetRunByIdQueryResponse {
+export const ModelRunStatusToGenericStatusMap: Record<
+  ModelRunStatus,
+  GenericStatus
+> = {
+  [ModelRunStatus.Error]: GenericStatus.failed,
+  [ModelRunStatus.Skipped]: GenericStatus.neutral,
+  [ModelRunStatus.Success]: GenericStatus.success,
+  [ModelRunStatus.InProgress]: GenericStatus.in_progress,
+  [ModelRunStatus.Pending]: GenericStatus.pending,
+};
+
+export function getRunByIdResponseFromDbtLog({
+  dbtLog,
+  runResult,
+}: {
+  dbtLog: { output: string }[];
+  runResult: ModelRunStatus;
+}): GetRunByIdQueryResponse {
   const strigifiedLog = dbtLog.map((log) => log.output).join("\n");
 
   const assets = extractAssetsFromDbtLogs({
@@ -45,7 +60,7 @@ export function getRunByIdResponseFromDbtLog(
         lastUpdatedByUser: {
           email: "",
         },
-        lastUpdatedOn: "2021-09-01T00:00:00.000Z",
+        lastUpdatedOn: "",
         ownerUser: {
           email: "",
         },
@@ -54,7 +69,7 @@ export function getRunByIdResponseFromDbtLog(
         status: asset.status || ModelRunStatus.InProgress,
         totalRowsCount: 0,
         versionNumber: "0",
-        created: "2021-09-01T00:00:00.000Z",
+        created: "",
         error: "",
         executionTime: 30,
         runId: "",
@@ -64,7 +79,7 @@ export function getRunByIdResponseFromDbtLog(
       projectId: "",
       runEnvironment: RunEnvironment.Production,
       startDatetime: "",
-      status: GenericStatus.pending,
+      status: ModelRunStatusToGenericStatusMap[runResult],
       triggerRunType: RunType.Manual,
       user: { email: "" },
       versionNumber: 1,
@@ -88,17 +103,6 @@ export const MockLineage: GetLineageByRunIdQueryResponse = {
     ],
     edges: [{ from: "node1", to: "node2" }],
   },
-};
-
-export const ModelRunStatusToGenericStatusMap: Record<
-  ModelRunStatus,
-  GenericStatus
-> = {
-  [ModelRunStatus.Error]: GenericStatus.failed,
-  [ModelRunStatus.Skipped]: GenericStatus.neutral,
-  [ModelRunStatus.Success]: GenericStatus.success,
-  [ModelRunStatus.InProgress]: GenericStatus.in_progress,
-  [ModelRunStatus.Pending]: GenericStatus.pending,
 };
 
 export const RunTestStatusToGenericStatusMap: Record<
@@ -143,6 +147,7 @@ export function getScorecardFromRunDetails({
   if (!run?.getRunById) {
     return [];
   }
+
   return [
     {
       label: "Run date (UTC)",
@@ -154,7 +159,7 @@ export function getScorecardFromRunDetails({
     },
     {
       label: "Status",
-      value: run.getRunById.status,
+      value: ModelRunStatusToText[run.getRunById?.status],
       isTag: true,
       isTagLoading: isRunInProgress(run.getRunById),
     },

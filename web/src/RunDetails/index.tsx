@@ -14,6 +14,7 @@ import RunDetailsGraph from "./RunDetailsGraph";
 import RunValidations from "./RunValidations";
 import {
   GetRunByIdQueryResponse,
+  ModelRunStatus,
   RunEnvironment,
 } from "@montara-io/core-data-types";
 import RunLog from "./RunLog";
@@ -37,6 +38,35 @@ const StyledRunDetails = styled.div`
 function RunDetails() {
   const [activeIndex, setActiveIndex] = useState(RunDetailsTab.Pipeline);
   const [runData, setRunData] = useState<GetRunByIdQueryResponse>();
+  const [runResult, setRunResult] = useState(ModelRunStatus.InProgress);
+
+  const isInProgressRun = runResult === ModelRunStatus.InProgress;
+
+  useEffect(() => {
+    async function getRunResultsJson() {
+      if (runResult === ModelRunStatus.InProgress) {
+        try {
+          const runResults = await fetch("/montara_target/run_results.json");
+          const runResultsJson: { results: { status: ModelRunStatus }[] } =
+            await runResults.json();
+          const newRunResults = (runResultsJson.results ?? []).some(
+            (r) => r.status === ModelRunStatus.Error
+          )
+            ? ModelRunStatus.Error
+            : ModelRunStatus.Success;
+
+          setRunResult(newRunResults);
+        } catch (error) {
+          console.log("error in finding run results json");
+        }
+      }
+    }
+    const interval = setInterval(async () => {
+      getRunResultsJson();
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     trackEvent({
@@ -44,8 +74,14 @@ function RunDetails() {
     });
 
     const interval = setInterval(async () => {
+      if (runResult !== ModelRunStatus.InProgress) return;
+
       const jsonArray = await fetchJSONL("/montara_target/output.jsonl");
-      setRunData(getRunByIdResponseFromDbtLog(jsonArray as any));
+      const newRunData = getRunByIdResponseFromDbtLog({
+        dbtLog: jsonArray as any,
+        runResult,
+      });
+      setRunData(newRunData);
     }, 2000);
 
     return () => clearInterval(interval);
@@ -93,7 +129,7 @@ function RunDetails() {
                   activeIndex === RunDetailsTab.Validations ? (
                     <RunValidations
                       runEnvironment={RunEnvironment.Production}
-                      isInProgressRun={false}
+                      isInProgressRun={isInProgressRun}
                       onErrorClick={() => {
                         setActiveIndex(RunDetailsTab.Issues);
                       }}
@@ -105,7 +141,7 @@ function RunDetails() {
               {
                 header: "Errors",
                 icon: "exclamation-circle",
-                content: <RunLog isInProgressRun={false} />,
+                content: <RunLog isInProgressRun={isInProgressRun} />,
               },
             ]}
           />

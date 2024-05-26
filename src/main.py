@@ -5,15 +5,19 @@ import jsonlines
 import os
 from urllib.parse import urlparse
 import threading
+import importlib.resources
+
+MONTARA_TARGET = "montara_target"
+
+# Read a data file from the package
+with importlib.resources.open_text("src", "index.html") as data_file:
+    html_content = data_file.read()
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # content of the html file from the web_application/index.h
-        with open("web_application/index.html", "r") as file:
-            html_content = file.read()
         parsed_path = urlparse(self.path)
-        print(parsed_path.path)
 
         file_content = html_content.encode()
         # if parsed file path is not empty
@@ -32,7 +36,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(file_content)
 
 
-def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
+def runWebServer(
+    server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000
+):
     server_address = ("", port)
     httpd = server_class(server_address, handler_class)
     print(f"Server running on port {port}")
@@ -40,28 +46,44 @@ def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=80
 
 
 def main():
-    print("Starting Montara")
+    print("Starting Montara new", flush=True)
 
-    # Run dbt command
-    process = subprocess.Popen(
-        ["dbt", "run", "--log-format-file", "json"],
+    # Create the montara_target directory if it doesn't exist
+    print("Creating montara_target directory", flush=True)
+    if not os.path.exists(MONTARA_TARGET):
+        os.makedirs(MONTARA_TARGET)
+    # Else, clear the contents of the directory
+    else:
+        for file in os.listdir(MONTARA_TARGET):
+            os.remove(f"{MONTARA_TARGET}/{file}")
+
+    print(f'Compiling dbt and saving the output to "{MONTARA_TARGET}"', flush=True)
+    subprocess.run(
+        ["dbt", "parse", "--target-path", MONTARA_TARGET],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,
     )
 
-    # Create the montara_target directory if it doesn't exist
-    print("Creating montara_target directory", flush=True)
-    if not os.path.exists("montara_target"):
-        os.makedirs("montara_target")
+    # Run dbt command
+    process = subprocess.Popen(
+        ["dbt", "run", "--target-path", MONTARA_TARGET],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True,
+    )
 
-    webbrowser.open_new_tab("http://localhost:8000")
+    print("Opening web browser", flush=True)
     # Open run in a different thread
-    run_thread = threading.Thread(target=run)
+    run_thread = threading.Thread(target=runWebServer)
     run_thread.start()
+    webbrowser.open_new_tab("http://localhost:8000")
 
-    print("Writing output to montara_target/output.jsonl", flush=True)
-    with jsonlines.open("montara_target/output.jsonl", mode="w") as file:
+    print(f"Writing output to {MONTARA_TARGET}/output.jsonl", flush=True)
+    print(f"Clearing the contents of {MONTARA_TARGET}/output.jsonl", flush=True)
+    with open(f"{MONTARA_TARGET}/output.jsonl", "w") as file:
+        file.write("")
+    with jsonlines.open(f"{MONTARA_TARGET}/output.jsonl", mode="w") as file:
         while process.poll() is None:
             line = process.stdout.readline()
             if line:

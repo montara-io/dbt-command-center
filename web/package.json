@@ -1,0 +1,50 @@
+{
+  "name": "web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "postbuild": "cp dist/index.html ../src",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@blueprintjs/core": "^4.17.8",
+    "@blueprintjs/select": "^4.9.12",
+    "@dagrejs/graphlib": "^2.1.13",
+    "@montara-io/core-data-types": "0.0.37",
+    "@montara-io/frontend-backend-common": "0.0.1-dadi-5",
+    "@tabler/icons-react": "^2.16.0",
+    "classnames": "^2.5.1",
+    "elkjs": "^0.8.2",
+    "fuzzysort": "^2.0.4",
+    "moment": "^2.29.4",
+    "primeflex": "^3.3.0",
+    "primeicons": "^6.0.1",
+    "primereact": "^8.7.3",
+    "react": "^18.2.0",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^18.2.0",
+    "reactflow": "^11.6.0",
+    "styled-components": "^6.1.11"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "sass": "^1.77.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vite-plugin-singlefile": "^2.0.1"
+  }
+}

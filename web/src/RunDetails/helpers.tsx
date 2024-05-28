@@ -13,7 +13,7 @@ import {
 import { extractAssetsFromDbtLogs } from "@montara-io/frontend-backend-common";
 import { ScorecardProps } from "../stories/Scorecard";
 
-import { formatDate, getSecondsDiffBetweenDates } from "../utils/date";
+import { formatDate } from "../utils/date";
 import Stopwatch from "../stories/Stopwatch";
 import { formatDuration } from "../utils/time";
 import { LineageProps } from "../components/common/Lineage/helpers";
@@ -29,15 +29,14 @@ export const ModelRunStatusToGenericStatusMap: Record<
   [ModelRunStatus.Pending]: GenericStatus.pending,
 };
 
+export const MONTARA_TARGET_FOLDER = "/montara_target";
+
 export function getRunByIdResponseFromDbtLog({
   dbtLog,
-  runResult,
 }: {
   dbtLog: { output: string }[];
-  runResult: ModelRunStatus;
 }): GetRunByIdQueryResponse {
   const strigifiedLog = dbtLog.map((log) => log.output).join("\n");
-
   const assets = extractAssetsFromDbtLogs({
     errorTestSeverity: true,
     modelTests: {},
@@ -71,7 +70,7 @@ export function getRunByIdResponseFromDbtLog({
         versionNumber: "0",
         created: "",
         error: "",
-        executionTime: 30,
+        executionTime: 0,
         runId: "",
       })),
       runId: "",
@@ -79,7 +78,7 @@ export function getRunByIdResponseFromDbtLog({
       projectId: "",
       runEnvironment: RunEnvironment.Production,
       startDatetime: "",
-      status: ModelRunStatusToGenericStatusMap[runResult],
+      status: GenericStatus.in_progress,
       triggerRunType: RunType.Manual,
       user: { email: "" },
       versionNumber: 1,
@@ -141,8 +140,10 @@ export enum RunDetailsColumnId {
 
 export function getScorecardFromRunDetails({
   run,
+  runDuration,
 }: {
   run: GetRunByIdQueryResponse | undefined;
+  runDuration: number;
 }): ScorecardProps["items"] {
   if (!run?.getRunById) {
     return [];
@@ -172,12 +173,7 @@ export function getScorecardFromRunDetails({
           label="Running"
         />
       ) : (
-        formatDuration(
-          getSecondsDiffBetweenDates(
-            run?.getRunById?.startDatetime,
-            run.getRunById?.endDatetime
-          )
-        )
+        formatDuration(runDuration)
       ),
     },
   ];
@@ -236,4 +232,77 @@ export function buildInProgressMessage(runData: GetRunByIdQueryResponse) {
   } else {
     return `Pending: ${numPendingModels?.length},  In progress: ${numInProgressModels?.length}, Completed: ${numCompletedModels?.length}/${totalModels}`;
   }
+}
+// airbnb.test_e5jj6ggu_ezztt_com.stg_database_storage_usage_history => stg_database_storage_usage_history
+export function getAssetNameFromRelationName(relationName: string) {
+  return relationName.split(".").slice(-1)[0];
+}
+
+export type RunResultsJson = {
+  elapsed_time: number;
+  results: {
+    relation_name: string;
+    status: ModelRunStatus;
+    execution_time: number;
+    adapter_response: {
+      rows_affected: 1;
+    };
+    timing: [
+      {
+        name: "compile";
+        started_at: string;
+        completed_at: string;
+      },
+      {
+        name: "execute";
+        started_at: string;
+        completed_at: string;
+      }
+    ];
+  }[];
+};
+
+export function enrichRunDataWithRunResultsJson({
+  runData,
+  runResultsJson,
+}: {
+  runData: GetRunByIdQueryResponse;
+  runResultsJson: RunResultsJson;
+}): GetRunByIdQueryResponse {
+  const result = {
+    getRunById: {
+      ...runData.getRunById,
+      startDatetime: getStartDateFromRunResultsJson(runResultsJson),
+      status: runResultsJson.results?.some(
+        (m) => m.status === ModelRunStatus.Error
+      )
+        ? GenericStatus.failed
+        : GenericStatus.success,
+      modelRunsDetails: runData.getRunById?.modelRunsDetails?.map((model) => {
+        const runResult = (runResultsJson.results ?? []).find(
+          (r) => model.name === getAssetNameFromRelationName(r.relation_name)
+        );
+
+        return {
+          ...model,
+          status: runResult?.status ?? model.status,
+          executionTime: runResult?.execution_time ?? model.executionTime,
+          rowsAffected: runResult?.adapter_response?.rows_affected ?? 0,
+        };
+      }),
+    },
+  };
+
+  return result;
+}
+
+function getStartDateFromRunResultsJson(runResultsJson: RunResultsJson) {
+  const allTiming = runResultsJson?.results
+    .flatMap((r) => r.timing)
+    .map((t) => new Date(t.started_at));
+  const result = allTiming.length
+    ? formatDate(allTiming.sort()[0].toISOString())
+    : "";
+
+  return result;
 }

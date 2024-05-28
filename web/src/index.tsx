@@ -11,7 +11,7 @@ import styled from "styled-components";
 
 const StyledBody = styled.div`
   height: 100vh;
-  min-width: 60vw;
+  width: 100%;
   background: #fff;
   padding: 0.5rem 1rem 0rem 1rem;
   overflow: hidden;

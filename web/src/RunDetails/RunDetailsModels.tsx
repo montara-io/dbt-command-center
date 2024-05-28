@@ -44,7 +44,7 @@ function RunDetailsModels({
             sortable: true,
             hideOnMobile: true,
             template: ({ executionTime }: ModelRunDetails) => {
-              return formatDuration(executionTime);
+              return formatDuration(executionTime, { isAccurate: true });
             },
           },
           {
@@ -56,16 +56,6 @@ function RunDetailsModels({
               <NumberText>{rowsAffected}</NumberText>
             ),
           },
-          {
-            field: RunDetailsColumnId.totalRowsCount,
-            title: "Total rows",
-            sortable: true,
-            hideOnMobile: true,
-            template: ({ totalRowsCount }: ModelRunDetails) => (
-              <NumberText>{totalRowsCount}</NumberText>
-            ),
-          },
-
           {
             field: RunDetailsColumnId.status,
             title: "Run status",

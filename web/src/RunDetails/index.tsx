@@ -3,6 +3,9 @@ import {
   RunDetailsTab,
   getScorecardFromRunDetails,
   getRunByIdResponseFromDbtLog,
+  enrichRunDataWithRunResultsJson,
+  RunResultsJson,
+  MONTARA_TARGET_FOLDER,
 } from "./helpers";
 import { useEffect, useState } from "react";
 
@@ -11,13 +14,11 @@ import { AnalyticsEvent, trackEvent } from "../services/analytics";
 import Scorecard from "../stories/Scorecard";
 import Tabs from "../stories/Tabs";
 import RunDetailsGraph from "./RunDetailsGraph";
-import RunValidations from "./RunValidations";
 import {
+  GenericStatus,
   GetRunByIdQueryResponse,
-  ModelRunStatus,
-  RunEnvironment,
 } from "@montara-io/core-data-types";
-import RunLog from "./RunLog";
+
 import { fetchJSONL } from "../services/json";
 import Loading from "../stories/Loading";
 
@@ -38,35 +39,37 @@ const StyledRunDetails = styled.div`
 function RunDetails() {
   const [activeIndex, setActiveIndex] = useState(RunDetailsTab.Pipeline);
   const [runData, setRunData] = useState<GetRunByIdQueryResponse>();
-  const [runResult, setRunResult] = useState(ModelRunStatus.InProgress);
+  const [runDuration, setRunDuration] = useState<number>(0);
 
-  const isInProgressRun = runResult === ModelRunStatus.InProgress;
+  const isInProgressRun =
+    !runData?.getRunById?.status ||
+    runData?.getRunById?.status === GenericStatus.in_progress;
 
   useEffect(() => {
     async function getRunResultsJson() {
-      if (runResult === ModelRunStatus.InProgress) {
+      if (isInProgressRun) {
         try {
-          const runResults = await fetch("/montara_target/run_results.json");
-          const runResultsJson: { results: { status: ModelRunStatus }[] } =
-            await runResults.json();
-          const newRunResults = (runResultsJson.results ?? []).some(
-            (r) => r.status === ModelRunStatus.Error
-          )
-            ? ModelRunStatus.Error
-            : ModelRunStatus.Success;
+          const runResults = await fetch(
+            `${MONTARA_TARGET_FOLDER}/run_results.json`
+          );
+          const runResultsJson: RunResultsJson = await runResults.json();
+          setRunDuration(runResultsJson.elapsed_time);
 
-          setRunResult(newRunResults);
+          if (runData) {
+            const newRunData = enrichRunDataWithRunResultsJson({
+              runData,
+              runResultsJson,
+            });
+            setRunData(newRunData);
+          }
         } catch (error) {
           console.log("error in finding run results json");
         }
       }
     }
-    const interval = setInterval(async () => {
-      getRunResultsJson();
-    }, 2000);
 
-    return () => clearInterval(interval);
-  }, []);
+    getRunResultsJson();
+  }, [isInProgressRun, runData]);
 
   useEffect(() => {
     trackEvent({
@@ -74,18 +77,21 @@ function RunDetails() {
     });
 
     const interval = setInterval(async () => {
-      if (runResult !== ModelRunStatus.InProgress) return;
+      if (!isInProgressRun) return;
 
-      const jsonArray = await fetchJSONL("/montara_target/output.jsonl");
+      const jsonArray = await fetchJSONL(
+        `${MONTARA_TARGET_FOLDER}/output.jsonl`
+      );
       const newRunData = getRunByIdResponseFromDbtLog({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         dbtLog: jsonArray as any,
-        runResult,
       });
+
       setRunData(newRunData);
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isInProgressRun]);
 
   return (
     <StyledRunDetails>
@@ -94,6 +100,7 @@ function RunDetails() {
           <Scorecard
             items={getScorecardFromRunDetails({
               run: runData,
+              runDuration,
             })}
             isLoading={false}
             header={"Overview"}
@@ -121,27 +128,6 @@ function RunDetails() {
                 header: "Models",
                 icon: "box",
                 content: <RunDetailsModels runData={runData} />,
-              },
-              {
-                header: "Validations",
-                icon: "verified",
-                content:
-                  activeIndex === RunDetailsTab.Validations ? (
-                    <RunValidations
-                      runEnvironment={RunEnvironment.Production}
-                      isInProgressRun={isInProgressRun}
-                      onErrorClick={() => {
-                        setActiveIndex(RunDetailsTab.Issues);
-                      }}
-                    />
-                  ) : (
-                    <></>
-                  ),
-              },
-              {
-                header: "Errors",
-                icon: "exclamation-circle",
-                content: <RunLog isInProgressRun={isInProgressRun} />,
               },
             ]}
           />

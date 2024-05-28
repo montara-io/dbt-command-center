@@ -90,7 +90,6 @@ export function formatLineage({
 }: {
   lineageData?: LineageResponse;
   assetName?: string;
-
   modelToRunStatus?: LineageProps["modelToRunStatus"];
   showSkippedModels: boolean;
   variant: FlowVariant;

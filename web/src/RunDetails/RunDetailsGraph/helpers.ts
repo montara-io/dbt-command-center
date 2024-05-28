@@ -11,34 +11,32 @@ export function formatLineageDataFromGraphSummary(
   const filteredNodes = Object.entries(graphSummary.linked).filter(([, v]) => {
     return v.type === "model";
   });
-  const filteredNodesIds = filteredNodes.map(([id]) => id);
 
-  const nodes: LineageResponse["nodes"] = filteredNodes.map(
-    ([id, { name }]) => ({
-      id: id.toString(),
-      name: getAssetNameFromRelationName(name),
-      type: AssetType.Model,
-      metadata: {},
-    })
-  );
+  const nodeIdToName = filteredNodes.reduce((acc, [id, { name }]) => {
+    acc[id] = getAssetNameFromRelationName(name);
+    return acc;
+  }, {} as Record<string, string>);
+
+  const nodes: LineageResponse["nodes"] = filteredNodes.map(([id]) => ({
+    name: nodeIdToName[id],
+    type: AssetType.Model,
+    metadata: {},
+  }));
   const result = {
     nodes,
     edges: Object.entries(graphSummary.linked)
       .reduce((acc, [from, { succ }]) => {
-        if (succ) {
+        if (succ && nodeIdToName[from]) {
           acc.push(
             ...succ.map((to) => ({
-              from: from.toString(),
-              to: to.toString(),
+              from: nodeIdToName[from],
+              to: nodeIdToName[to],
             }))
           );
         }
         return acc;
       }, [] as LineageResponse["edges"])
-      .filter(
-        (e) =>
-          filteredNodesIds.includes(e.from) && filteredNodesIds.includes(e.to)
-      ),
+      .filter(({ from, to }) => !!from && !!to),
   };
 
   return result;

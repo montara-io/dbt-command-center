@@ -37,7 +37,6 @@ export function getRunByIdResponseFromDbtLog({
   dbtLog: { output: string }[];
 }): GetRunByIdQueryResponse {
   const strigifiedLog = dbtLog.map((log) => log.output).join("\n");
-
   const assets = extractAssetsFromDbtLogs({
     errorTestSeverity: true,
     modelTests: {},
@@ -248,6 +247,18 @@ export type RunResultsJson = {
     adapter_response: {
       rows_affected: 1;
     };
+    timing: [
+      {
+        name: "compile";
+        started_at: string;
+        completed_at: string;
+      },
+      {
+        name: "execute";
+        started_at: string;
+        completed_at: string;
+      }
+    ];
   }[];
 };
 
@@ -261,6 +272,7 @@ export function enrichRunDataWithRunResultsJson({
   const result = {
     getRunById: {
       ...runData.getRunById,
+      startDatetime: getStartDateFromRunResultsJson(runResultsJson),
       status: runResultsJson.results?.some(
         (m) => m.status === ModelRunStatus.Error
       )
@@ -280,6 +292,17 @@ export function enrichRunDataWithRunResultsJson({
       }),
     },
   };
+
+  return result;
+}
+
+function getStartDateFromRunResultsJson(runResultsJson: RunResultsJson) {
+  const allTiming = runResultsJson?.results
+    .flatMap((r) => r.timing)
+    .map((t) => new Date(t.started_at));
+  const result = allTiming.length
+    ? formatDate(allTiming.sort()[0].toISOString())
+    : "";
 
   return result;
 }

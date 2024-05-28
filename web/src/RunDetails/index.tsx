@@ -40,6 +40,7 @@ function RunDetails() {
   const [activeIndex, setActiveIndex] = useState(RunDetailsTab.Pipeline);
   const [runData, setRunData] = useState<GetRunByIdQueryResponse>();
   const [runDuration, setRunDuration] = useState<number>(0);
+
   const isInProgressRun =
     !runData?.getRunById?.status ||
     runData?.getRunById?.status === GenericStatus.in_progress;
@@ -53,6 +54,7 @@ function RunDetails() {
           );
           const runResultsJson: RunResultsJson = await runResults.json();
           setRunDuration(runResultsJson.elapsed_time);
+
           if (runData) {
             const newRunData = enrichRunDataWithRunResultsJson({
               runData,

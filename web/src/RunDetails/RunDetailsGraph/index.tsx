@@ -73,7 +73,7 @@ function RunDetailsGraph({
             isLineageLoading={false}
             lineageData={lineageData}
             height={
-              isMobileDevice() ? "calc(100vh - 55rem)" : "calc(100vh - 27rem)"
+              isMobileDevice() ? "calc(100vh - 55rem)" : "calc(100vh - 15rem)"
             }
             variant={FlowVariant.RunGraph}
             modelToRunStatus={getModelRunStatusMap(runData)}

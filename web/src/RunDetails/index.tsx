@@ -18,7 +18,7 @@ import {
   GenericStatus,
   GetRunByIdQueryResponse,
 } from "@montara-io/core-data-types";
-import RunLog from "./RunLog";
+
 import { fetchJSONL } from "../services/json";
 import Loading from "../stories/Loading";
 
@@ -128,12 +128,6 @@ function RunDetails() {
                 header: "Models",
                 icon: "box",
                 content: <RunDetailsModels runData={runData} />,
-              },
-
-              {
-                header: "Errors",
-                icon: "exclamation-circle",
-                content: <RunLog isInProgressRun={isInProgressRun} />,
               },
             ]}
           />

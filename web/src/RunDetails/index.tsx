@@ -5,6 +5,7 @@ import {
   getRunByIdResponseFromDbtLog,
   enrichRunDataWithRunResultsJson,
   RunResultsJson,
+  MONTARA_TARGET_FOLDER,
 } from "./helpers";
 import { useEffect, useState } from "react";
 
@@ -34,8 +35,6 @@ const StyledRunDetails = styled.div`
     margin-top: 0 !important;
   }
 `;
-
-const MONTARA_TARGET_FOLDER = "/montara_target";
 
 function RunDetails() {
   const [activeIndex, setActiveIndex] = useState(RunDetailsTab.Pipeline);

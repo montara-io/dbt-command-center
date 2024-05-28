@@ -29,6 +29,8 @@ export const ModelRunStatusToGenericStatusMap: Record<
   [ModelRunStatus.Pending]: GenericStatus.pending,
 };
 
+export const MONTARA_TARGET_FOLDER = "/montara_target";
+
 export function getRunByIdResponseFromDbtLog({
   dbtLog,
 }: {
@@ -233,7 +235,7 @@ export function buildInProgressMessage(runData: GetRunByIdQueryResponse) {
   }
 }
 // airbnb.test_e5jj6ggu_ezztt_com.stg_database_storage_usage_history => stg_database_storage_usage_history
-function getAssetNameFromRelationName(relationName: string) {
+export function getAssetNameFromRelationName(relationName: string) {
   return relationName.split(".").slice(-1)[0];
 }
 

@@ -13,7 +13,7 @@ import {
 import { extractAssetsFromDbtLogs } from "@montara-io/frontend-backend-common";
 import { ScorecardProps } from "../stories/Scorecard";
 
-import { formatDate, getSecondsDiffBetweenDates } from "../utils/date";
+import { formatDate } from "../utils/date";
 import Stopwatch from "../stories/Stopwatch";
 import { formatDuration } from "../utils/time";
 import { LineageProps } from "../components/common/Lineage/helpers";
@@ -139,8 +139,10 @@ export enum RunDetailsColumnId {
 
 export function getScorecardFromRunDetails({
   run,
+  runDuration,
 }: {
   run: GetRunByIdQueryResponse | undefined;
+  runDuration: number;
 }): ScorecardProps["items"] {
   if (!run?.getRunById) {
     return [];
@@ -170,12 +172,7 @@ export function getScorecardFromRunDetails({
           label="Running"
         />
       ) : (
-        formatDuration(
-          getSecondsDiffBetweenDates(
-            run?.getRunById?.startDatetime,
-            run.getRunById?.endDatetime
-          )
-        )
+        formatDuration(runDuration)
       ),
     },
   ];
@@ -241,6 +238,7 @@ function getAssetNameFromRelationName(relationName: string) {
 }
 
 export type RunResultsJson = {
+  elapsed_time: number;
   results: {
     relation_name: string;
     status: ModelRunStatus;

@@ -13,11 +13,9 @@ import { AnalyticsEvent, trackEvent } from "../services/analytics";
 import Scorecard from "../stories/Scorecard";
 import Tabs from "../stories/Tabs";
 import RunDetailsGraph from "./RunDetailsGraph";
-import RunValidations from "./RunValidations";
 import {
   GenericStatus,
   GetRunByIdQueryResponse,
-  RunEnvironment,
 } from "@montara-io/core-data-types";
 import RunLog from "./RunLog";
 import { fetchJSONL } from "../services/json";
@@ -42,6 +40,7 @@ const MONTARA_TARGET_FOLDER = "/montara_target";
 function RunDetails() {
   const [activeIndex, setActiveIndex] = useState(RunDetailsTab.Pipeline);
   const [runData, setRunData] = useState<GetRunByIdQueryResponse>();
+  const [runDuration, setRunDuration] = useState<number>(0);
   const isInProgressRun =
     !runData?.getRunById?.status ||
     runData?.getRunById?.status === GenericStatus.in_progress;
@@ -54,6 +53,7 @@ function RunDetails() {
             `${MONTARA_TARGET_FOLDER}/run_results.json`
           );
           const runResultsJson: RunResultsJson = await runResults.json();
+          setRunDuration(runResultsJson.elapsed_time);
           if (runData) {
             const newRunData = enrichRunDataWithRunResultsJson({
               runData,
@@ -99,6 +99,7 @@ function RunDetails() {
           <Scorecard
             items={getScorecardFromRunDetails({
               run: runData,
+              runDuration,
             })}
             isLoading={false}
             header={"Overview"}
@@ -127,22 +128,7 @@ function RunDetails() {
                 icon: "box",
                 content: <RunDetailsModels runData={runData} />,
               },
-              {
-                header: "Validations",
-                icon: "verified",
-                content:
-                  activeIndex === RunDetailsTab.Validations ? (
-                    <RunValidations
-                      runEnvironment={RunEnvironment.Production}
-                      isInProgressRun={isInProgressRun}
-                      onErrorClick={() => {
-                        setActiveIndex(RunDetailsTab.Issues);
-                      }}
-                    />
-                  ) : (
-                    <></>
-                  ),
-              },
+
               {
                 header: "Errors",
                 icon: "exclamation-circle",

@@ -44,7 +44,7 @@ function RunDetailsModels({
             sortable: true,
             hideOnMobile: true,
             template: ({ executionTime }: ModelRunDetails) => {
-              return formatDuration(executionTime);
+              return formatDuration(executionTime, { isAccurate: true });
             },
           },
           {

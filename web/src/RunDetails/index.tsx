@@ -3,6 +3,8 @@ import {
   RunDetailsTab,
   getScorecardFromRunDetails,
   getRunByIdResponseFromDbtLog,
+  enrichRunDataWithRunResultsJson,
+  RunResultsJson,
 } from "./helpers";
 import { useEffect, useState } from "react";
 
@@ -13,8 +15,8 @@ import Tabs from "../stories/Tabs";
 import RunDetailsGraph from "./RunDetailsGraph";
 import RunValidations from "./RunValidations";
 import {
+  GenericStatus,
   GetRunByIdQueryResponse,
-  ModelRunStatus,
   RunEnvironment,
 } from "@montara-io/core-data-types";
 import RunLog from "./RunLog";
@@ -35,38 +37,38 @@ const StyledRunDetails = styled.div`
   }
 `;
 
+const MONTARA_TARGET_FOLDER = "/montara_target";
+
 function RunDetails() {
   const [activeIndex, setActiveIndex] = useState(RunDetailsTab.Pipeline);
   const [runData, setRunData] = useState<GetRunByIdQueryResponse>();
-  const [runResult, setRunResult] = useState(ModelRunStatus.InProgress);
-
-  const isInProgressRun = runResult === ModelRunStatus.InProgress;
+  const isInProgressRun =
+    !runData?.getRunById?.status ||
+    runData?.getRunById?.status === GenericStatus.in_progress;
 
   useEffect(() => {
     async function getRunResultsJson() {
-      if (runResult === ModelRunStatus.InProgress) {
+      if (isInProgressRun) {
         try {
-          const runResults = await fetch("/montara_target/run_results.json");
-          const runResultsJson: { results: { status: ModelRunStatus }[] } =
-            await runResults.json();
-          const newRunResults = (runResultsJson.results ?? []).some(
-            (r) => r.status === ModelRunStatus.Error
-          )
-            ? ModelRunStatus.Error
-            : ModelRunStatus.Success;
-
-          setRunResult(newRunResults);
+          const runResults = await fetch(
+            `${MONTARA_TARGET_FOLDER}/run_results.json`
+          );
+          const runResultsJson: RunResultsJson = await runResults.json();
+          if (runData) {
+            const newRunData = enrichRunDataWithRunResultsJson({
+              runData,
+              runResultsJson,
+            });
+            setRunData(newRunData);
+          }
         } catch (error) {
           console.log("error in finding run results json");
         }
       }
     }
-    const interval = setInterval(async () => {
-      getRunResultsJson();
-    }, 2000);
 
-    return () => clearInterval(interval);
-  }, []);
+    getRunResultsJson();
+  }, [isInProgressRun, runData]);
 
   useEffect(() => {
     trackEvent({
@@ -74,18 +76,21 @@ function RunDetails() {
     });
 
     const interval = setInterval(async () => {
-      if (runResult !== ModelRunStatus.InProgress) return;
+      if (!isInProgressRun) return;
 
-      const jsonArray = await fetchJSONL("/montara_target/output.jsonl");
+      const jsonArray = await fetchJSONL(
+        `${MONTARA_TARGET_FOLDER}/output.jsonl`
+      );
       const newRunData = getRunByIdResponseFromDbtLog({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         dbtLog: jsonArray as any,
-        runResult,
       });
+
       setRunData(newRunData);
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isInProgressRun]);
 
   return (
     <StyledRunDetails>

@@ -31,10 +31,8 @@ export const ModelRunStatusToGenericStatusMap: Record<
 
 export function getRunByIdResponseFromDbtLog({
   dbtLog,
-  runResult,
 }: {
   dbtLog: { output: string }[];
-  runResult: ModelRunStatus;
 }): GetRunByIdQueryResponse {
   const strigifiedLog = dbtLog.map((log) => log.output).join("\n");
 
@@ -71,7 +69,7 @@ export function getRunByIdResponseFromDbtLog({
         versionNumber: "0",
         created: "",
         error: "",
-        executionTime: 30,
+        executionTime: 0,
         runId: "",
       })),
       runId: "",
@@ -79,7 +77,7 @@ export function getRunByIdResponseFromDbtLog({
       projectId: "",
       runEnvironment: RunEnvironment.Production,
       startDatetime: "",
-      status: ModelRunStatusToGenericStatusMap[runResult],
+      status: GenericStatus.in_progress,
       triggerRunType: RunType.Manual,
       user: { email: "" },
       versionNumber: 1,
@@ -236,4 +234,52 @@ export function buildInProgressMessage(runData: GetRunByIdQueryResponse) {
   } else {
     return `Pending: ${numPendingModels?.length},  In progress: ${numInProgressModels?.length}, Completed: ${numCompletedModels?.length}/${totalModels}`;
   }
+}
+// airbnb.test_e5jj6ggu_ezztt_com.stg_database_storage_usage_history => stg_database_storage_usage_history
+function getAssetNameFromRelationName(relationName: string) {
+  return relationName.split(".").slice(-1)[0];
+}
+
+export type RunResultsJson = {
+  results: {
+    relation_name: string;
+    status: ModelRunStatus;
+    execution_time: number;
+    adapter_response: {
+      rows_affected: 1;
+    };
+  }[];
+};
+
+export function enrichRunDataWithRunResultsJson({
+  runData,
+  runResultsJson,
+}: {
+  runData: GetRunByIdQueryResponse;
+  runResultsJson: RunResultsJson;
+}): GetRunByIdQueryResponse {
+  const result = {
+    getRunById: {
+      ...runData.getRunById,
+      status: runResultsJson.results?.some(
+        (m) => m.status === ModelRunStatus.Error
+      )
+        ? GenericStatus.failed
+        : GenericStatus.success,
+      modelRunsDetails: runData.getRunById?.modelRunsDetails?.map((model) => {
+        const runResult = (runResultsJson.results ?? []).find(
+          (r) => model.name === getAssetNameFromRelationName(r.relation_name)
+        );
+
+        return {
+          ...model,
+          status: runResult?.status ?? model.status,
+          executionTime: runResult?.execution_time ?? model.executionTime,
+          rowsAffected: runResult?.adapter_response?.rows_affected ?? 0,
+        };
+      }),
+    },
+  };
+
+  return result;
 }

@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { DEFAULT_SPACING, SMALL_SPACING } from "../../../constants/style-units";
+import {
+  DEFAULT_BORDER_RADIUS,
+  DEFAULT_SPACING,
+  SMALL_SPACING,
+} from "../../../constants/style-units";
+import { GRAY_260 } from "../../../constants/colors";
 
 export const StyledLineageComponent = styled.div<{ height?: string }>`
   ${({ height }) => (height ? `height: ${height};` : "")}
@@ -9,9 +14,13 @@ export const StyledLineageComponent = styled.div<{ height?: string }>`
     align-items: center;
   }
   .m-lineage-filter {
-    display: flex;
-    align-items: end;
-    gap: ${DEFAULT_SPACING};
-    margin-top: ${SMALL_SPACING};
+    position: absolute;
+    margin-top: 1.5rem;
+    right: 7rem;
+  }
+  .m-flow {
+    border: 1px solid ${GRAY_260};
+    border-radius: ${DEFAULT_BORDER_RADIUS};
+    padding: ${SMALL_SPACING};
   }
 `;

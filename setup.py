@@ -2,9 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name="dbt_run_visualizer",
-    version="0.1.0",
-    author="Dadi Atar",
-    author_email="dadi@montara.io",
+    version="0.1.1",
+    author="Montara team",
+    author_email="support@montara.io",
     description="Stop drilling through dbt logs and start visualizing them",
     long_description="Stop drilling through dbt logs and start visualizing them",
     long_description_content_type="text/markdown",

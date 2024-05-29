@@ -157,9 +157,7 @@ function Loading({
       className="m-loading"
       loadingColor={loadingColor}
     >
-      {!!showLogo && (
-        <img className="m-logo" src={"/assets/v2/logo.svg"} alt="logo" />
-      )}
+      {!!showLogo && <img className="m-logo" src={"/logo.svg"} alt="logo" />}
       {!!loadingTextToShow && (
         <div className="m-loading-text">{`${loadingTextToShow}`}</div>
       )}

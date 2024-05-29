@@ -8,6 +8,7 @@ import "./index.scss";
 import RunDetails from "./RunDetails";
 import GlobalStyle from "./styles/globalStyles";
 import styled from "styled-components";
+import TopBar from "./components/TopBar";
 
 const StyledBody = styled.div`
   height: 100vh;
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <GlobalStyle />
     <StyledBody>
+      <TopBar />
       <RunDetails />
     </StyledBody>
   </React.StrictMode>

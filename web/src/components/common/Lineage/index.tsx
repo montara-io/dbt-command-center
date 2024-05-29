@@ -59,15 +59,15 @@ function Lineage({
           {!!isLineageFilterShown && (
             <div className="m-lineage-filter">
               <Dropdown
-                id={"findAsset"}
-                label={`Find asset (${formatted?.initialNodes?.length ?? 0})`}
+                id={"findModel"}
+                label={`🔎 Highlight model`}
                 options={
                   (formatted?.initialNodes ?? []).map(({ id }) => ({
                     label: id,
                     value: id,
                   })) ?? []
                 }
-                placeholder="Search asset"
+                placeholder="Search model"
                 value={lineageFilters.lineageNodeId}
                 onChange={function (e: any): void {
                   setLineageFilters({

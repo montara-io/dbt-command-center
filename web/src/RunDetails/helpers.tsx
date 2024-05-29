@@ -17,6 +17,7 @@ import { formatDate } from "../utils/date";
 import Stopwatch from "../stories/Stopwatch";
 import { formatDuration } from "../utils/time";
 import { LineageProps } from "../components/common/Lineage/helpers";
+import Typography from "../stories/Typography";
 
 export const ModelRunStatusToGenericStatusMap: Record<
   ModelRunStatus,
@@ -151,12 +152,16 @@ export function getScorecardFromRunDetails({
 
   return [
     {
-      label: "Run date (UTC)",
+      label: "Run date",
       value: formatDate(run.getRunById?.startDatetime),
       isHidden:
         run.getRunById?.status === GenericStatus.in_progress ||
         run.getRunById?.status === GenericStatus.pending,
       isCopyable: true,
+    },
+    {
+      label: "Total Models",
+      value: run.getRunById?.modelRunsDetails?.length,
     },
     {
       label: "Status",
@@ -174,6 +179,48 @@ export function getScorecardFromRunDetails({
         />
       ) : (
         formatDuration(runDuration)
+      ),
+    },
+  ];
+}
+
+export function getModelsScorecardFromRunDetails({
+  run,
+}: {
+  run: GetRunByIdQueryResponse | undefined;
+}): ScorecardProps["items"] {
+  if (!run?.getRunById) {
+    return [];
+  }
+  const totalModels = (run?.getRunById?.modelRunsDetails ?? [])?.length;
+  const numPendingModels = (run?.getRunById?.modelRunsDetails ?? [])?.filter(
+    (m: { status: ModelRunStatus }) => m?.status === ModelRunStatus.Pending
+  );
+
+  const numInProgressModels = (run?.getRunById?.modelRunsDetails ?? []).filter(
+    (m) => m?.status === ModelRunStatus.InProgress
+  );
+  const numCompletedModels = (run?.getRunById?.modelRunsDetails ?? []).filter(
+    (m) => m?.status === ModelRunStatus.Success
+  );
+
+  return [
+    {
+      label: "Pending",
+      value: <Typography>{numPendingModels?.length}</Typography>,
+    },
+    {
+      label: "Running",
+      value: <Typography>{numInProgressModels?.length}</Typography>,
+    },
+    {
+      label: "Success",
+      value: <Typography>{numCompletedModels?.length}</Typography>,
+    },
+    {
+      label: "Failed",
+      value: (
+        <Typography>{totalModels - numCompletedModels?.length}</Typography>
       ),
     },
   ];
@@ -210,30 +257,6 @@ export const ValidationNameToLabelMap: Record<DbtRunTestErrorType, string> = {
   accepted_values: "Accepted values",
 };
 
-export function buildInProgressMessage(runData: GetRunByIdQueryResponse) {
-  const totalModels = (runData?.getRunById?.modelRunsDetails ?? [])?.length;
-  const numPendingModels = (
-    runData?.getRunById?.modelRunsDetails ?? []
-  )?.filter(
-    (m: { status: ModelRunStatus }) => m?.status === ModelRunStatus.Pending
-  );
-
-  const numInProgressModels = (
-    runData?.getRunById?.modelRunsDetails ?? []
-  ).filter((m) => m?.status === ModelRunStatus.InProgress);
-  const numCompletedModels = (
-    runData?.getRunById?.modelRunsDetails ?? []
-  ).filter((m) => m?.status === ModelRunStatus.Success);
-  if (
-    !!numCompletedModels?.length &&
-    numCompletedModels?.length === totalModels
-  ) {
-    return "All models ran successfully";
-  } else {
-    return `Pending: ${numPendingModels?.length},  In progress: ${numInProgressModels?.length}, Completed: ${numCompletedModels?.length}/${totalModels}`;
-  }
-}
-// airbnb.test_e5jj6ggu_ezztt_com.stg_database_storage_usage_history => stg_database_storage_usage_history
 export function getAssetNameFromRelationName(relationName: string) {
   return relationName.split(".").slice(-1)[0];
 }

@@ -6,6 +6,7 @@ import {
   enrichRunDataWithRunResultsJson,
   RunResultsJson,
   MONTARA_TARGET_FOLDER,
+  getModelsScorecardFromRunDetails,
 } from "./helpers";
 import { useEffect, useState } from "react";
 
@@ -21,12 +22,21 @@ import {
 
 import { fetchJSONL } from "../services/json";
 import Loading from "../stories/Loading";
+import { DEFAULT_SPACING, SMALL_SPACING } from "../constants/style-units";
 
 const StyledRunDetails = styled.div`
   min-height: 95vh;
   font-family: var(--font-family);
+  .m-scorecards-wrapper {
+    display: flex;
+    align-items: center;
+    gap: ${DEFAULT_SPACING};
+  }
   .m-scorecard {
-    margin-bottom: var(--small-spacing);
+    margin-bottom: ${SMALL_SPACING};
+    .m-card {
+      padding: 0;
+    }
   }
   .m-card {
     margin-bottom: 0;
@@ -97,18 +107,28 @@ function RunDetails() {
     <StyledRunDetails>
       {runData ? (
         <>
-          <Scorecard
-            items={getScorecardFromRunDetails({
-              run: runData,
-              runDuration,
-            })}
-            isLoading={false}
-            header={"Overview"}
-            emptyText={""}
-          />
+          <div className="m-scorecards-wrapper">
+            <Scorecard
+              items={getScorecardFromRunDetails({
+                run: runData,
+                runDuration,
+              })}
+              isLoading={false}
+              header={"Run details"}
+              emptyText={""}
+            />
+            <Scorecard
+              items={getModelsScorecardFromRunDetails({
+                run: runData,
+              })}
+              isLoading={false}
+              header={"Run status"}
+              emptyText={""}
+            />
+          </div>
 
           <Tabs
-            headerMaxWidth={"28.5rem"}
+            headerMaxWidth={"13.5rem"}
             renderActiveOnly={false}
             extenalActiveIndex={activeIndex}
             externalOnTabChange={setActiveIndex}

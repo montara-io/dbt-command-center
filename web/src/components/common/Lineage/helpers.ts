@@ -134,7 +134,7 @@ export function formatLineage({
   const initialNodes: FlowProps["initialNodes"] = allNodes.map((node) => {
     const iconPath = {
       ...VENDOR_TO_ICON,
-      [AssetType.MontaraReport.toLowerCase()]: "/assets/v2/logo-s.svg",
+      [AssetType.MontaraReport.toLowerCase()]: "/logo-s.svg",
     }[node.type?.toLowerCase()];
     return {
       id: `${node.name}`,

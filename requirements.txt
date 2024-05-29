@@ -23,10 +23,11 @@ dbt-core==1.7.0
 dbt-extractor==0.5.1
 dbt-postgres==1.7.0
 dbt-redshift==1.7.0
-dbt-run-visualizer @ file:///Users/dadiatar/git/dbt-run-visualizer/dist/dbt_run_visualizer-0.1-py3-none-any.whl#sha256=3b6d49dbac801b81909d4ad1852d8133c6523cc6e86392a7c9f969801affaa48
+dbt-run-visualizer @ file:///Users/dadiatar/git/dbt_run_visualizer/dist/dbt_run_visualizer-0.0.1.tar.gz#sha256=e224b783b25d5d9959cd37366e7b304d5305cce3b36b75eba365beee170c69b4
 dbt-semantic-interfaces==0.4.4
 dbt-snowflake==1.7.0
 distlib==0.3.6
+docutils==0.21.2
 filelock==3.12.2
 fsspec==2024.2.0
 gita==0.16.6.4
@@ -55,8 +56,10 @@ keyring==24.3.1
 leather==0.4.0
 Logbook==1.5.3
 lxml==5.1.0
+markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 mashumaro==3.12
+mdurl==0.1.2
 minimal-snowplow-tracker==0.0.2
 more-itertools==10.2.0
 msgpack==1.0.8
@@ -65,12 +68,14 @@ mypy-boto3-glue==1.34.35
 mypy-boto3-lakeformation==1.34.7
 mypy-boto3-sts==1.34.0
 networkx==3.2.1
+nh3==0.2.17
 numpy==1.26.4
 packaging==23.2
 pandas==2.2.1
 parsedatetime==2.6
 pathspec==0.11.2
 pipenv==2023.6.18
+pkginfo==1.10.0
 platformdirs==3.6.0
 proto-plus==1.23.0
 protobuf==4.25.3
@@ -83,6 +88,7 @@ PyAthena==3.3.0
 pycparser==2.21
 pydantic==2.6.3
 pydantic_core==2.16.3
+Pygments==2.18.0
 PyJWT==2.8.0
 pyOpenSSL==24.0.0
 python-dateutil==2.9.0.post0
@@ -90,10 +96,14 @@ python-slugify==8.0.4
 pytimeparse==1.1.8
 pytz==2024.1
 PyYAML==6.0.1
+readme_renderer==43.0
 redis==5.0.0
 redshift-connector==2.0.915
 referencing==0.33.0
 requests==2.31.0
+requests-toolbelt==1.0.0
+rfc3986==2.0.0
+rich==13.7.1
 rpds-py==0.18.0
 rsa==4.9
 s3transfer==0.6.2
@@ -107,6 +117,7 @@ sqlparse==0.4.4
 tenacity==8.2.3
 text-unidecode==1.3
 tomlkit==0.12.4
+twine==5.1.0
 types-awscrt==0.20.5
 types-s3transfer==0.10.0
 typing_extensions==4.10.0

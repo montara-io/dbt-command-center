@@ -1,9 +1,10 @@
-# Dbt Run Visualizer
+# dbt Command Center
 <!-- https://www.perplexity.ai/search/how-to-create-WJOfla1oQ3exPATGmEXYKQ -->
+- If you changed your web application run `npm run build` to update the build folder.
 
-- Run `rm -rf dist && python setup.py sdist bdist_wheel` to create source and binary distribution files in the dist/ directory.
+- Run `rm -rf dist && cd web && npm run build && cd .. && python setup.py sdist bdist_wheel` to create source and binary distribution files in the dist/ directory.
 
-- (Optional) Test your package locally by installing it with `pip install --force-reinstall --no-deps /Users/dadiatar/git/dbt_run_visualizer/dist/dbt_run_visualizer-0.1.0.tar.gz` or `pip install --force-reinstall --no-deps /Users/dadiatar/git/dbt_run_visualizer/dist/dbt_run_visualizer-0.1.0-py3-none-any.whl`
+- (Optional) Test your package locally by installing it with `pip install --force-reinstall --no-deps /Users/dadiatar/git/dbt_run_visualizer/dist/dbt_run_visualizer-0.1.1.tar.gz`
 
 ## Release a new version to PyPI
 

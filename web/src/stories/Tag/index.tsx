@@ -2,7 +2,12 @@ import HelpIcon from "../HelpIcon";
 import styled from "styled-components";
 import { STATUS_TO_CONFIG } from "./helpers";
 import Loading from "../Loading";
-import { SMALL_FONT_SIZE } from "../../constants/style-units";
+import {
+  DEFAULT_SPACING,
+  SMALLER_FONT_SIZE,
+  SMALL_FONT_SIZE,
+  SMALL_SPACING,
+} from "../../constants/style-units";
 import { primary } from "../../constants/colors";
 import { GenericStatus } from "@montara-io/core-data-types";
 
@@ -24,15 +29,15 @@ const StyledTag = styled.div<{
   outline: none;
   font-family: inherit;
   display: inline-flex;
-  gap: var(--small-spacing);
+  gap: ${SMALL_SPACING};
   outline: 0;
   padding: ${(props) =>
     props.hasHelpIcon
-      ? `0.75rem var(--small-spacing)`
-      : "var(--small-spacing) var(--default-spacing)"};
+      ? `0.75rem ${SMALL_SPACING}`
+      : `${SMALL_SPACING} ${DEFAULT_SPACING}`};
 
   margin: 0 4px;
-  font-size: var(--smaller-font-size) important!;
+  font-size: ${SMALLER_FONT_SIZE} important!;
   box-sizing: border-box;
   background: ${(props) => props.background || "#e0e0e0"};
   transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
@@ -47,7 +52,7 @@ const StyledTag = styled.div<{
   text-transform: ${(props) => (props.preventUppercase ? "none" : "uppercase")};
 
   .m-tag-label {
-    font-size: var(--smaller-font-size) !important;
+    font-size: ${SMALLER_FONT_SIZE} !important;
     color: ${primary};
     overflow: hidden;
     white-space: nowrap;

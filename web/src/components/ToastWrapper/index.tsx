@@ -19,6 +19,7 @@ function ToastWrapper() {
           id,
           severity,
           summary,
+          closable: false,
         });
       });
   }, [mainState.toasts]);

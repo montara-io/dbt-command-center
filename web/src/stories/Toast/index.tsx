@@ -10,7 +10,7 @@ import {
   MID_SPACING,
   SMALL_FONT_SIZE,
 } from "../../constants/style-units";
-import { BLUE, DARK_RED, primary, white } from "../../constants/colors";
+import { DARK_RED, alertInfo, primary, white } from "../../constants/colors";
 
 export type ToastProps = {
   position: ToastPositionType;
@@ -43,7 +43,7 @@ const StyledToast = styled.div`
 
   .p-toast .p-toast-message {
     min-width: ${isMobileDevice() ? "50vw" : "20rem"};
-    color: ${white};
+    color: ${primary};
     font-size: ${DEFAULT_FONT_SIZE};
     font-weight: 400;
     border-radius: ${DEFAULT_BORDER_RADIUS};
@@ -56,7 +56,7 @@ const StyledToast = styled.div`
   }
 
   .p-toast .p-toast-message.p-toast-message-success {
-    background-color: ${BLUE};
+    background-color: ${alertInfo};
     border: none;
   }
 

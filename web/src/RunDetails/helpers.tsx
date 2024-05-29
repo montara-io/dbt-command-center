@@ -167,11 +167,9 @@ export function getScorecardFromRunDetails({
     },
     {
       label: "Status",
-      value: (
-        <Typography>{ModelRunStatusToText[run.getRunById?.status]}</Typography>
-      ),
+      value: run?.getRunById?.status,
       isTag: true,
-      isTagLoading: isRunInProgress(run.getRunById),
+      isTagLoading: isRunInProgress(run?.getRunById),
     },
     {
       label: "Duration",
@@ -327,6 +325,7 @@ function getStartDateFromRunResultsJson(runResultsJson: RunResultsJson) {
   const allTiming = runResultsJson?.results
     .flatMap((r) => r.timing)
     .map((t) => new Date(t.started_at));
+
   const result = allTiming.length
     ? formatDate(allTiming.sort()[0].toISOString())
     : "";

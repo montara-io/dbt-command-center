@@ -1,25 +1,28 @@
-import moment from 'moment';
+import moment from "moment";
 
-export const DEFAULT_DATE_FORMAT = 'MMM DD, YYYY, HH:mm';
-const DEFAULT_DATE_FORMAT_WITHOUT_TIME = 'MMM DD, YYYY';
+export const DEFAULT_DATE_FORMAT = "MMM DD, YYYY, HH:mm";
+const DEFAULT_DATE_FORMAT_WITHOUT_TIME = "MMM DD, YYYY";
 export function formatDate(
   date: string,
   {
     hideTime,
+    keepLocalTime,
   }: {
     hideTime: boolean;
+    keepLocalTime: boolean;
   } = {
     hideTime: false,
-  },
+    keepLocalTime: true,
+  }
 ) {
   const result = moment(date)
-    .utc()
+    .utc(keepLocalTime)
     .format(hideTime ? DEFAULT_DATE_FORMAT_WITHOUT_TIME : DEFAULT_DATE_FORMAT);
   return result;
 }
 
 export function getSecondsDiffBetweenDates(from: string, to: string) {
-  return moment(to).diff(moment(from), 'seconds');
+  return moment(to).diff(moment(from), "seconds");
 }
 
 export function stringifiedDateToTimestamp(date: string) {

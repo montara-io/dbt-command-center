@@ -109,25 +109,6 @@ function NodeWithIcon({
             {label}
           </Typography>
         </div>
-
-        {/* <Menu
-          menuItems={[
-            isHighlighted
-              ? NodeMenuId.RemoveHighlight
-              : NodeMenuId.HighlightLineage,
-          ]
-            .concat(menuItems)
-            .filter((m) => (isCurrent ? m !== NodeMenuId.ViewModel : true))
-            .map((menuId) => ({
-              label: NodeMenuIdToConfig[menuId].label,
-              icon: NodeMenuIdToConfig[menuId].icon,
-              onClick: () =>
-                typeof onNodeMenuClick === "function" &&
-                onNodeMenuClick(menuId),
-            }))}
-          iconSize={SMALL_FONT_SIZE}
-          iconName="ellipsis-h"
-        /> */}
       </div>
       {!!tags?.length && (
         <div className="m-node-tags-wrapper">

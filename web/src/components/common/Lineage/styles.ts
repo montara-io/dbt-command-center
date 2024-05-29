@@ -4,7 +4,7 @@ import {
   DEFAULT_SPACING,
   SMALL_SPACING,
 } from "../../../constants/style-units";
-import { GRAY_260 } from "../../../constants/colors";
+import { GRAY_260, white } from "../../../constants/colors";
 
 export const StyledLineageComponent = styled.div<{ height?: string }>`
   ${({ height }) => (height ? `height: ${height};` : "")}
@@ -13,10 +13,22 @@ export const StyledLineageComponent = styled.div<{ height?: string }>`
     gap: ${DEFAULT_SPACING};
     align-items: center;
   }
-  .m-lineage-filter {
+  .m-filter-card {
     position: absolute;
     margin-top: 1.5rem;
     right: 7rem;
+    z-index: 1;
+    height: fit-content;
+    width: fit-content;
+    background-color: ${white};
+    .m-children-container {
+      padding: ${DEFAULT_SPACING};
+      .m-lineage-filter {
+        display: flex;
+        gap: ${DEFAULT_SPACING};
+        align-items: end;
+      }
+    }
   }
   .m-flow {
     border: 1px solid ${GRAY_260};

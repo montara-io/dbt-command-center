@@ -14,6 +14,7 @@ import { FlowVariant, NodeMenuId } from "../../../stories/Flow/helpers";
 import MidButton from "../../../stories/MidButton";
 import Dropdown from "../../../stories/Dropdown";
 import Flow from "../../../stories/Flow";
+import Card from "../../../stories/Card";
 
 function Lineage({
   lineageData,
@@ -57,42 +58,44 @@ function Lineage({
         hasAppliedFilter(lineageFilters) ? (
         <>
           {!!isLineageFilterShown && (
-            <div className="m-lineage-filter">
-              <Dropdown
-                id={"findModel"}
-                label={`🔎 Highlight model`}
-                options={
-                  (formatted?.initialNodes ?? []).map(({ id }) => ({
-                    label: id,
-                    value: id,
-                  })) ?? []
-                }
-                placeholder="Search model"
-                value={lineageFilters.lineageNodeId}
-                onChange={function (e: any): void {
-                  setLineageFilters({
-                    ...lineageFilters,
-                    lineageNodeId: e.target.value,
-                  });
-                }}
-              />
-
-              {hasAppliedFilter(lineageFilters) && (
-                <MidButton
-                  id="clearFilter"
-                  isLight
-                  icon="filter-slash"
-                  label={"Clear filter"}
-                  onClick={() =>
-                    setLineageFilters({
-                      tags: [],
-                      pipelines: [],
-                      lineageNodeId: undefined,
-                    })
+            <Card className="m-filter-card">
+              <div className="m-lineage-filter">
+                <Dropdown
+                  id={"findModel"}
+                  label={`🔎 Highlight model`}
+                  options={
+                    (formatted?.initialNodes ?? []).map(({ id }) => ({
+                      label: id,
+                      value: id,
+                    })) ?? []
                   }
+                  placeholder="Search model"
+                  value={lineageFilters.lineageNodeId}
+                  onChange={function (e: any): void {
+                    setLineageFilters({
+                      ...lineageFilters,
+                      lineageNodeId: e.target.value,
+                    });
+                  }}
                 />
-              )}
-            </div>
+
+                {hasAppliedFilter(lineageFilters) && (
+                  <MidButton
+                    id="clearFilter"
+                    isLight
+                    icon="filter-slash"
+                    label={"Clear filter"}
+                    onClick={() =>
+                      setLineageFilters({
+                        tags: [],
+                        pipelines: [],
+                        lineageNodeId: undefined,
+                      })
+                    }
+                  />
+                )}
+              </div>
+            </Card>
           )}
 
           <Flow

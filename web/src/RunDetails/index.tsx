@@ -52,6 +52,7 @@ function RunDetails() {
   const [runData, setRunData] = useState<GetRunByIdQueryResponse>();
   const [runDuration, setRunDuration] = useState<number>(0);
   const [isConfettiShown, setIsConfettiShown] = useState(false);
+
   const isInProgressRun =
     !runData?.getRunById?.status ||
     runData?.getRunById?.status === GenericStatus.in_progress;

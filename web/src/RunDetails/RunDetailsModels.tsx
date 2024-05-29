@@ -17,6 +17,9 @@ import {
 } from "@montara-io/core-data-types";
 import Loading from "../stories/Loading";
 import { LARGE_FONT_SIZE } from "../constants/style-units";
+import { useContext, useEffect, useState } from "react";
+import { MainContext } from "../Main";
+import { MainActionType } from "../main.redux";
 
 const StyledRunDetailsModels = styled.div``;
 
@@ -25,6 +28,31 @@ function RunDetailsModels({
 }: Readonly<{
   runData: GetRunByIdQueryResponse | undefined;
 }>) {
+  const [runningModels, setRunningModels] = useState<string[]>([]);
+  const [, mainDispatch] = useContext(MainContext);
+
+  useEffect(() => {
+    const allRunningModels = (runData?.getRunById?.modelRunsDetails ?? []).map(
+      (m) => m.name
+    );
+    const newRunningModels = allRunningModels.filter(
+      (m) => !runningModels.includes(m)
+    );
+
+    newRunningModels.forEach((m) => {
+      mainDispatch({
+        type: MainActionType.ADD_TOAST,
+        payload: {
+          id: m,
+          severity: "success",
+          summary: `${m} is running`,
+        },
+      });
+    });
+    setRunningModels(allRunningModels);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mainDispatch, runData?.getRunById?.modelRunsDetails]);
+
   const isRunInProgress =
     runData?.getRunById?.status === GenericStatus.pending ||
     runData?.getRunById?.status === GenericStatus.in_progress;

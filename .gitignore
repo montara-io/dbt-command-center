@@ -1,6 +1,6 @@
 .vscode
 dist
-dbt_run_visualizer.egg-info
+dbt_command_center.egg-info
 build
 logs
 montara_target

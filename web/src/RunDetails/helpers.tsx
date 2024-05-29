@@ -161,11 +161,15 @@ export function getScorecardFromRunDetails({
     },
     {
       label: "Total Models",
-      value: run.getRunById?.modelRunsDetails?.length,
+      value: (
+        <Typography>{run.getRunById?.modelRunsDetails?.length}</Typography>
+      ),
     },
     {
       label: "Status",
-      value: ModelRunStatusToText[run.getRunById?.status],
+      value: (
+        <Typography>{ModelRunStatusToText[run.getRunById?.status]}</Typography>
+      ),
       isTag: true,
       isTagLoading: isRunInProgress(run.getRunById),
     },
@@ -178,7 +182,7 @@ export function getScorecardFromRunDetails({
           label="Running"
         />
       ) : (
-        formatDuration(runDuration)
+        <Typography>{formatDuration(runDuration)}</Typography>
       ),
     },
   ];

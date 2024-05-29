@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="dbt_run_visualizer",
+    name="dbt-command-center",
     version="0.1.1",
     author="Montara team",
     author_email="support@montara.io",
@@ -12,7 +12,7 @@ setup(
     install_requires=["jsonlines"],
     entry_points={
         "console_scripts": [
-            "mnt=src.main:main",
+            "dcc=src.main:main",
         ]
     },
     classifiers=[

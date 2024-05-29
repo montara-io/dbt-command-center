@@ -11,9 +11,12 @@ import NumberText from "../stories/Typography/NumberText";
 import Tag from "../stories/Tag";
 import {
   AssetType,
+  GenericStatus,
   GetRunByIdQueryResponse,
   ModelRunDetails,
 } from "@montara-io/core-data-types";
+import Loading from "../stories/Loading";
+import { LARGE_FONT_SIZE } from "../constants/style-units";
 
 const StyledRunDetailsModels = styled.div``;
 
@@ -22,6 +25,9 @@ function RunDetailsModels({
 }: Readonly<{
   runData: GetRunByIdQueryResponse | undefined;
 }>) {
+  const isRunInProgress =
+    runData?.getRunById?.status === GenericStatus.pending ||
+    runData?.getRunById?.status === GenericStatus.in_progress;
   return (
     <StyledRunDetailsModels>
       <DataTable
@@ -44,7 +50,11 @@ function RunDetailsModels({
             sortable: true,
             hideOnMobile: true,
             template: ({ executionTime }: ModelRunDetails) => {
-              return formatDuration(executionTime, { isAccurate: true });
+              return isRunInProgress ? (
+                <Loading variant="spinner" width={LARGE_FONT_SIZE} />
+              ) : (
+                formatDuration(executionTime, { isAccurate: true })
+              );
             },
           },
           {
@@ -52,9 +62,12 @@ function RunDetailsModels({
             title: "Rows affected",
             hideOnMobile: true,
             sortable: true,
-            template: ({ rowsAffected }: ModelRunDetails) => (
-              <NumberText>{rowsAffected}</NumberText>
-            ),
+            template: ({ rowsAffected }: ModelRunDetails) =>
+              isRunInProgress ? (
+                <Loading variant="spinner" width={LARGE_FONT_SIZE} />
+              ) : (
+                <NumberText>{rowsAffected}</NumberText>
+              ),
           },
           {
             field: RunDetailsColumnId.status,

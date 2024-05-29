@@ -17,6 +17,7 @@ import {
   lighterBlue,
   white,
 } from "../../constants/colors";
+import { LOGO_URL } from "../../constants";
 
 export type LoadingProps = {
   id?: string;
@@ -157,7 +158,7 @@ function Loading({
       className="m-loading"
       loadingColor={loadingColor}
     >
-      {!!showLogo && <img className="m-logo" src={"/logo.svg"} alt="logo" />}
+      {!!showLogo && <img className="m-logo" src={LOGO_URL} alt="logo" />}
       {!!loadingTextToShow && (
         <div className="m-loading-text">{`${loadingTextToShow}`}</div>
       )}

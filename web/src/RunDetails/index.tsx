@@ -72,9 +72,8 @@ function RunDetails() {
             });
             setRunData(newRunData);
           }
-        } catch (error) {
-          console.log("error in finding run results json");
-        }
+          // eslint-disable-next-line no-empty
+        } catch (error) {}
       }
     }
 

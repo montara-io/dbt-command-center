@@ -41,7 +41,7 @@ function RunDetailsGraph({
           const graphSummaryJson: GraphSummary = await runResults.json();
           setLineageData(formatLineageDataFromGraphSummary(graphSummaryJson));
         } catch (error) {
-          console.log("error in finding run results json");
+          console.log("error in finding graph_summary json");
         }
       }
     }

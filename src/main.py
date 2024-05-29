@@ -54,6 +54,7 @@ def main():
         os.makedirs(MONTARA_TARGET)
     # Else, clear the contents of the directory
     else:
+        print("Clearing the contents of montara_target directory", flush=True)
         for file in os.listdir(MONTARA_TARGET):
             os.remove(f"{MONTARA_TARGET}/{file}")
 

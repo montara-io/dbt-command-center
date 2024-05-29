@@ -14,7 +14,7 @@ import {
   TINY_SPACING,
 } from "../../constants/style-units";
 import {
-  blue,
+  BLUE,
   blueHover,
   buttonLight,
   gray250,
@@ -37,7 +37,7 @@ const StyledMidButton = styled.div`
   }
   .p-button.m-mid-button {
     color: ${white};
-    background-color: ${blue};
+    background-color: ${BLUE};
     border: none;
     border-radius: 5px;
     outline: none;

@@ -11,7 +11,7 @@ import {
 } from "../../constants/style-units";
 import {
   GRAY_240,
-  blue,
+  BLUE,
   blueHover,
   lightBlue,
   lighterBlue,
@@ -98,7 +98,7 @@ export const StyledLoading = styled.div<{
     }
     80%,
     90% {
-      stroke: ${blue};
+      stroke: ${BLUE};
     }
   }
   .m-loading-light .p-progressbar,
@@ -137,7 +137,7 @@ function Loading({
   showLogo,
   variant = "progressbar",
   longLoadingTimeMs = LONG_LOADING_TIME,
-  loadingColor = blue,
+  loadingColor = BLUE,
 }: Readonly<LoadingProps>) {
   const [showLongLoadingText, setShowLongLoadingText] = useState(false);
 

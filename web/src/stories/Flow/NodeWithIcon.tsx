@@ -14,7 +14,7 @@ import {
   SMALL_SPACING,
   TINY_SPACING,
 } from "../../constants/style-units";
-import { BORDER, alertInfo, blue, primary } from "../../constants/colors";
+import { BORDER, alertInfo, BLUE, primary } from "../../constants/colors";
 import { GenericStatus } from "@montara-io/core-data-types";
 
 const ImageDimensions = SMALLER_FONT_SIZE;
@@ -30,7 +30,7 @@ const StyledNodeWithIcon = styled.div<{
   gap: ${SMALL_SPACING};
   border: ${({ isHighlighted, isCurrent }) => {
     return isHighlighted
-      ? `2px solid ${blue}`
+      ? `2px solid ${BLUE}`
       : `1px solid ${isCurrent ? primary : BORDER}`;
   }};
   font-weight: ${({ isHighlighted, isCurrent }) => {

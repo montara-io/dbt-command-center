@@ -2,7 +2,7 @@
 export const white = "#FFFFFF";
 export const primary = "#222222";
 export const secondary = "#646464";
-export const blue = "#2F4D6F";
+export const BLUE = "#2F4D6F";
 export const noSeverity = "#505F79";
 export const YELLOW = "#fff3d8";
 export const warningText = "#663c00";

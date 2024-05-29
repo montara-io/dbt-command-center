@@ -25,7 +25,7 @@ import {
   GRAY_270,
   INPUT_BORDER,
   alertInfo,
-  blue,
+  BLUE,
   boxShadow,
   gray220,
   gray250,
@@ -312,8 +312,8 @@ h3 {
   font-family: 'Poppins', sans-serif !important;
 }
 .p-checkbox .p-checkbox-box.p-highlight {
-  border-color: ${blue} !important;
-  background-color: ${blue} !important;
+  border-color: ${BLUE} !important;
+  background-color: ${BLUE} !important;
   
 }
 .p-checkbox .p-checkbox-box {
@@ -370,7 +370,7 @@ img {
 .mantine-Popover-dropdown {
   width: 16rem !important;
   &.m-popover-dropdown-dark {
-    background: ${blue};
+    background: ${BLUE};
     color: ${white};
   }
   

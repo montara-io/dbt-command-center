@@ -23,6 +23,7 @@ import {
 import { fetchJSONL } from "../services/json";
 import Loading from "../stories/Loading";
 import { DEFAULT_SPACING, SMALL_SPACING } from "../constants/style-units";
+import Confetti from "../stories/Confetti";
 
 const StyledRunDetails = styled.div`
   min-height: 95vh;
@@ -50,7 +51,7 @@ function RunDetails() {
   const [activeIndex, setActiveIndex] = useState(RunDetailsTab.Pipeline);
   const [runData, setRunData] = useState<GetRunByIdQueryResponse>();
   const [runDuration, setRunDuration] = useState<number>(0);
-
+  const [isConfettiShown, setIsConfettiShown] = useState(false);
   const isInProgressRun =
     !runData?.getRunById?.status ||
     runData?.getRunById?.status === GenericStatus.in_progress;
@@ -71,6 +72,9 @@ function RunDetails() {
               runResultsJson,
             });
             setRunData(newRunData);
+            if (newRunData?.getRunById?.status === GenericStatus.completed) {
+              setIsConfettiShown(true);
+            }
           }
           // eslint-disable-next-line no-empty
         } catch (error) {}
@@ -104,6 +108,7 @@ function RunDetails() {
 
   return (
     <StyledRunDetails>
+      {!!isConfettiShown && <Confetti />}
       {runData ? (
         <>
           <div className="m-scorecards-wrapper">

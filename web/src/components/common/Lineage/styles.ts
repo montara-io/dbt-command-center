@@ -19,6 +19,7 @@ export const StyledLineageComponent = styled.div<{ height?: string }>`
     right: 7rem;
     z-index: 1;
     height: fit-content;
+    min-width: 13rem;
     width: fit-content;
     background-color: ${white};
     .m-children-container {

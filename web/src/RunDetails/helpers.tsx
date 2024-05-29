@@ -208,19 +208,19 @@ export function getModelsScorecardFromRunDetails({
 
   return [
     {
-      label: "Pending",
+      label: "⏱️ Pending",
       value: <Typography>{numPendingModels?.length}</Typography>,
     },
     {
-      label: "Running",
+      label: "🏃‍♂️ Running",
       value: <Typography>{numInProgressModels?.length}</Typography>,
     },
     {
-      label: "Success",
+      label: "✅ Success",
       value: <Typography>{numCompletedModels?.length}</Typography>,
     },
     {
-      label: "Failed",
+      label: "❌ Failed",
       value: (
         <Typography>{totalModels - numCompletedModels?.length}</Typography>
       ),

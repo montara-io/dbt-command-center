@@ -71,8 +71,9 @@ function RunDetails() {
               runData,
               runResultsJson,
             });
+
             setRunData(newRunData);
-            if (newRunData?.getRunById?.status === GenericStatus.completed) {
+            if (newRunData?.getRunById?.status === GenericStatus.success) {
               setIsConfettiShown(true);
             }
           }

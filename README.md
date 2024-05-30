@@ -1,5 +1,7 @@
 # dbt Command Center
-<!-- https://www.perplexity.ai/search/how-to-create-WJOfla1oQ3exPATGmEXYKQ -->
+
+## Local env setup
+
 - If you changed your web application run `npm run build` to update the build folder.
 
 - Run `rm -rf dist && cd web && npm run build && cd .. && python setup.py sdist bdist_wheel` to create source and binary distribution files in the dist/ directory.

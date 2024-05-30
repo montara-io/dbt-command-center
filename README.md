@@ -1,4 +1,4 @@
-# dbt Command Center
+# 🚀 dbt Command Center
 
 ## Local env setup
 

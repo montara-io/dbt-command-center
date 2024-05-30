@@ -34,8 +34,10 @@ export const MONTARA_TARGET_FOLDER = "/montara_target";
 
 export function getRunByIdResponseFromDbtLog({
   dbtLog,
+  runStartDate,
 }: {
   dbtLog: { output: string }[];
+  runStartDate: string;
 }): GetRunByIdQueryResponse {
   const strigifiedLog = dbtLog.map((log) => log.output).join("\n");
   const assets = extractAssetsFromDbtLogs({
@@ -46,6 +48,7 @@ export function getRunByIdResponseFromDbtLog({
 
   return {
     getRunById: {
+      startDatetime: runStartDate,
       endDatetime: "",
       errors: {
         generalErrors: [],
@@ -78,7 +81,6 @@ export function getRunByIdResponseFromDbtLog({
       pipeline: { id: "", name: "" },
       projectId: "",
       runEnvironment: RunEnvironment.Production,
-      startDatetime: "",
       status: GenericStatus.in_progress,
       triggerRunType: RunType.Manual,
       user: { email: "" },
@@ -125,8 +127,9 @@ export const ModelRunStatusToText: Record<ModelRunStatus, string> = {
 
 function isRunInProgress(run: SingleRun) {
   return (
-    run?.status === GenericStatus.in_progress ||
-    run?.status === GenericStatus.pending
+    run?.status !== GenericStatus.completed &&
+    run?.status !== GenericStatus.failed &&
+    run?.status !== GenericStatus.success
   );
 }
 

@@ -98,6 +98,8 @@ function RunDetails() {
         `${MONTARA_TARGET_FOLDER}/output.jsonl`
       );
       const newRunData = getRunByIdResponseFromDbtLog({
+        runStartDate:
+          runData?.getRunById?.startDatetime ?? new Date().toISOString(),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         dbtLog: jsonArray as any,
       });
@@ -106,7 +108,7 @@ function RunDetails() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [isInProgressRun]);
+  }, [isInProgressRun, runData?.getRunById?.startDatetime]);
 
   return (
     <StyledRunDetails>

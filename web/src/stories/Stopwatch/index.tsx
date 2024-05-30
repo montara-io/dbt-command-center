@@ -10,6 +10,7 @@ function Stopwatch({
   label: string;
 }) {
   const [duration, setDuration] = useState<number | null>(null);
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (referenceStartTime) {

@@ -23,15 +23,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.x"
-      - name: "Automated Version Bump"
-        uses: "phips28/gh-action-bump-version@master"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          minor-wording: "MINOR,minor"
-          major-wording: "MAJOR,cut-major"
-          patch-wording: "patch,fixes,fix,add,Adds,new,feat,feature"
-          rc-wording: "RELEASE,alpha"
       - name: Build package
         run: |
           rm -rf dist

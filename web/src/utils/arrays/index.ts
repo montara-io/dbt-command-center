@@ -3,12 +3,14 @@ export function arrayAverage(arr: number[], decimals = 2): number {
     return 0;
   }
 
-  const avg = arr.map((i) => Number(i)).reduce((acc, curr) => acc + curr, 0) / arr.length;
+  const avg =
+    arr.map((i) => Number(i)).reduce((acc, curr) => acc + curr, 0) / arr.length;
   return Number(avg.toFixed(decimals));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function removeDuplicates(arr: any[]): any[] {
-  const isObjArray = arr.length > 0 && typeof arr[0] === 'object';
+  const isObjArray = arr.length > 0 && typeof arr[0] === "object";
   return isObjArray
     ? arr
         .map((i) => JSON.stringify(i))
@@ -37,7 +39,10 @@ export function sortByKey<T>({
   });
 }
 
-export function areArraysWithTheSameElements(arr1: any[], arr2: any[]): boolean {
+export function areArraysWithTheSameElements(
+  arr1: any[],
+  arr2: any[]
+): boolean {
   if ((!arr1 && arr2) || (arr1 && !arr2)) return false;
   if (arr1.length !== arr2.length) return false;
   return arr1.every((item) => arr2.includes(item));

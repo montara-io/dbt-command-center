@@ -1,4 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import shutil
 import subprocess
 import webbrowser
 import jsonlines
@@ -50,7 +51,11 @@ def main():
 
     # Create the montara_target directory if it doesn't exist
     print("Creating montara_target directory", flush=True)
-    if not os.path.exists(MONTARA_TARGET):
+    if os.path.exists(MONTARA_TARGET):
+        shutil.rmtree(MONTARA_TARGET)
+        print(f"Folder '{MONTARA_TARGET}' has been removed.")
+    else:
+        print(f"Folder '{MONTARA_TARGET}' does not exist.")
         os.makedirs(MONTARA_TARGET)
 
     print(f'Compiling dbt and saving the output to "{MONTARA_TARGET}"', flush=True)

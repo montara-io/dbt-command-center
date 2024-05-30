@@ -6,3 +6,4 @@ logs
 montara_target
 .DS_Store
 src/*.html
+.venv

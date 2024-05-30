@@ -14,12 +14,24 @@ jobs:
       url: https://pypi.org/p/dbt-command-center
     permissions:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+      packages: write
+      contents: write
+      deployments: write
     steps:
       # retrieve your distributions here
       - uses: actions/checkout@v4.1.6
       - uses: actions/setup-python@v4
         with:
           python-version: "3.x"
+      - name: "Automated Version Bump"
+        uses: "phips28/gh-action-bump-version@master"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          minor-wording: "MINOR,minor"
+          major-wording: "MAJOR,cut-major"
+          patch-wording: "patch,fixes,fix,add,Adds,new,feat,feature"
+          rc-wording: "RELEASE,alpha"
       - name: Build package
         run: |
           rm -rf dist

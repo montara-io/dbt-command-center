@@ -25,15 +25,13 @@ jobs:
           python-version: "3.x"
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.2
-      - name: Create npmrc file
-        run: echo "//registry.npmjs.org/:_authToken=${{env.NPM_TOKEN}}" > ~/.npmrc
-        env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           pip install -r requirements.txt
+      - name: Install npm dependencies
+        run: |
           cd web
-          npm install
+          npm install --authToken=${{secrets.NPM_TOKEN}}
           cd ..
       - name: Build package
         run: |

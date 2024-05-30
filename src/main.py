@@ -36,7 +36,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(file_content)
 
 
-def runWebServer(
+def run_web_server(
     server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000
 ):
     server_address = ("", port)
@@ -52,11 +52,6 @@ def main():
     print("Creating montara_target directory", flush=True)
     if not os.path.exists(MONTARA_TARGET):
         os.makedirs(MONTARA_TARGET)
-    # Else, clear the contents of the directory
-    else:
-        print("Clearing the contents of montara_target directory", flush=True)
-        for file in os.listdir(MONTARA_TARGET):
-            os.remove(f"{MONTARA_TARGET}/{file}")
 
     print(f'Compiling dbt and saving the output to "{MONTARA_TARGET}"', flush=True)
     subprocess.run(
@@ -76,7 +71,7 @@ def main():
 
     print("Opening web browser", flush=True)
     # Open run in a different thread
-    run_thread = threading.Thread(target=runWebServer)
+    run_thread = threading.Thread(target=run_web_server)
     run_thread.start()
     webbrowser.open_new_tab("http://localhost:8000")
 

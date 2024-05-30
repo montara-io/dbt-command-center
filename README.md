@@ -4,9 +4,9 @@
 
 - If you changed your web application run `npm run build` to update the build folder.
 
-- Run `rm -rf dist && cd web && npm run build && cd .. && python setup.py sdist bdist_wheel` to create source and binary distribution files in the dist/ directory.
+- Run `cd web && npm run build && cd .. && rm -rf dist && python setup.py sdist bdist_wheel` to create source and binary distribution files in the dist/ directory.
 
-- (Optional) Test your package locally by installing it with `pip install --force-reinstall --no-deps <path-to-git>/dbt-command-center/dist/dbt-command-center-0.1.1.tar.gz`
+- (Optional) Test your package locally by installing it with `pip install --force-reinstall --no-deps <path-to-git>/dbt-command-center/dist/dbt-command-center-0.1.2.tar.gz`
 
 ## Release a new version to PyPI
 

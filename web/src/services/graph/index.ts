@@ -1,5 +1,5 @@
 import { Graph as DadgeGraph } from "@dagrejs/graphlib";
-import { removeDuplicates } from "../../../../../local_env/services/analytics-platform-ui/src/utils/arrays";
+import { removeDuplicates } from "../../utils/arrays";
 
 export class Graph {
   graph: DadgeGraph;

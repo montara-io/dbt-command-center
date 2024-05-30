@@ -1,2 +1,5 @@
 attrs==23.2.0
 jsonlines==4.0.0
+setuptools==70.0.0
+wheel==0.43.0
+

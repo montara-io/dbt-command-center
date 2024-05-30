@@ -213,10 +213,12 @@ export function getModelsScorecardFromRunDetails({
     {
       label: "⏱️ Pending",
       value: <Typography>{numPendingModels?.length}</Typography>,
+      isHidden: !isRunInProgress(run?.getRunById),
     },
     {
       label: "🏃‍♂️ Running",
       value: <Typography>{numInProgressModels?.length}</Typography>,
+      isHidden: !isRunInProgress(run?.getRunById),
     },
     {
       label: "✅ Success",

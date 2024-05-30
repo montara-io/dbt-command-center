@@ -39,7 +39,9 @@ function RunDetailsGraph({
             `${MONTARA_TARGET_FOLDER}/graph_summary.json`
           );
           const graphSummaryJson: GraphSummary = await runResults.json();
-          setLineageData(formatLineageDataFromGraphSummary(graphSummaryJson));
+          setLineageData(
+            formatLineageDataFromGraphSummary({ graphSummaryJson })
+          );
         } catch (error) {
           console.log("error in finding graph_summary json");
         }

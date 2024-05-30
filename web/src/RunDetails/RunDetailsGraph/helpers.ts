@@ -5,12 +5,16 @@ export type GraphSummary = {
   linked: Record<number, { name: string; type: string; succ?: number[] }>;
 };
 
-export function formatLineageDataFromGraphSummary(
-  graphSummary: GraphSummary
-): LineageResponse {
-  const filteredNodes = Object.entries(graphSummary.linked).filter(([, v]) => {
-    return v.type === "model";
-  });
+export function formatLineageDataFromGraphSummary({
+  graphSummaryJson,
+}: {
+  graphSummaryJson: GraphSummary;
+}): LineageResponse {
+  const filteredNodes = Object.entries(graphSummaryJson.linked).filter(
+    ([, v]) => {
+      return v.type === "model";
+    }
+  );
 
   const nodeIdToName = filteredNodes.reduce((acc, [id, { name }]) => {
     acc[id] = getAssetNameFromRelationName(name);
@@ -24,7 +28,7 @@ export function formatLineageDataFromGraphSummary(
   }));
   const result = {
     nodes,
-    edges: Object.entries(graphSummary.linked)
+    edges: Object.entries(graphSummaryJson.linked)
       .reduce((acc, [from, { succ }]) => {
         if (succ && nodeIdToName[from]) {
           acc.push(

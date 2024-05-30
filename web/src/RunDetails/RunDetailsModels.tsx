@@ -62,7 +62,7 @@ function RunDetailsModels({
         id={"runDetails"}
         defaultSortField={"name"}
         defaultSortOrder={DataTableSortOrder.ASC}
-        scrollHeight="calc(100vh - 20rem)"
+        scrollHeight="calc(100vh - 18rem)"
         headerData={[
           {
             field: RunDetailsColumnId.name,

@@ -8,11 +8,8 @@ import { isMobileDevice } from "../utils/responsiveness";
 import {
   BOLD,
   CHECKBOX_SIZE,
-  DEFAULT_BORDER_RADIUS,
   DEFAULT_FONT_SIZE,
   DEFAULT_SPACING,
-  MID_FONT_SIZE,
-  MID_SPACING,
   SMALL_FONT_SIZE,
   SMALL_SPACING,
   TINY_SPACING,
@@ -21,7 +18,6 @@ import {
   ALERT_SUCCESS,
   BORDER_LIGHT,
   GRAY_230,
-  GRAY_240,
   GRAY_270,
   INPUT_BORDER,
   alertInfo,
@@ -384,59 +380,6 @@ img {
   background: ${alertInfo};
 }
 
-// Confirm Modal
-.m-confirmation-popup {
-  padding-top: 13px;
-  padding-left: 20px;
-  padding-bottom: 5px;
-  border-radius: ${DEFAULT_BORDER_RADIUS};
-  box-shadow: 0px 5px 10px #00000080;
-  width: ${isMobileDevice() ? "90%" : "580px"} ;
-  min-height: 15rem;
-  background: ${white};
-
-  .content-text {
-    width: 100%;
-
-    .c-text-p {
-      font-size: ${MID_FONT_SIZE};
-      white-space: normal;
-      letter-spacing: 0px;
-      margin-top: 0px;
-      word-wrap: break-word;
-    }
-  }
-  .p-dialog-header {
-    padding: ${DEFAULT_SPACING};
-  }
-  .p-dialog-content {
-    padding: 0 ${DEFAULT_SPACING} ${MID_SPACING} ${DEFAULT_SPACING};
-  }
-  .p-dialog-footer {
-    padding: 0 ${DEFAULT_SPACING} ${DEFAULT_SPACING} ${DEFAULT_SPACING};
-  }
-  .p-dialog-footer button {
-    min-width:${isMobileDevice() ? "20rem" : "6rem"} ;
-  }
-  
-  .footer {
-    display: flex;
-    float: right;
-    justify-content: space-between;
-    .m-mid-button {
-      ${isMobileDevice() ? "height: 4.5rem;" : ""}
-    }
-  }
-    
-  
-  .m-footer-with-checkbox {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-//end Confirm Modal
-
-
 // Dropdown
 .m-basic-dropdown {
   position: relative;
@@ -549,131 +492,6 @@ img {
 }
 
 
-
-// Modal
-.p-dialog-mask.p-component-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-.m-modal {
-  ${isMobileDevice() ? "min-height: 20vh; min-width: 95vw;" : ""};
-  .m-header {
-    display: flex;
-    justify-content: space-between;
-
-    .left-side-header {
-      width: -webkit-fill-available;
-      > * {
-        margin-top: 0rem;
-      }
-    }
-  }
-  .p-dialog-header-icons {
-    height: 100%;
-  }
-
-  &.p-component {
-    font-family: inherit;
-  }
-
-  &.p-dialog {
-    .p-dialog-header {
-
-      padding: ${DEFAULT_SPACING};
-      align-items: center;
-    }
-
-    .p-link:focus {
-      box-shadow: none;
-    }
-
-    .p-dialog-content {
-      min-height: 5rem;
-      position: relative;
-      overflow-y: auto;
-      
-      padding: 0 1rem 1rem 1rem;
-    }
-  }
-
-  .tooltip-container {
-    float: right;
-
-    .p-tooltip {
-      z-index: 1;
-      top: 52px;
-
-      &.p-tooltip-bottom .p-tooltip-arrow {
-        margin-left: 2.3rem;
-        border-bottom-color: ${gray250};
-        top: 0.375rem;
-      }
-
-      .p-tooltip-text {
-        color: ${primary};
-        font-size: x-small;
-        font-weight: 600;
-        box-shadow: none;
-        background: ${gray250};
-        cursor: pointer;
-        position: absolute;
-        width: max-content;
-        top: 0.625rem;
-        right: -3.4rem;
-        padding: 10px 20px;
-      }
-
-      .p-dialog .p-dialog-header {
-        justify-content: flex-end;
-      }
-
-      
-    }
-  }
-
-  .p-dialog-header-close-icon {
-    font-size: ${DEFAULT_FONT_SIZE};
-    color: ${primary};
-  }
-  &.with-footer {
-    .p-dialog-content {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-  }
-  .p-dialog-footer {
-    padding: 0 ${DEFAULT_SPACING} ${DEFAULT_SPACING} ${DEFAULT_SPACING};
-    button {
-      min-width: ${isMobileDevice() ? "10rem" : "6rem"};
-    }
-    .footer {
-      display: flex;
-      gap: ${TINY_SPACING};
-      float: right;
-    }
-  }
-}
-
-
-// TODO: Insert all section bellow inside m-modal
-.p-dialog .p-dialog-header .p-dialog-header-icon {
-  z-index: 1;
-  margin: 0;
-  border-radius: ${DEFAULT_BORDER_RADIUS} !important;
-  background: ${GRAY_240} !important;
-
-  &:focus {
-    outline: none;
-    box-shadow: none !important;
-  }
-
-  &:hover,
-  &.active {
-    background: ${gray250} !important;
-  }
-}
-// End Modal
-
 // Tooltip
 .p-tooltip.p-component {
   
@@ -683,15 +501,6 @@ img {
   }
 }
 
-//Project selector
-.m-dropdown-panel-projectSelector {
-  z-index: 1006 !important;
-  margin-left: 0;
-  border-radius: 0 0 ${DEFAULT_BORDER_RADIUS} ${DEFAULT_BORDER_RADIUS};
-  .p-dropdown-items .p-dropdown-item {
-    padding: ${SMALL_SPACING};
-  }
-}
 
 
 `;

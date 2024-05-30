@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import shutil
 import subprocess
+import sys
 import webbrowser
 import jsonlines
 import os
@@ -67,8 +68,11 @@ def main():
     )
 
     # Run dbt command
+    # Print all arguments
+    print(sys.argv[1:])
+
     process = subprocess.Popen(
-        ["dbt", "run", "--target-path", MONTARA_TARGET],
+        ["dbt", "run"] + sys.argv[1:] + ["--target-path", MONTARA_TARGET],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,

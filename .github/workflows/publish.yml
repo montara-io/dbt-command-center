@@ -25,10 +25,13 @@ jobs:
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
+
       - name: Install npm dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           cd web
-          npm install
+          npm ci
           cd ..
       - name: Install Python dependencies
         run: |

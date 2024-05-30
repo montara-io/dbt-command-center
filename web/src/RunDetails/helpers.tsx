@@ -227,7 +227,11 @@ export function getModelsScorecardFromRunDetails({
     {
       label: "❌ Failed",
       value: (
-        <Typography>{totalModels - numCompletedModels?.length}</Typography>
+        <Typography>
+          {isRunInProgress(run?.getRunById)
+            ? 0
+            : totalModels - numCompletedModels?.length}
+        </Typography>
       ),
     },
   ];

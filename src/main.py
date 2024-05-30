@@ -66,13 +66,14 @@ def main():
         stderr=subprocess.PIPE,
         universal_newlines=True,
     )
-
-    # Run dbt command
-    # Print all arguments
-    print(sys.argv[1:])
+    dbt_command = ["dbt", "run"] + sys.argv[1:] + ["--target-path", MONTARA_TARGET]
+    strint_dbt_command = " ".join(
+        ["dbt", "run"] + sys.argv[1:] + ["--target-path", MONTARA_TARGET]
+    )
+    print(f"Running {strint_dbt_command}", flush=True)
 
     process = subprocess.Popen(
-        ["dbt", "run"] + sys.argv[1:] + ["--target-path", MONTARA_TARGET],
+        dbt_command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,

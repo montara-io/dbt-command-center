@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="dbt-command-center",
-    version="0.1.1",
+    version="0.1.2",
     author="Montara team",
     author_email="support@montara.io",
     description="Stop drilling through dbt logs and start visualizing them",

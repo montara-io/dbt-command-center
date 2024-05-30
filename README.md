@@ -10,4 +10,6 @@
 
 ## Release a new version to PyPI
 
+- Don't forget to update the version in `setup.py`
+
 - Run `twine upload dist/*` to upload the distribution files to PyPI.

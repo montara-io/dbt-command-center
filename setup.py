@@ -4,7 +4,7 @@ setup(
     name="dbt-command-center",
     version="0.1.1",
     author="Montara team",
-    author_email="support@montara.io",
+    author_email="atardadi@gmail.com",
     description="Stop drilling through dbt logs and start visualizing them",
     long_description="Stop drilling through dbt logs and start visualizing them",
     long_description_content_type="text/markdown",

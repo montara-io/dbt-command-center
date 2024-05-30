@@ -7,3 +7,4 @@ montara_target
 .DS_Store
 src/*.html
 .venv
+src/__pycache__

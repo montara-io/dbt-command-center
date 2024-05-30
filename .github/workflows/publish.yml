@@ -25,14 +25,18 @@ jobs:
           python-version: "3.x"
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.2
-      - name: Install Python dependencies
-        run: |
-          pip install -r requirements.txt
+        with:
+          node-version: 18
+          registry-url: https://npm.pkg.github.com/
       - name: Install npm dependencies
         run: |
           cd web
           npm install --authToken=${{secrets.NPM_TOKEN}}
           cd ..
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+
       - name: Build package
         run: |
           rm -rf dist

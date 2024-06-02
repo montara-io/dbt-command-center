@@ -50,6 +50,23 @@ def run_web_server(
 def main():
     print("Starting Montara new", flush=True)
 
+    dbt_command = sys.argv[1]
+    dbt_full_command = ["dbt"] + sys.argv[1:] + ["--target-path", MONTARA_TARGET]
+    strint_dbt_command = " ".join(dbt_full_command)
+    print(f"Running {strint_dbt_command}", flush=True)
+    if dbt_command == "compile" or dbt_command == "parse":
+        process = subprocess.Popen(
+            dbt_full_command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+        while process.poll() is None:
+            line = process.stdout.readline()
+            if line:
+                print(line.strip())
+        return
+
     # Create the montara_target directory if it doesn't exist
     print("Creating montara_target directory", flush=True)
     if os.path.exists(MONTARA_TARGET):
@@ -66,14 +83,9 @@ def main():
         stderr=subprocess.PIPE,
         universal_newlines=True,
     )
-    dbt_command = ["dbt", "run"] + sys.argv[1:] + ["--target-path", MONTARA_TARGET]
-    strint_dbt_command = " ".join(
-        ["dbt", "run"] + sys.argv[1:] + ["--target-path", MONTARA_TARGET]
-    )
-    print(f"Running {strint_dbt_command}", flush=True)
 
     process = subprocess.Popen(
-        dbt_command,
+        dbt_full_command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,

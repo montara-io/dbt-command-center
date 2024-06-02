@@ -18,34 +18,6 @@ with importlib.resources.open_text("dbt_command_center", "index.html") as data_f
     html_content = data_file.read()
 
 
-def replace_between_delimiters(text, start_delim, end_delim, replacement):
-    parts = []
-    current_part = ""
-    in_delim = False
-    start_delim_len = len(start_delim)
-    end_delim_len = len(end_delim)
-
-    for i in range(len(text)):
-        char = str(text[i])  # Convert char to string
-        if not in_delim and text[i : i + start_delim_len] == start_delim:
-            in_delim = True
-            parts.append(current_part)
-            current_part = ""
-            i += start_delim_len - 1  # Skip the start delimiter
-        elif in_delim and text[i : i + end_delim_len] == end_delim:
-            in_delim = False
-            parts.append(replacement)
-            i += end_delim_len - 1  # Skip the end delimiter
-            current_part = ""
-        elif in_delim:
-            current_part += char
-        else:
-            current_part += char
-
-    parts.append(current_part)
-    return "".join(parts)
-
-
 def is_analytics_disabled():
     return os.environ.get(DISABLE_ANALYTICS, "false") == "true"
 

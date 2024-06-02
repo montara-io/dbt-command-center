@@ -2,7 +2,14 @@
 
 Never drill through endless dbt logs again. dbt Command Center is a local web application that provides a user-friendly interface to monitor and manage dbt runs.
 
-[![Loom Video Thumbnail](https://cdn.loom.com/sessions/thumbnails/bdf717b0f1b048fa883233fc74e038ec.jpg?s=01234567890123456789)](https://www.loom.com/share/bdf717b0f1b048fa883233fc74e038ec)
+<div>
+  <a href="https://www.loom.com/share/bdf717b0f1b048fa883233fc74e038ec">
+    <p>Introducing the New DBT Command Center Package - Watch Video</p>
+  </a>
+  <a href="https://www.loom.com/share/bdf717b0f1b048fa883233fc74e038ec">
+    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/bdf717b0f1b048fa883233fc74e038ec-1717337826235-with-play.gif">
+  </a>
+</div>
 
 ## Getting started
 

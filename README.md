@@ -22,3 +22,7 @@ Never drill through endless dbt logs again. dbt Command Center is a local web ap
 - Don't forget to update the version in `setup.py`
 
 - A new version is automatically released with every push to the main branch. The GitHub Action will build the package and upload it to PyPI.
+
+### Anonymous usage data
+
+We strive to make dbt Command Center better by understanding how it is used. To do this, we collect anonymous usage data. This does not include any personal information or data from your dbt runs. You can opt-out by setting the environment variable `DCC_DISABLE_ANALYTICS` to `true`. 

@@ -5,15 +5,49 @@ import sys
 import webbrowser
 import jsonlines
 import os
+import re
 from urllib.parse import urlparse
 import threading
 import importlib.resources
 
 MONTARA_TARGET = "montara_target"
+DISABLE_ANALYTICS = "DCC_DISABLE_ANALYTICS"
 
 # Read a data file from the package
 with importlib.resources.open_text("src", "index.html") as data_file:
     html_content = data_file.read()
+
+
+def replace_between_delimiters(text, start_delim, end_delim, replacement):
+    parts = []
+    current_part = ""
+    in_delim = False
+    start_delim_len = len(start_delim)
+    end_delim_len = len(end_delim)
+
+    for i in range(len(text)):
+        char = str(text[i])  # Convert char to string
+        if not in_delim and text[i : i + start_delim_len] == start_delim:
+            in_delim = True
+            parts.append(current_part)
+            current_part = ""
+            i += start_delim_len - 1  # Skip the start delimiter
+        elif in_delim and text[i : i + end_delim_len] == end_delim:
+            in_delim = False
+            parts.append(replacement)
+            i += end_delim_len - 1  # Skip the end delimiter
+            current_part = ""
+        elif in_delim:
+            current_part += char
+        else:
+            current_part += char
+
+    parts.append(current_part)
+    return "".join(parts)
+
+
+def is_analytics_disabled():
+    return os.environ.get(DISABLE_ANALYTICS, "false") == "true"
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -21,7 +55,18 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         # content of the html file from the web_application/index.h
         parsed_path = urlparse(self.path)
 
-        file_content = html_content.encode()
+        file_content = html_content
+        if parsed_path.path == "/" and is_analytics_disabled():
+            print("Analytics is disabled")
+            file_content = re.sub(
+                r"<!--START-ANONYMOUS_TRACKING-->(.*?)<!--END-ANONYMOUS_TRACKING-->",
+                "<script>console.log('Anonymous tracking is disabled')</script>",
+                file_content,
+                flags=re.DOTALL,
+            )
+
+        file_content = file_content.encode()
+
         # if parsed file path is not empty
         if parsed_path.path != "/" and parsed_path.path != "":
             file_path = parsed_path.path[1:]
@@ -71,7 +116,7 @@ def main():
     print("Creating montara_target directory", flush=True)
     if os.path.exists(MONTARA_TARGET):
         shutil.rmtree(MONTARA_TARGET)
-        print(f"Folder '{MONTARA_TARGET}' has been removed.")
+        print(f"Folder '{MONTARA_TARGET}' has been cleared.")
     else:
         print(f"Folder '{MONTARA_TARGET}' does not exist.")
         os.makedirs(MONTARA_TARGET)

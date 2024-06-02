@@ -25,7 +25,7 @@ function ToastWrapper() {
   }, [mainState.toasts]);
 
   const renderToasts = () => {
-    return <Toast ref={toastRef} position={"bottom-right"} />;
+    return <Toast ref={toastRef} position={"bottom-left"} />;
   };
 
   return <StyledToastWrapper>{renderToasts()}</StyledToastWrapper>;

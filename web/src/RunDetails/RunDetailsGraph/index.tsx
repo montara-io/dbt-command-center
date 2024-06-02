@@ -62,7 +62,7 @@ function RunDetailsGraph({
           }
           variant={FlowVariant.RunGraph}
           modelToRunStatus={getModelRunStatusMap(runData)}
-          fitView={true}
+          fitView={false}
           nodeMenuItems={{
             [AssetType.Report]: [],
             [AssetType.Source]: [],

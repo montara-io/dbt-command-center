@@ -39,6 +39,7 @@ function Lineage({
   const filteredLineage = filterLineage({
     lineageData,
     lineageFilters,
+    fitView,
   });
 
   const formatted = formatLineage({

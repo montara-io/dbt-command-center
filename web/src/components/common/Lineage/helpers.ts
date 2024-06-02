@@ -203,9 +203,11 @@ export function formatLineage({
 export function filterLineage({
   lineageData,
   lineageFilters,
+  fitView,
 }: {
   lineageData: LineageResponse | undefined;
   lineageFilters: LineageFilters;
+  fitView: boolean;
 }): LineageResponse | undefined {
   let lineageSubgraph: string[] = [];
   if (lineageFilters?.lineageNodeId) {
@@ -233,6 +235,7 @@ export function filterLineage({
     : undefined;
 
   filtered &&
+    fitView &&
     setTimeout(() => {
       triggerCustomEvent({
         eventName: CustomEvent.TRIGGER_FIT_VIEW,

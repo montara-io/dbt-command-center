@@ -7,6 +7,8 @@ import {
   RunResultsJson,
   MONTARA_TARGET_FOLDER,
   getModelsScorecardFromRunDetails,
+  getDbtLogFromJsonArray,
+  DbtLogJsonArray,
 } from "./helpers";
 import { useEffect, useState } from "react";
 
@@ -24,6 +26,7 @@ import { fetchJSONL } from "../services/json";
 import Loading from "../stories/Loading";
 import { DEFAULT_SPACING, SMALL_SPACING } from "../constants/style-units";
 import Confetti from "../stories/Confetti";
+import RunLog from "./RunLog";
 
 const StyledRunDetails = styled.div`
   min-height: 95vh;
@@ -50,6 +53,7 @@ const StyledRunDetails = styled.div`
 function RunDetails() {
   const [activeIndex, setActiveIndex] = useState(RunDetailsTab.Pipeline);
   const [runData, setRunData] = useState<GetRunByIdQueryResponse>();
+  const [dbtLog, setDbtLog] = useState<string>("");
   const [runDuration, setRunDuration] = useState<number>(0);
   const [isConfettiShown, setIsConfettiShown] = useState(false);
 
@@ -103,6 +107,7 @@ function RunDetails() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         dbtLog: jsonArray as any,
       });
+      setDbtLog(getDbtLogFromJsonArray(jsonArray as DbtLogJsonArray));
 
       setRunData(newRunData);
     }, 2000);
@@ -136,7 +141,7 @@ function RunDetails() {
           </div>
 
           <Tabs
-            headerMaxWidth={"13.5rem"}
+            headerMaxWidth={"19.5rem"}
             renderActiveOnly={false}
             extenalActiveIndex={activeIndex}
             externalOnTabChange={setActiveIndex}
@@ -156,6 +161,11 @@ function RunDetails() {
                 header: "Models",
                 icon: "box",
                 content: <RunDetailsModels runData={runData} />,
+              },
+              {
+                header: "Logs",
+                icon: "list",
+                content: <RunLog dbtLog={dbtLog} />,
               },
             ]}
           />

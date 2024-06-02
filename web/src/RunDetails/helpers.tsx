@@ -32,11 +32,13 @@ export const ModelRunStatusToGenericStatusMap: Record<
 
 export const MONTARA_TARGET_FOLDER = "/montara_target";
 
+export type DbtLogJsonArray = { output: string }[];
+
 export function getRunByIdResponseFromDbtLog({
   dbtLog,
   runStartDate,
 }: {
-  dbtLog: { output: string }[];
+  dbtLog: DbtLogJsonArray;
   runStartDate: string;
 }): GetRunByIdQueryResponse {
   const strigifiedLog = dbtLog.map((log) => log.output).join("\n");
@@ -340,4 +342,8 @@ function getStartDateFromRunResultsJson(runResultsJson: RunResultsJson) {
     : "";
 
   return result;
+}
+
+export function getDbtLogFromJsonArray(jsonArray: DbtLogJsonArray) {
+  return jsonArray.map((j) => j.output).join("\n");
 }

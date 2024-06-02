@@ -306,7 +306,6 @@ export function enrichRunDataWithRunResultsJson({
   runData: GetRunByIdQueryResponse;
   runResultsJson: RunResultsJson;
 }): GetRunByIdQueryResponse {
-  console.log(runResultsJson);
   const result = {
     getRunById: {
       ...runData.getRunById,
@@ -320,7 +319,7 @@ export function enrichRunDataWithRunResultsJson({
         const runResult = (runResultsJson.results ?? []).find(
           (r) => model.name === getAssetNameFromUniqueId(r.unique_id)
         );
-        console.log(runResult);
+
         return {
           ...model,
           status: runResult?.status ?? model.status,

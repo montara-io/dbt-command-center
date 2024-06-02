@@ -2,10 +2,9 @@
 
 Never drill through endless dbt logs again. dbt Command Center is a local web application that provides a user-friendly interface to monitor and manage dbt runs.
 
+[Watch a 2-minute demo](https://www.loom.com/share/bdf717b0f1b048fa883233fc74e038ec?sid=55a8eeeb-6a48-4866-84fc-d0966c68fd81)
+
 ## Getting started
-
-[![Loom Video](https://cdn.loom.com/sessions/thumbnails/bdf717b0f1b048fa883233fc74e038ec-with-play.gif)](https://www.loom.com/share/bdf717b0f1b048fa883233fc74e038ec?sid=55a8eeeb-6a48-4866-84fc-d0966c68fd81)
-
 
 - Install the package with `pip install dbt-command-center`
 - Run `dcc` instead of `dbt` to start the dbt Command Center. You can pass the same arguments as you would to `dbt run`. For example `dcc run --models my_model --full-refresh`.

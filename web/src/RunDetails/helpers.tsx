@@ -270,13 +270,14 @@ export const ValidationNameToLabelMap: Record<DbtRunTestErrorType, string> = {
   accepted_values: "Accepted values",
 };
 
-export function getAssetNameFromRelationName(relationName: string) {
+export function getAssetNameFromUniqueId(relationName: string) {
   return relationName.split(".").slice(-1)[0];
 }
 
 export type RunResultsJson = {
   elapsed_time: number;
   results: {
+    unique_id: string;
     relation_name: string;
     status: ModelRunStatus;
     execution_time: number;
@@ -305,6 +306,7 @@ export function enrichRunDataWithRunResultsJson({
   runData: GetRunByIdQueryResponse;
   runResultsJson: RunResultsJson;
 }): GetRunByIdQueryResponse {
+  console.log(runResultsJson);
   const result = {
     getRunById: {
       ...runData.getRunById,
@@ -316,9 +318,9 @@ export function enrichRunDataWithRunResultsJson({
         : GenericStatus.success,
       modelRunsDetails: runData.getRunById?.modelRunsDetails?.map((model) => {
         const runResult = (runResultsJson.results ?? []).find(
-          (r) => model.name === getAssetNameFromRelationName(r.relation_name)
+          (r) => model.name === getAssetNameFromUniqueId(r.unique_id)
         );
-
+        console.log(runResult);
         return {
           ...model,
           status: runResult?.status ?? model.status,

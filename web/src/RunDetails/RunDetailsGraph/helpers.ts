@@ -1,5 +1,5 @@
 import { AssetType, LineageResponse } from "@montara-io/core-data-types";
-import { getAssetNameFromRelationName } from "../helpers";
+import { getAssetNameFromUniqueId } from "../helpers";
 
 export type GraphSummary = {
   linked: Record<number, { name: string; type: string; succ?: number[] }>;
@@ -17,7 +17,7 @@ export function formatLineageDataFromGraphSummary({
   );
 
   const nodeIdToName = filteredNodes.reduce((acc, [id, { name }]) => {
-    acc[id] = getAssetNameFromRelationName(name);
+    acc[id] = getAssetNameFromUniqueId(name);
     return acc;
   }, {} as Record<string, string>);
 

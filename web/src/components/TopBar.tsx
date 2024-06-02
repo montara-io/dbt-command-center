@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Typography from "../stories/Typography";
 import { DEFAULT_SPACING, SMALL_SPACING } from "../constants/style-units";
 import { LOGO_URL } from "../constants";
+import { AnalyticsEvent, trackEvent } from "../services/analytics";
 
 const StyledTopBar = styled.div`
   display: flex;
@@ -24,7 +25,12 @@ function TopBar() {
       </Typography>
 
       <img
-        onClick={() => window.open("https://montara.io", "_blank")}
+        onClick={() => {
+          trackEvent({
+            eventName: AnalyticsEvent.UserNavigatedToMontaraWebsite,
+          });
+          window.open("https://montara.io", "_blank");
+        }}
         className="m-logo"
         src={LOGO_URL}
         alt="logo"

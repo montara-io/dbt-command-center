@@ -1,5 +1,8 @@
 export enum AnalyticsEvent {
-  UserViewedRunDetails = "montara_userViewedRunDetails",
+  UserViewedRunDetailsGraph = "montara_userViewedRunDetailsGraph",
+  UserViewedRunDetailsModels = "montara_userViewedRunDetailsModels",
+  UserViewedRunLogs = "montara_userViewedRunLogs",
+  UserNavigatedToMontaraWebsite = "montara_userNavigatedToMontaraWebsite",
 }
 
 export function identifyUser({

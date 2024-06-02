@@ -92,9 +92,11 @@ function RunDetails() {
 
   useEffect(() => {
     trackEvent({
-      eventName: AnalyticsEvent.UserViewedRunDetails,
+      eventName: AnalyticsEvent.UserViewedRunDetailsGraph,
     });
+  }, []);
 
+  useEffect(() => {
     const interval = setInterval(async () => {
       if (!isInProgressRun) return;
 

@@ -12,7 +12,7 @@ setup(
     install_requires=["jsonlines"],
     entry_points={
         "console_scripts": [
-            "dcc=src.main:main",
+            "dcc=dbt_command_center.main:main",
         ]
     },
     classifiers=[
@@ -21,6 +21,6 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
-    package_data={"src": ["main.py", "index.html"]},
+    package_data={"dbt_command_center": ["main.py", "index.html"]},
     include_package_data=True,
 )

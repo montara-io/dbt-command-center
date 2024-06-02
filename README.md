@@ -15,10 +15,10 @@ Never drill through endless dbt logs again. dbt Command Center is a local web ap
 
 - Run `cd web && npm run build && cd .. && rm -rf dist && python setup.py sdist bdist_wheel` to create source and binary distribution files in the dist/ directory.
 
-- (Optional) Test your package locally by installing it with `pip install --force-reinstall --no-deps <path-to-git>/dbt-command-center/dist/dbt-command-center-0.1.2.tar.gz`
+- (Optional) Test your package locally by installing it with `pip install --force-reinstall --no-deps <path-to-git>/dbt-command-center/dist/dbt-command-center-<version>.tar.gz`
 
 ## Release a new version to PyPI
 
 - Don't forget to update the version in `setup.py`
 
-- Run `twine upload dist/*` to upload the distribution files to PyPI.
+- A new version is automatically released with every push to the main branch. The GitHub Action will build the package and upload it to PyPI.

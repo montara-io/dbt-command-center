@@ -5,6 +5,6 @@ build
 logs
 montara_target
 .DS_Store
-src/*.html
+dbt_command_center/*.html
 .venv
-src/__pycache__
+dbt_command_center/__pycache__

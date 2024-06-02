@@ -14,7 +14,7 @@ MONTARA_TARGET = "montara_target"
 DISABLE_ANALYTICS = "DCC_DISABLE_ANALYTICS"
 
 # Read a data file from the package
-with importlib.resources.open_text("src", "index.html") as data_file:
+with importlib.resources.open_text("dbt_command_center", "index.html") as data_file:
     html_content = data_file.read()
 
 

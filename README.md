@@ -2,7 +2,7 @@
 
 Never drill through endless dbt logs again. dbt Command Center is a local web application that provides a user-friendly interface to monitor and manage dbt runs.
 
-[Watch a 2-minute demo](https://www.loom.com/share/bdf717b0f1b048fa883233fc74e038ec?sid=55a8eeeb-6a48-4866-84fc-d0966c68fd81)
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/bdf717b0f1b048fa883233fc74e038ec?sid=38b89105-dff6-4a93-bd9c-c9005c7bbaa1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ## Getting started
 
@@ -27,4 +27,4 @@ Never drill through endless dbt logs again. dbt Command Center is a local web ap
 
 ### Anonymous usage data
 
-We strive to make dbt Command Center better by understanding how it is used. To do this, we collect anonymous usage data. This does not include any personal information or data from your dbt runs. You can opt-out by setting the environment variable `DCC_DISABLE_ANALYTICS` to `true`. 
+We strive to make dbt Command Center better by understanding how it is used. To do this, we collect anonymous usage data. This does not include any personal information or data from your dbt runs. You can opt-out by setting the environment variable `DCC_DISABLE_ANALYTICS` to `true`.

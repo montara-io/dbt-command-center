@@ -9,6 +9,7 @@ import {
   ModelMatrializationType,
   ModelRunStatus,
   RunEnvironment,
+  RunResultsJson,
   RunType,
   SingleRun,
   TestStatus,
@@ -36,6 +37,12 @@ export const ModelRunStatusToGenericStatusMap: Record<
 export const MONTARA_TARGET_FOLDER = "/montara_target";
 
 export type DbtLogJsonArray = { output: string }[];
+
+export type ModelToCatalogInfo = {
+  [key: string]: {
+    materialization: ModelMatrializationType;
+  };
+};
 
 export function getRunByIdResponseFromDbtLog({
   dbtLog,
@@ -277,31 +284,6 @@ export function getAssetNameFromUniqueId(relationName: string) {
   return relationName.split(".").slice(-1)[0];
 }
 
-export type RunResultsJson = {
-  elapsed_time: number;
-  results: {
-    unique_id: string;
-    relation_name: string;
-    status: ModelRunStatus;
-    execution_time: number;
-    adapter_response: {
-      rows_affected: 1;
-    };
-    timing: [
-      {
-        name: "compile";
-        started_at: string;
-        completed_at: string;
-      },
-      {
-        name: "execute";
-        started_at: string;
-        completed_at: string;
-      }
-    ];
-  }[];
-};
-
 export function enrichRunDataWithRunResultsJson({
   runData,
   runResultsJson,
@@ -335,34 +317,26 @@ export function enrichRunDataWithRunResultsJson({
 
   return result;
 }
-export function enrichRunDataWithManifestJson({
+export function getModelCatalogInfoFromManifest({
+  manifest,
   runData,
-  manifestJson,
 }: {
   runData: GetRunByIdQueryResponse;
-  manifestJson: DbtManifest;
-}): GetRunByIdQueryResponse {
-  const modelManifests: DbtManifestNode[] =
-    Object.values(manifestJson.nodes) ?? [];
-  const result: GetRunByIdQueryResponse = {
-    getRunById: {
-      ...runData.getRunById,
+  manifest: DbtManifest;
+}): ModelToCatalogInfo {
+  const modelManifests: DbtManifestNode[] = Object.values(manifest.nodes) ?? [];
 
-      modelRunsDetails: runData.getRunById?.modelRunsDetails?.map((model) => {
-        const modelManifest = modelManifests.find(
-          (m) => m.alias === model.name
-        );
-        return {
-          ...model,
-          materialization:
-            modelManifest?.config?.materialized ??
-            ModelMatrializationType.table,
-        };
-      }),
-    },
-  };
-
-  return result;
+  return runData.getRunById?.modelRunsDetails?.reduce(
+    (acc, model) => ({
+      ...acc,
+      [model.name]: {
+        materialization:
+          modelManifests.find((m) => m.alias === model.name)?.config
+            ?.materialized ?? ModelMatrializationType.table,
+      },
+    }),
+    {}
+  );
 }
 
 function getStartDateFromRunResultsJson(runResultsJson: RunResultsJson) {

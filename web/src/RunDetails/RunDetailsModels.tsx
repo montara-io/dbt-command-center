@@ -3,6 +3,7 @@ import DataTable, { DataTableSortOrder } from "../stories/DataTable";
 import {
   ModelRunStatusToGenericStatusMap,
   ModelRunStatusToText,
+  ModelToCatalogInfo,
   RunDetailsColumnId,
 } from "./helpers";
 import AssetTableCell from "../components/AssetTableCell";
@@ -29,8 +30,10 @@ const StyledRunDetailsModels = styled.div``;
 
 function RunDetailsModels({
   runData,
+  modelToCatalogInfo,
 }: Readonly<{
   runData: GetRunByIdQueryResponse | undefined;
+  modelToCatalogInfo: ModelToCatalogInfo;
 }>) {
   const [runningModels, setRunningModels] = useState<string[]>([]);
   const [, mainDispatch] = useContext(MainContext);
@@ -80,31 +83,32 @@ function RunDetailsModels({
             field: RunDetailsColumnId.Materialization,
             sortable: true,
             title: "Materialization",
-            template: ({
-              materialization,
-            }: ModelRunDetails & {
-              materialization: ModelMatrializationType;
-            }) => (
-              <div className="m-flex-align-center">
-                {!!materialization && (
-                  <Icon
-                    size={SMALL_FONT_SIZE}
-                    iconName={
-                      materialization === ModelMatrializationType.view
-                        ? "eye"
-                        : materialization ===
-                          ModelMatrializationType.incremental
-                        ? "chart-line"
-                        : "table"
-                    }
-                  />
-                )}
+            template: ({ name }: ModelRunDetails) => {
+              const materialization =
+                modelToCatalogInfo[name]?.materialization ??
+                ModelMatrializationType.table;
+              return (
+                <div className="m-flex-align-center">
+                  {!!materialization && (
+                    <Icon
+                      size={SMALL_FONT_SIZE}
+                      iconName={
+                        materialization === ModelMatrializationType.view
+                          ? "eye"
+                          : materialization ===
+                            ModelMatrializationType.incremental
+                          ? "chart-line"
+                          : "table"
+                      }
+                    />
+                  )}
 
-                <Typography>
-                  {capitalizeFirstLetter(materialization ?? "")}
-                </Typography>
-              </div>
-            ),
+                  <Typography>
+                    {capitalizeFirstLetter(materialization ?? "")}
+                  </Typography>
+                </div>
+              );
+            },
           },
           {
             field: RunDetailsColumnId.executionTime,

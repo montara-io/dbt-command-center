@@ -53,7 +53,7 @@ See documentation at https://github.com/montara-io/dbt-command-center
 
     print(f'Compiling dbt and saving the output to "{MONTARA_TARGET}"', flush=True)
     subprocess.run(
-        ["dbt", "parse", "--target-path", MONTARA_TARGET],
+        ["dbt", "parse", "--target-path", MONTARA_TARGET] + sys.argv[1:],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,

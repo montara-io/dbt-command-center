@@ -4,12 +4,12 @@ import {
   getScorecardFromRunDetails,
   getRunByIdResponseFromDbtLog,
   enrichRunDataWithRunResultsJson,
-  RunResultsJson,
   MONTARA_TARGET_FOLDER,
   getModelsScorecardFromRunDetails,
   getDbtLogFromJsonArray,
   DbtLogJsonArray,
-  enrichRunDataWithManifestJson,
+  getModelCatalogInfoFromManifest,
+  ModelToCatalogInfo,
 } from "./helpers";
 import { useEffect, useState } from "react";
 
@@ -22,6 +22,7 @@ import {
   DbtManifest,
   GenericStatus,
   GetRunByIdQueryResponse,
+  RunResultsJson,
 } from "@montara-io/core-data-types";
 
 import { fetchJSONL } from "../services/json";
@@ -58,7 +59,8 @@ function RunDetails() {
   const [dbtLog, setDbtLog] = useState<string>("");
   const [runDuration, setRunDuration] = useState<number>(0);
   const [isConfettiShown, setIsConfettiShown] = useState(false);
-  const [isManifestFetched, setIsManifestFetched] = useState(false);
+  const [modelToCatalogInfo, setModelToCatalogInfo] =
+    useState<ModelToCatalogInfo>();
 
   const isInProgressRun =
     !runData?.getRunById?.status ||
@@ -105,22 +107,6 @@ function RunDetails() {
   }, [isInProgressRun, runData]);
 
   useEffect(() => {
-    async function getManifestJson() {
-      const manifestResponse = await fetch(
-        `${MONTARA_TARGET_FOLDER}/manifest.json`
-      );
-      const manifestJson: DbtManifest = await manifestResponse.json();
-      const newRunData = enrichRunDataWithManifestJson({
-        runData: runData!,
-        manifestJson: manifestJson,
-      });
-      setRunData(newRunData);
-      setIsManifestFetched(true);
-    }
-    if (runData && !isManifestFetched) {
-      getManifestJson();
-    }
-
     const interval = setInterval(async () => {
       if (!isInProgressRun) return;
 
@@ -136,11 +122,21 @@ function RunDetails() {
       setDbtLog(getDbtLogFromJsonArray(jsonArray as DbtLogJsonArray));
 
       setRunData(newRunData);
+
+      const manifestResponse = await fetch(
+        `${MONTARA_TARGET_FOLDER}/manifest.json`
+      );
+      const manifestJson: DbtManifest = await manifestResponse.json();
+      const newCatalogInfo = getModelCatalogInfoFromManifest({
+        runData: newRunData,
+        manifest: manifestJson,
+      });
+
+      setModelToCatalogInfo(newCatalogInfo);
     }, 2000);
 
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInProgressRun, isManifestFetched, runData?.getRunById?.startDatetime]);
+  }, [isInProgressRun, runData?.getRunById?.startDatetime]);
 
   return (
     <StyledRunDetails>
@@ -187,7 +183,12 @@ function RunDetails() {
               {
                 header: "Models",
                 icon: "box",
-                content: <RunDetailsModels runData={runData} />,
+                content: (
+                  <RunDetailsModels
+                    runData={runData}
+                    modelToCatalogInfo={modelToCatalogInfo ?? {}}
+                  />
+                ),
               },
               {
                 header: "Logs",

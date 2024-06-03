@@ -4,7 +4,6 @@ import sys
 import webbrowser
 import jsonlines
 import os
-from urllib.parse import urlparse
 from dbt_command_center import montara_http
 import threading
 
@@ -53,7 +52,7 @@ See documentation at https://github.com/montara-io/dbt-command-center
 
     print(f'Compiling dbt and saving the output to "{MONTARA_TARGET}"', flush=True)
     subprocess.run(
-        ["dbt", "parse", "--target-path", MONTARA_TARGET] + sys.argv[1:],
+        ["dbt", "parse", "--target-path", MONTARA_TARGET],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,
@@ -72,9 +71,9 @@ See documentation at https://github.com/montara-io/dbt-command-center
     run_thread.start()
     webbrowser.open_new_tab("http://localhost:8000")
 
-    print(f"Writing output to {MONTARA_TARGET}/output.jsonl", flush=True)
-    print(f"Clearing the contents of {MONTARA_TARGET}/output.jsonl", flush=True)
+    print(f"Writing output to {MONTARA_TARGET}/output.jsonl")
     with open(f"{MONTARA_TARGET}/output.jsonl", "w") as file:
+        print(f"Clearing the contents of {MONTARA_TARGET}/output.jsonl")
         file.write("")
     with jsonlines.open(f"{MONTARA_TARGET}/output.jsonl", mode="w") as file:
         while process.poll() is None:

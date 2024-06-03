@@ -13,7 +13,17 @@ DISABLE_ANALYTICS = "DCC_DISABLE_ANALYTICS"
 
 
 def main():
-    print("Starting Montara new", flush=True)
+    if len(sys.argv) < 2:
+        print(
+            """
+Usage: dcc <dbt_command> [args]
+For example: dcc run
+            
+See documentation at https://github.com/montara-io/dbt-command-center
+"""
+        )
+        return
+    print("🚀 dbt Command Center is starting", flush=True)
 
     dbt_command = sys.argv[1]
     dbt_full_command = ["dbt"] + sys.argv[1:] + ["--target-path", MONTARA_TARGET]

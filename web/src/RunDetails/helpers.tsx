@@ -1,9 +1,12 @@
 import {
   AssetType,
+  DbtManifest,
+  DbtManifestNode,
   DbtRunTestErrorType,
   GenericStatus,
   GetLineageByRunIdQueryResponse,
   GetRunByIdQueryResponse,
+  ModelMatrializationType,
   ModelRunStatus,
   RunEnvironment,
   RunType,
@@ -305,7 +308,7 @@ export function enrichRunDataWithRunResultsJson({
   runData: GetRunByIdQueryResponse;
   runResultsJson: RunResultsJson;
 }): GetRunByIdQueryResponse {
-  const result = {
+  const result: GetRunByIdQueryResponse = {
     getRunById: {
       ...runData.getRunById,
       startDatetime: getStartDateFromRunResultsJson(runResultsJson),
@@ -324,6 +327,35 @@ export function enrichRunDataWithRunResultsJson({
           status: runResult?.status ?? model.status,
           executionTime: runResult?.execution_time ?? model.executionTime,
           rowsAffected: runResult?.adapter_response?.rows_affected ?? 0,
+        };
+      }),
+    },
+  };
+
+  return result;
+}
+export function enrichRunDataWithManifestJson({
+  runData,
+  manifestJson,
+}: {
+  runData: GetRunByIdQueryResponse;
+  manifestJson: DbtManifest;
+}): GetRunByIdQueryResponse {
+  const modelManifests: DbtManifestNode[] =
+    Object.values(manifestJson.nodes) ?? [];
+  const result: GetRunByIdQueryResponse = {
+    getRunById: {
+      ...runData.getRunById,
+
+      modelRunsDetails: runData.getRunById?.modelRunsDetails?.map((model) => {
+        const modelManifest = modelManifests.find(
+          (m) => m.alias === model.name
+        );
+        return {
+          ...model,
+          materialization:
+            modelManifest?.config?.materialized ??
+            ModelMatrializationType.table,
         };
       }),
     },

@@ -9,6 +9,7 @@ import {
   getModelsScorecardFromRunDetails,
   getDbtLogFromJsonArray,
   DbtLogJsonArray,
+  enrichRunDataWithManifestJson,
 } from "./helpers";
 import { useEffect, useState } from "react";
 
@@ -18,6 +19,7 @@ import Scorecard from "../stories/Scorecard";
 import Tabs from "../stories/Tabs";
 import RunDetailsGraph from "./RunDetailsGraph";
 import {
+  DbtManifest,
   GenericStatus,
   GetRunByIdQueryResponse,
 } from "@montara-io/core-data-types";
@@ -56,6 +58,7 @@ function RunDetails() {
   const [dbtLog, setDbtLog] = useState<string>("");
   const [runDuration, setRunDuration] = useState<number>(0);
   const [isConfettiShown, setIsConfettiShown] = useState(false);
+  const [isManifestFetched, setIsManifestFetched] = useState(false);
 
   const isInProgressRun =
     !runData?.getRunById?.status ||
@@ -102,6 +105,22 @@ function RunDetails() {
   }, [isInProgressRun, runData]);
 
   useEffect(() => {
+    async function getManifestJson() {
+      const manifestResponse = await fetch(
+        `${MONTARA_TARGET_FOLDER}/manifest.json`
+      );
+      const manifestJson: DbtManifest = await manifestResponse.json();
+      const newRunData = enrichRunDataWithManifestJson({
+        runData: runData!,
+        manifestJson: manifestJson,
+      });
+      setRunData(newRunData);
+      setIsManifestFetched(true);
+    }
+    if (runData && !isManifestFetched) {
+      getManifestJson();
+    }
+
     const interval = setInterval(async () => {
       if (!isInProgressRun) return;
 
@@ -120,7 +139,8 @@ function RunDetails() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [isInProgressRun, runData?.getRunById?.startDatetime]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isInProgressRun, isManifestFetched, runData?.getRunById?.startDatetime]);
 
   return (
     <StyledRunDetails>

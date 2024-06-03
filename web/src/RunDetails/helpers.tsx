@@ -1,11 +1,15 @@
 import {
   AssetType,
+  DbtManifest,
+  DbtManifestNode,
   DbtRunTestErrorType,
   GenericStatus,
   GetLineageByRunIdQueryResponse,
   GetRunByIdQueryResponse,
+  ModelMatrializationType,
   ModelRunStatus,
   RunEnvironment,
+  RunResultsJson,
   RunType,
   SingleRun,
   TestStatus,
@@ -33,6 +37,12 @@ export const ModelRunStatusToGenericStatusMap: Record<
 export const MONTARA_TARGET_FOLDER = "/montara_target";
 
 export type DbtLogJsonArray = { output: string }[];
+
+export type ModelToCatalogInfo = {
+  [key: string]: {
+    materialization: ModelMatrializationType;
+  };
+};
 
 export function getRunByIdResponseFromDbtLog({
   dbtLog,
@@ -142,6 +152,7 @@ export enum RunDetailsColumnId {
   rowsAffected = "rowsAffected",
   LastUpdatedByUser = "lastUpdatedByUser",
   totalRowsCount = "totalRowsCount",
+  Materialization = "materialization",
 }
 
 export function getScorecardFromRunDetails({
@@ -273,31 +284,6 @@ export function getAssetNameFromUniqueId(relationName: string) {
   return relationName.split(".").slice(-1)[0];
 }
 
-export type RunResultsJson = {
-  elapsed_time: number;
-  results: {
-    unique_id: string;
-    relation_name: string;
-    status: ModelRunStatus;
-    execution_time: number;
-    adapter_response: {
-      rows_affected: 1;
-    };
-    timing: [
-      {
-        name: "compile";
-        started_at: string;
-        completed_at: string;
-      },
-      {
-        name: "execute";
-        started_at: string;
-        completed_at: string;
-      }
-    ];
-  }[];
-};
-
 export function enrichRunDataWithRunResultsJson({
   runData,
   runResultsJson,
@@ -305,7 +291,7 @@ export function enrichRunDataWithRunResultsJson({
   runData: GetRunByIdQueryResponse;
   runResultsJson: RunResultsJson;
 }): GetRunByIdQueryResponse {
-  const result = {
+  const result: GetRunByIdQueryResponse = {
     getRunById: {
       ...runData.getRunById,
       startDatetime: getStartDateFromRunResultsJson(runResultsJson),
@@ -330,6 +316,27 @@ export function enrichRunDataWithRunResultsJson({
   };
 
   return result;
+}
+export function getModelCatalogInfoFromManifest({
+  manifest,
+  runData,
+}: {
+  runData: GetRunByIdQueryResponse;
+  manifest: DbtManifest;
+}): ModelToCatalogInfo {
+  const modelManifests: DbtManifestNode[] = Object.values(manifest.nodes) ?? [];
+
+  return runData.getRunById?.modelRunsDetails?.reduce(
+    (acc, model) => ({
+      ...acc,
+      [model.name]: {
+        materialization:
+          modelManifests.find((m) => m.alias === model.name)?.config
+            ?.materialized ?? ModelMatrializationType.table,
+      },
+    }),
+    {}
+  );
 }
 
 function getStartDateFromRunResultsJson(runResultsJson: RunResultsJson) {

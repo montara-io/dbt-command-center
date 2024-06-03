@@ -4,11 +4,12 @@ import {
   getScorecardFromRunDetails,
   getRunByIdResponseFromDbtLog,
   enrichRunDataWithRunResultsJson,
-  RunResultsJson,
   MONTARA_TARGET_FOLDER,
   getModelsScorecardFromRunDetails,
   getDbtLogFromJsonArray,
   DbtLogJsonArray,
+  getModelCatalogInfoFromManifest,
+  ModelToCatalogInfo,
 } from "./helpers";
 import { useEffect, useState } from "react";
 
@@ -18,8 +19,10 @@ import Scorecard from "../stories/Scorecard";
 import Tabs from "../stories/Tabs";
 import RunDetailsGraph from "./RunDetailsGraph";
 import {
+  DbtManifest,
   GenericStatus,
   GetRunByIdQueryResponse,
+  RunResultsJson,
 } from "@montara-io/core-data-types";
 
 import { fetchJSONL } from "../services/json";
@@ -56,6 +59,8 @@ function RunDetails() {
   const [dbtLog, setDbtLog] = useState<string>("");
   const [runDuration, setRunDuration] = useState<number>(0);
   const [isConfettiShown, setIsConfettiShown] = useState(false);
+  const [modelToCatalogInfo, setModelToCatalogInfo] =
+    useState<ModelToCatalogInfo>();
 
   const isInProgressRun =
     !runData?.getRunById?.status ||
@@ -117,6 +122,17 @@ function RunDetails() {
       setDbtLog(getDbtLogFromJsonArray(jsonArray as DbtLogJsonArray));
 
       setRunData(newRunData);
+
+      const manifestResponse = await fetch(
+        `${MONTARA_TARGET_FOLDER}/manifest.json`
+      );
+      const manifestJson: DbtManifest = await manifestResponse.json();
+      const newCatalogInfo = getModelCatalogInfoFromManifest({
+        runData: newRunData,
+        manifest: manifestJson,
+      });
+
+      setModelToCatalogInfo(newCatalogInfo);
     }, 2000);
 
     return () => clearInterval(interval);
@@ -167,7 +183,12 @@ function RunDetails() {
               {
                 header: "Models",
                 icon: "box",
-                content: <RunDetailsModels runData={runData} />,
+                content: (
+                  <RunDetailsModels
+                    runData={runData}
+                    modelToCatalogInfo={modelToCatalogInfo ?? {}}
+                  />
+                ),
               },
               {
                 header: "Logs",

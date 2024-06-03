@@ -62,6 +62,17 @@ function RunDetails() {
     runData?.getRunById?.status === GenericStatus.in_progress;
 
   useEffect(() => {
+    trackEvent({
+      eventName:
+        activeIndex === RunDetailsTab.Pipeline
+          ? AnalyticsEvent.UserViewedRunDetailsGraph
+          : activeIndex === RunDetailsTab.Logs
+          ? AnalyticsEvent.UserViewedRunLogs
+          : AnalyticsEvent.UserViewedRunDetailsModels,
+    });
+  }, [activeIndex]);
+
+  useEffect(() => {
     async function getRunResultsJson() {
       if (isInProgressRun) {
         try {
@@ -89,12 +100,6 @@ function RunDetails() {
 
     getRunResultsJson();
   }, [isInProgressRun, runData]);
-
-  useEffect(() => {
-    trackEvent({
-      eventName: AnalyticsEvent.UserViewedRunDetailsGraph,
-    });
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(async () => {

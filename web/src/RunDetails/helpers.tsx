@@ -254,8 +254,7 @@ export function getModelRunStatusMap(
 export enum RunDetailsTab {
   Pipeline,
   Models,
-  Validations,
-  Issues,
+  Logs,
 }
 
 export const ValidationNameToLabelMap: Record<DbtRunTestErrorType, string> = {

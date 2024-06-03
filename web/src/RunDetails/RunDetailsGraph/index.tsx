@@ -71,7 +71,7 @@ function RunDetailsGraph({
           emptyMessage="No lineage data available. Please refresh the page to try again."
           onNodeMenuClick={(p) => {
             p.menuId === NodeMenuId.ShowError &&
-              setActiveIndex(RunDetailsTab.Issues);
+              setActiveIndex(RunDetailsTab.Logs);
           }}
           isFilterByPipelineEnabled={false}
         />

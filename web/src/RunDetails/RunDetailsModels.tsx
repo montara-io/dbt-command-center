@@ -20,7 +20,6 @@ import { LARGE_FONT_SIZE } from "../constants/style-units";
 import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../Main";
 import { MainActionType } from "../main.redux";
-import { AnalyticsEvent, trackEvent } from "../services/analytics";
 
 const StyledRunDetailsModels = styled.div``;
 
@@ -31,12 +30,6 @@ function RunDetailsModels({
 }>) {
   const [runningModels, setRunningModels] = useState<string[]>([]);
   const [, mainDispatch] = useContext(MainContext);
-
-  useEffect(() => {
-    trackEvent({
-      eventName: AnalyticsEvent.UserViewedRunDetailsModels,
-    });
-  }, []);
 
   useEffect(() => {
     const allRunningModels = (runData?.getRunById?.modelRunsDetails ?? []).map(

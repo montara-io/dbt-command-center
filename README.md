@@ -2,15 +2,7 @@
 
 Never drill through endless dbt logs again. dbt Command Center is a local web application that provides a user-friendly interface to monitor and manage dbt runs.
 
-<div>
-  <a href="https://www.loom.com/share/99c67a35a912476aaa0742b176abf2f1">
-    <p>Watch a 2-min demo Video</p>
-  </a>
-  <a href="https://www.loom.com/share/99c67a35a912476aaa0742b176abf2f1">
-    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/99c67a35a912476aaa0742b176abf2f1-1717393845794-with-play.gif">
-  </a>
-</div>
-
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/99c67a35a912476aaa0742b176abf2f1?sid=cde6928e-5c11-4356-9836-dadaeadedf5d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 ## Getting started
 
 - Install the package with `pip install dbt-command-center`

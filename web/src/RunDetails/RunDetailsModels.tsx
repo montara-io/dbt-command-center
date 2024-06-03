@@ -13,13 +13,17 @@ import {
   AssetType,
   GenericStatus,
   GetRunByIdQueryResponse,
+  ModelMatrializationType,
   ModelRunDetails,
 } from "@montara-io/core-data-types";
 import Loading from "../stories/Loading";
-import { LARGE_FONT_SIZE } from "../constants/style-units";
+import { LARGE_FONT_SIZE, SMALL_FONT_SIZE } from "../constants/style-units";
 import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../Main";
 import { MainActionType } from "../main.redux";
+import Typography from "../stories/Typography";
+import { capitalizeFirstLetter } from "../utils/string";
+import Icon from "../stories/Icon";
 
 const StyledRunDetailsModels = styled.div``;
 
@@ -70,6 +74,36 @@ function RunDetailsModels({
             title: "Model name",
             template: ({ name }: ModelRunDetails) => (
               <AssetTableCell name={name} assetType={AssetType.Model} />
+            ),
+          },
+          {
+            field: RunDetailsColumnId.Materialization,
+            sortable: true,
+            title: "Materialization",
+            template: ({
+              materialization,
+            }: ModelRunDetails & {
+              materialization: ModelMatrializationType;
+            }) => (
+              <div className="m-flex-align-center">
+                {!!materialization && (
+                  <Icon
+                    size={SMALL_FONT_SIZE}
+                    iconName={
+                      materialization === ModelMatrializationType.view
+                        ? "eye"
+                        : materialization ===
+                          ModelMatrializationType.incremental
+                        ? "chart-line"
+                        : "table"
+                    }
+                  />
+                )}
+
+                <Typography>
+                  {capitalizeFirstLetter(materialization ?? "")}
+                </Typography>
+              </div>
             ),
           },
           {

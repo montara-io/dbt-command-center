@@ -145,6 +145,7 @@ export enum RunDetailsColumnId {
   rowsAffected = "rowsAffected",
   LastUpdatedByUser = "lastUpdatedByUser",
   totalRowsCount = "totalRowsCount",
+  Materialization = "materialization",
 }
 
 export function getScorecardFromRunDetails({

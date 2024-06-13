@@ -33,6 +33,11 @@ jobs:
           cd web
           npm ci
           cd ..
+      - name: Run tests
+        run: |
+          cd web
+          npm run test
+          cd ..
       - uses: actions/setup-python@v4
         with:
           python-version: "3.x"

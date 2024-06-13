@@ -4,8 +4,8 @@ import {
   DbtManifestNode,
   DbtRunTestErrorType,
   GenericStatus,
-  GetLineageByRunIdQueryResponse,
   GetRunByIdQueryResponse,
+  LineageResponse,
   ModelMatrializationType,
   ModelRunStatus,
   RunEnvironment,
@@ -100,24 +100,6 @@ export function getRunByIdResponseFromDbtLog({
     },
   };
 }
-
-export const MockLineage: GetLineageByRunIdQueryResponse = {
-  getLineageByRunId: {
-    nodes: [
-      {
-        name: "node1",
-        type: AssetType.Model,
-        metadata: {},
-      },
-      {
-        name: "node2",
-        type: AssetType.Model,
-        metadata: {},
-      },
-    ],
-    edges: [{ from: "node1", to: "node2" }],
-  },
-};
 
 export const RunTestStatusToGenericStatusMap: Record<
   TestStatus,
@@ -353,4 +335,43 @@ function getStartDateFromRunResultsJson(runResultsJson: RunResultsJson) {
 
 export function getDbtLogFromJsonArray(jsonArray: DbtLogJsonArray) {
   return jsonArray.map((j) => j.output).join("\n");
+}
+
+export function getLineageDataFromManifest({
+  manifest,
+}: {
+  manifest: DbtManifest;
+}): LineageResponse {
+  const nodesFormatted: {
+    name: string;
+    type: AssetType.Model;
+    dependsOn: string[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    metadata: any;
+  }[] = Object.entries(manifest?.nodes ?? []).map(([id, node]) => {
+    return {
+      name: getAssetNameFromUniqueId(id),
+      dependsOn: (node?.depends_on?.nodes ?? []).map((d) =>
+        getAssetNameFromUniqueId(d)
+      ),
+      type: AssetType.Model,
+      metadata: {},
+    };
+  });
+  const edges = nodesFormatted.reduce((acc, node) => {
+    if (node.dependsOn.length) {
+      acc.push(
+        ...node.dependsOn.map((from) => ({
+          from,
+          to: node.name,
+        }))
+      );
+    }
+    return acc;
+  }, [] as LineageResponse["edges"]);
+
+  return {
+    edges,
+    nodes: nodesFormatted,
+  };
 }

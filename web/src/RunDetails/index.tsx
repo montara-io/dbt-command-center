@@ -10,6 +10,7 @@ import {
   DbtLogJsonArray,
   getModelCatalogInfoFromManifest,
   ModelToCatalogInfo,
+  getLineageDataFromManifest,
 } from "./helpers";
 import { useEffect, useState } from "react";
 
@@ -22,6 +23,7 @@ import {
   DbtManifest,
   GenericStatus,
   GetRunByIdQueryResponse,
+  LineageResponse,
   RunResultsJson,
 } from "@montara-io/core-data-types";
 
@@ -59,6 +61,7 @@ function RunDetails() {
   const [dbtLog, setDbtLog] = useState<string>("");
   const [runDuration, setRunDuration] = useState<number>(0);
   const [isConfettiShown, setIsConfettiShown] = useState(false);
+  const [lineageData, setLineageData] = useState<LineageResponse>();
   const [modelToCatalogInfo, setModelToCatalogInfo] =
     useState<ModelToCatalogInfo>();
 
@@ -131,7 +134,10 @@ function RunDetails() {
         runData: newRunData,
         manifest: manifestJson,
       });
-
+      const newLineageData = getLineageDataFromManifest({
+        manifest: manifestJson,
+      });
+      setLineageData(newLineageData);
       setModelToCatalogInfo(newCatalogInfo);
     }, 2000);
 
@@ -177,6 +183,7 @@ function RunDetails() {
                   <RunDetailsGraph
                     setActiveIndex={setActiveIndex}
                     runData={runData}
+                    lineageData={lineageData}
                   />
                 ),
               },

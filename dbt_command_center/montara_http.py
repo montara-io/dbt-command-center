@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
 import re
+import sys
 from urllib.parse import urlparse
 import importlib.resources
 
@@ -53,7 +54,21 @@ def run_web_server(
     server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000
 ):
     server_address = ("", port)
-    httpd = server_class(server_address, handler_class)
-    print(f"Server running on port {port}")
-    print("Open http://localhost:8000 in your browser")
-    httpd.serve_forever()
+
+    # Redirect standard output and error to a null device or a log file
+    null_device = open(os.devnull, "w")
+    old_stdout = sys.stdout
+    old_stderr = sys.stderr
+    sys.stdout = null_device
+    sys.stderr = null_device
+
+    try:
+        httpd = server_class(server_address, handler_class)
+        print(f"Server running on port {port}")
+        print("Open http://localhost:8000 in your browser")
+        httpd.serve_forever()
+    finally:
+        # Restore standard output and error
+        sys.stdout = old_stdout
+        sys.stderr = old_stderr
+        null_device.close()

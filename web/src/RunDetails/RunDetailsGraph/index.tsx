@@ -25,26 +25,6 @@ function RunDetailsGraph({
   lineageData: LineageResponse | undefined;
   setActiveIndex: React.Dispatch<React.SetStateAction<RunDetailsTab>>;
 }>) {
-  // useEffect(() => {
-  //   async function getGraphSummaryJson() {
-  //     if (!lineageData) {
-  //       try {
-  //         const runResults = await fetch(
-  //           `${MONTARA_TARGET_FOLDER}/graph_summary.json`
-  //         );
-  //         const graphSummaryJson: GraphSummary = await runResults.json();
-  //         setLineageData(
-  //           formatLineageDataFromGraphSummary({ graphSummaryJson })
-  //         );
-  //       } catch (error) {
-  //         console.log("error in finding graph_summary json");
-  //       }
-  //     }
-  //   }
-
-  //   getGraphSummaryJson();
-  // }, [lineageData, runData]);
-
   return (
     <StyledRunDetailsGraph>
       {lineageData ? (

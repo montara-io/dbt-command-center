@@ -348,16 +348,18 @@ export function getLineageDataFromManifest({
     dependsOn: string[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     metadata: any;
-  }[] = Object.entries(manifest?.nodes ?? []).map(([id, node]) => {
-    return {
-      name: getAssetNameFromUniqueId(id),
-      dependsOn: (node?.depends_on?.nodes ?? []).map((d) =>
-        getAssetNameFromUniqueId(d)
-      ),
-      type: AssetType.Model,
-      metadata: {},
-    };
-  });
+  }[] = Object.entries(manifest?.nodes ?? [])
+    .filter(([id]) => id.startsWith("model."))
+    .map(([id, node]) => {
+      return {
+        name: getAssetNameFromUniqueId(id),
+        dependsOn: (node?.depends_on?.nodes ?? []).map((d) =>
+          getAssetNameFromUniqueId(d)
+        ),
+        type: AssetType.Model,
+        metadata: {},
+      };
+    });
   const edges = nodesFormatted.reduce((acc, node) => {
     if (node.dependsOn.length) {
       acc.push(

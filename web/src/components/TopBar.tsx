@@ -10,7 +10,7 @@ const StyledTopBar = styled.div`
   align-items: center;
   .m-logo {
     cursor: pointer;
-    height: 1.5rem;
+    width: 15rem;
   }
 `;
 

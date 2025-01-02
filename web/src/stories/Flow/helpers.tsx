@@ -6,14 +6,14 @@ import { MarkerType } from "reactflow";
 import { IconType } from "../Icon";
 import { AssetType, ModelRunStatus } from "@montara-io/core-data-types";
 import {
-  ALERT_SUCCESS,
-  ALERT_WARNING,
   BORDER,
-  FAILURE,
+  BUTTON_LIGHT,
+  ERROR_BACKGROUND,
+  INFO_BACKGROUND,
   NEUTRAL,
-  alertInfo,
-  buttonLight,
-  primary,
+  PRIMARY,
+  SUCCESS_BACKGROUND,
+  WARNING_BACKGROUND,
 } from "../../constants/colors";
 import { DEFAULT_FONT_SIZE } from "../../constants/style-units";
 const elk = new ELK({});
@@ -79,18 +79,18 @@ export enum NodeType {
 
 export const LineageAssetTypeToStyles = {
   [AssetType.Source]: {
-    background: buttonLight,
-    color: primary,
+    background: BUTTON_LIGHT,
+    color: PRIMARY,
     label: "Source",
   },
   [AssetType.Model]: {
-    color: primary,
-    background: alertInfo,
+    color: PRIMARY,
+    background: INFO_BACKGROUND,
     label: "Model",
   },
   [AssetType.Report]: {
-    background: ALERT_WARNING,
-    color: primary,
+    background: WARNING_BACKGROUND,
+    color: PRIMARY,
     label: "Report",
   },
 };
@@ -98,33 +98,33 @@ export const LineageAssetTypeToStyles = {
 export const RunGraphAssetTypeToStyles = {
   [ModelRunStatus.Skipped]: {
     background: NEUTRAL,
-    color: primary,
+    color: PRIMARY,
     label: "Skipped",
     helpIconText:
       "This model run was skipped as part of a smart run or due to a failed upstream model",
   },
   [ModelRunStatus.Pending]: {
     background: NEUTRAL,
-    color: primary,
+    color: PRIMARY,
     label: "Pending",
     helpIconText: "This model is pending execution",
   },
   [ModelRunStatus.InProgress]: {
-    background: alertInfo,
-    color: primary,
+    background: INFO_BACKGROUND,
+    color: PRIMARY,
     label: "In progress",
     helpIconText: "This model run is currently in progress",
   },
   [ModelRunStatus.Error]: {
-    background: FAILURE,
-    color: primary,
+    background: ERROR_BACKGROUND,
+    color: PRIMARY,
     label: "Error",
     helpIconText:
       "This model run failed - either due to a transformation error or a validation error",
   },
   [ModelRunStatus.Success]: {
-    background: ALERT_SUCCESS,
-    color: primary,
+    background: SUCCESS_BACKGROUND,
+    color: PRIMARY,
     label: "Success",
     helpIconText:
       "This model transformation and validations was executed successfully",

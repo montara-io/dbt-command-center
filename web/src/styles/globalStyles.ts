@@ -1,3 +1,4 @@
+import { BORDER } from "./../constants/colors";
 // globalStyles.js
 import { createGlobalStyle } from "styled-components";
 
@@ -15,17 +16,16 @@ import {
   TINY_SPACING,
 } from "../constants/style-units";
 import {
-  ALERT_SUCCESS,
   BORDER_LIGHT,
   GRAY_230,
   GRAY_270,
-  INPUT_BORDER,
-  alertInfo,
-  BLUE,
+  INFO_BACKGROUND,
+  PRIMARY,
+  SUCCESS_BACKGROUND,
+  SUCCESS_TEXT,
   boxShadow,
   gray220,
   gray250,
-  primary,
   tableHeaderBackground,
   white,
 } from "../constants/colors";
@@ -99,11 +99,11 @@ const GlobalStyle = createGlobalStyle`
 }
 
 .bp4-tooltip2.bp4-intent-success .bp4-popover2-content {
-  background: ${ALERT_SUCCESS};
-  color: ${primary};
+  background: ${SUCCESS_BACKGROUND};
+  color: ${SUCCESS_TEXT};
 }
 .bp4-tooltip2.bp4-intent-success .bp4-popover2-arrow-fill {
-  fill: ${ALERT_SUCCESS};
+  fill: ${SUCCESS_BACKGROUND};
 }
 
 .m-feature-announcement-popover .bp4-overlay-content {
@@ -226,11 +226,11 @@ text {
 
 .bp4-menu-item.bp4-selected {
   background: ${gray220} !important;
-  color: ${primary} !important;
+  color: ${PRIMARY} !important;
 }
 
 .bp4-menu-item-icon {
-  color: ${primary} !important;
+  color: ${PRIMARY} !important;
 }
 /**** End Blueprint *****/
 
@@ -308,8 +308,8 @@ h3 {
   font-family: 'Poppins', sans-serif !important;
 }
 .p-checkbox .p-checkbox-box.p-highlight {
-  border-color: ${BLUE} !important;
-  background-color: ${BLUE} !important;
+  border-color: ${PRIMARY} !important;
+  background-color: ${PRIMARY} !important;
   
 }
 .p-checkbox .p-checkbox-box {
@@ -366,7 +366,7 @@ img {
 .mantine-Popover-dropdown {
   width: 16rem !important;
   &.m-popover-dropdown-dark {
-    background: ${BLUE};
+    background: ${PRIMARY};
     color: ${white};
   }
   
@@ -377,7 +377,7 @@ img {
 }
 
 .p-datepicker table td > span.p-highlight {
-  background: ${alertInfo};
+  background: ${INFO_BACKGROUND};
 }
 
 // Dropdown
@@ -472,7 +472,7 @@ img {
     background-color: transparent;
     &::after {
       content: '';
-      border-bottom: 1px solid ${INPUT_BORDER};
+      border-bottom: 1px solid ${BORDER};
       position: absolute;
       left: 10px;
       right: 10px;

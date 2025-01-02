@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import classNames from "classnames";
-import { primary } from "../../constants/colors";
+import { PRIMARY } from "../../constants/colors";
 
 const NO_DATA_MESSAGE = "No data to show";
 
@@ -27,7 +27,7 @@ const StyledEmptyState = styled.div`
     padding-top: 60px;
     font: normal normal normal 12px/20px "Poppins";
     letter-spacing: 0px;
-    color: ${primary};
+    color: ${PRIMARY};
   }
 `;
 

@@ -10,7 +10,7 @@ import {
   DEFAULT_SPACING,
   MID_FONT_SIZE,
 } from "../../constants/style-units";
-import { ACCENT, BLUE, white } from "../../constants/colors";
+import { ACCENT, PRIMARY, white } from "../../constants/colors";
 import { isMobileDevice } from "../../utils/responsiveness";
 
 export type TabsProps = {
@@ -45,8 +45,8 @@ const StyledTabs = styled.div<{
   }
   .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
     background: ${white};
-    border-color: ${BLUE};
-    color: ${BLUE};
+    border-color: ${PRIMARY};
+    color: ${PRIMARY};
   }
   .p-tabview .p-tabview-nav li .p-tabview-nav-link {
     box-shadow: none !important;
@@ -73,6 +73,9 @@ const StyledTabs = styled.div<{
   }
   .p-tabview-selected .p-tabview-nav-link {
     font-weight: ${BOLD} !important;
+  }
+  .p-tabview .p-tabview-nav {
+    border-bottom-width: 1px;
   }
 `;
 

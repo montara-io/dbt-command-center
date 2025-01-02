@@ -13,14 +13,7 @@ import {
   SMALL_SPACING,
   TINY_SPACING,
 } from "../../constants/style-units";
-import {
-  BLUE,
-  blueHover,
-  buttonLight,
-  gray250,
-  primary,
-  white,
-} from "../../constants/colors";
+import { PRIMARY, white } from "../../constants/colors";
 import Loading from "../Loading";
 
 const StyledMidButton = styled.div`
@@ -37,7 +30,7 @@ const StyledMidButton = styled.div`
   }
   .p-button.m-mid-button {
     color: ${white};
-    background-color: ${BLUE};
+    background-color: ${PRIMARY};
     border: none;
     border-radius: 5px;
     outline: none;
@@ -49,7 +42,7 @@ const StyledMidButton = styled.div`
     gap: ${SMALL_SPACING};
 
     &:enabled:hover {
-      background-color: ${blueHover};
+      background-color: ${PRIMARY};
     }
 
     &:focus {
@@ -63,8 +56,8 @@ const StyledMidButton = styled.div`
   }
 
   .p-button.m-mid-button-light {
-    color: ${primary};
-    background-color: ${buttonLight};
+    color: ${PRIMARY};
+    background-color: ${white};
     border: none;
     border-radius: 5px;
     outline: none;
@@ -74,8 +67,8 @@ const StyledMidButton = styled.div`
     white-space: nowrap;
 
     &:enabled:hover {
-      background-color: ${gray250};
-      color: ${primary};
+      color: ${PRIMARY};
+      background-color: ${white};
     }
 
     &:focus {

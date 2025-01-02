@@ -10,7 +10,12 @@ import {
   MID_SPACING,
   SMALL_FONT_SIZE,
 } from "../../constants/style-units";
-import { DARK_RED, alertInfo, primary, white } from "../../constants/colors";
+import {
+  ERROR_BACKGROUND,
+  PRIMARY,
+  SUCCESS_BACKGROUND,
+  white,
+} from "../../constants/colors";
 
 export type ToastProps = {
   position: ToastPositionType;
@@ -43,7 +48,7 @@ const StyledToast = styled.div`
 
   .p-toast .p-toast-message {
     min-width: ${isMobileDevice() ? "50vw" : "20rem"};
-    color: ${primary};
+    color: ${PRIMARY};
     font-size: ${DEFAULT_FONT_SIZE};
     font-weight: 400;
     border-radius: ${DEFAULT_BORDER_RADIUS};
@@ -51,12 +56,12 @@ const StyledToast = styled.div`
   }
 
   .p-toast-message-error {
-    background-color: ${DARK_RED} !important;
-    color: ${primary};
+    background-color: ${ERROR_BACKGROUND} !important;
+    color: ${PRIMARY};
   }
 
   .p-toast .p-toast-message.p-toast-message-success {
-    background-color: ${alertInfo};
+    background-color: ${SUCCESS_BACKGROUND};
     border: none;
   }
 

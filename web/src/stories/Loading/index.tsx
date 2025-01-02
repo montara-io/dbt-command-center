@@ -9,14 +9,7 @@ import {
   DEFAULT_SPACING,
   MID_SPACING,
 } from "../../constants/style-units";
-import {
-  GRAY_240,
-  BLUE,
-  blueHover,
-  lightBlue,
-  lighterBlue,
-  white,
-} from "../../constants/colors";
+import { GRAY_240, PRIMARY, white } from "../../constants/colors";
 import { LOGO_URL } from "../../constants";
 
 export type LoadingProps = {
@@ -88,17 +81,17 @@ export const StyledLoading = styled.div<{
   @keyframes p-progress-spinner-color {
     100%,
     0% {
-      stroke: ${lighterBlue};
+      stroke: ${PRIMARY};
     }
     40% {
-      stroke: ${lightBlue};
+      stroke: ${PRIMARY};
     }
     66% {
-      stroke: ${blueHover};
+      stroke: ${PRIMARY};
     }
     80%,
     90% {
-      stroke: ${BLUE};
+      stroke: ${PRIMARY};
     }
   }
   .m-loading-light .p-progressbar,
@@ -137,7 +130,7 @@ function Loading({
   showLogo,
   variant = "progressbar",
   longLoadingTimeMs = LONG_LOADING_TIME,
-  loadingColor = BLUE,
+  loadingColor = PRIMARY,
 }: Readonly<LoadingProps>) {
   const [showLongLoadingText, setShowLongLoadingText] = useState(false);
 

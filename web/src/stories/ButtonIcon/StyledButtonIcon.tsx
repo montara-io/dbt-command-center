@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLUE, gray200, white } from "../../constants/colors";
+import { PRIMARY, NEUTRAL, white } from "../../constants/colors";
 import {
   BUTTON_FONT_SIZE,
   DEFAULT_BORDER_RADIUS,
@@ -11,7 +11,7 @@ export const StyledButtonIcon = styled.span<{
   hasLabel: boolean;
 }>`
   .m-action-button {
-    color: ${BLUE};
+    color: ${PRIMARY};
     border: none;
     border-radius: ${DEFAULT_BORDER_RADIUS};
     outline: none;
@@ -25,11 +25,11 @@ export const StyledButtonIcon = styled.span<{
     gap: ${({ hasLabel }) => (hasLabel ? SMALL_SPACING : 0)};
     &:enabled:hover {
       background-color: ${white};
-      color: ${BLUE};
+      color: ${PRIMARY};
     }
     &:disabled {
       background-color: ${white};
-      color: ${gray200};
+      color: ${NEUTRAL};
     }
 
     &:focus {

@@ -1,12 +1,12 @@
 import ReactConfetti from "react-confetti";
-import { YELLOW, BLUE, ACCENT } from "../../constants/colors";
+import { PRIMARY, ACCENT, WARNING_TEXT } from "../../constants/colors";
 
 function Confetti() {
   return (
     <ReactConfetti
       width={window.innerWidth}
       height={window.innerHeight}
-      colors={[BLUE, YELLOW, ACCENT]}
+      colors={[PRIMARY, WARNING_TEXT, ACCENT]}
       recycle={false}
       numberOfPieces={600}
     />

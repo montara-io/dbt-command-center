@@ -1,8 +1,8 @@
 import { GenericStatus } from "@montara-io/core-data-types";
 import {
-  ALERT_SUCCESS,
-  ALERT_WARNING,
-  FAILURE,
+  SUCCESS_BACKGROUND,
+  WARNING_BACKGROUND,
+  ERROR_BACKGROUND,
   NEUTRAL,
 } from "../../constants/colors";
 
@@ -11,11 +11,11 @@ export const STATUS_TO_CONFIG: Record<
   { background: string; text: string }
 > = {
   [GenericStatus.success]: {
-    background: ALERT_SUCCESS,
+    background: SUCCESS_BACKGROUND,
     text: "Success",
   },
   [GenericStatus.completed]: {
-    background: ALERT_SUCCESS,
+    background: SUCCESS_BACKGROUND,
     text: "Completed",
   },
   [GenericStatus.pending]: {
@@ -23,11 +23,11 @@ export const STATUS_TO_CONFIG: Record<
     text: "Pending",
   },
   [GenericStatus.in_progress]: {
-    background: ALERT_WARNING,
+    background: WARNING_BACKGROUND,
     text: "In Progress",
   },
   [GenericStatus.failed]: {
-    background: FAILURE,
+    background: ERROR_BACKGROUND,
     text: "Failed",
   },
   [GenericStatus.neutral]: {

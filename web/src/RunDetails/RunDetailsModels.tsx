@@ -90,17 +90,7 @@ function RunDetailsModels({
               return (
                 <div className="m-flex-align-center">
                   {!!materialization && (
-                    <Icon
-                      size={SMALL_FONT_SIZE}
-                      iconName={
-                        materialization === ModelMatrializationType.view
-                          ? "eye"
-                          : materialization ===
-                            ModelMatrializationType.incremental
-                          ? "chart-line"
-                          : "table"
-                      }
-                    />
+                    <Icon size={SMALL_FONT_SIZE} iconName="table" />
                   )}
 
                   <Typography>

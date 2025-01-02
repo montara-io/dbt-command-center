@@ -3,11 +3,11 @@ import { ButtonIcon } from "../ButtonIcon";
 import { copyToClipboard } from "../../utils/web";
 import { generateHtmlId } from "../../utils/uuid";
 import Tooltip, { TooltipProps } from "../Tooltip";
-import { primary } from "../../constants/colors";
+import { PRIMARY } from "../../constants/colors";
 
 function CopyToClipboardButton({
   content,
-  color = primary,
+  color = PRIMARY,
   tooltip = "",
   label,
   size,

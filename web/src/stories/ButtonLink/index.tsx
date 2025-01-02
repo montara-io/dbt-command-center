@@ -3,7 +3,7 @@ import Popover from "../Popover";
 import { Button } from "primereact/button";
 import Icon, { IconType } from "../Icon";
 import { DEFAULT_FONT_SIZE, SMALL_SPACING } from "../../constants/style-units";
-import { BLUE, gray200 } from "../../constants/colors";
+import { NEUTRAL, PRIMARY } from "../../constants/colors";
 
 type ButtonLinkProps = {
   label: string;
@@ -34,7 +34,7 @@ const StyledButtonLink = styled.span<{ color: string }>`
       color: ${({ color }) => color};
     }
     &:disabled {
-      color: ${gray200};
+      color: ${NEUTRAL};
     }
 
     &:focus {
@@ -62,7 +62,7 @@ function ButtonLink({
   className = "",
   isDisabled,
   icon,
-  color = BLUE,
+  color = PRIMARY,
 }: ButtonLinkProps) {
   const innerButton = (
     <StyledButtonLink className="m-button-link" color={color}>
@@ -82,7 +82,7 @@ function ButtonLink({
           onClick={onClick}
           iconName={icon}
           size={fontSize || DEFAULT_FONT_SIZE}
-          color={BLUE}
+          color={PRIMARY}
         />
       )}
     </StyledButtonLink>

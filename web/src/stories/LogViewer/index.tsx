@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { copyToClipboard, downloadTextFile } from "../../utils/web";
 import { ButtonIcon } from "../ButtonIcon";
-import { primary, white } from "../../constants/colors";
+import { PRIMARY, white } from "../../constants/colors";
 
 type LogViewerProps = {
   log: string;
@@ -13,7 +13,7 @@ const StyledLogViewer = styled.div`
     position: relative;
   }
   pre {
-    background: ${primary};
+    background: ${PRIMARY};
     color: ${white};
     width: 100%;
     overflow: auto;

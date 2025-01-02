@@ -1,7 +1,10 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import { viteSingleFile } from "vite-plugin-singlefile";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-})
+  plugins: [viteSingleFile()],
+  build: {
+    cssCodeSplit: false, // Disable CSS code splitting
+    assetsInlineLimit: 100000000, // Increase inline limit to a high value
+  },
+});

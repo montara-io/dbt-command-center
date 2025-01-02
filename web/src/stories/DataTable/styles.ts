@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BORDER_LIGHT, primary } from "../../constants/colors";
+import { BORDER_LIGHT, PRIMARY } from "../../constants/colors";
 import {
   BUTTON_FONT_SIZE,
   DEFAULT_FONT_SIZE,
@@ -30,7 +30,7 @@ const StyledDataTable = styled.div`
   }
 
   .p-inputtext.p-component.p-column-filter {
-    color: ${primary};
+    color: ${PRIMARY};
     font-family: inherit;
     font-weight: 500;
 
@@ -137,14 +137,14 @@ const StyledDataTable = styled.div`
       vertical-align: top;
       text-align: center;
       font-size: ${DEFAULT_FONT_SIZE};
-      color: ${primary};
+      color: ${PRIMARY};
     }
   }
 
   .p-paginator {
     font-size: ${SMALL_FONT_SIZE};
     font-weight: 500;
-    color: ${primary};
+    color: ${PRIMARY};
     border-width: 0;
     padding-bottom: 0;
     padding-top: ${SMALL_SPACING};
@@ -159,7 +159,7 @@ const StyledDataTable = styled.div`
 
     .p-paginator-element {
       font-size: ${SMALL_FONT_SIZE};
-      color: ${primary};
+      color: ${PRIMARY};
     }
   }
   .m-button-link button {
@@ -170,7 +170,7 @@ const StyledDataTable = styled.div`
     font-size: ${BUTTON_FONT_SIZE} !important;
   }
   .p-sortable-column.p-highlight:not(.p-sortable-disabled):hover {
-    color: ${primary};
+    color: ${PRIMARY};
   }
   .p-datatable .p-sortable-column:focus {
     box-shadow: none;

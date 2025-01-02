@@ -1,4 +1,4 @@
-import { required } from "../../constants/colors";
+import { REQUIRED } from "../../constants/colors";
 import { SMALL_SPACING } from "../../constants/style-units";
 import { isMobileDevice } from "../../utils/responsiveness";
 import Typography from "../Typography";
@@ -13,7 +13,7 @@ function InputError({ errorMessage }: Readonly<InputErrorProps>) {
       style={{
         display: "block",
         marginTop: SMALL_SPACING,
-        color: required,
+        color: REQUIRED,
         maxWidth: isMobileDevice() ? "45rem" : "25rem",
       }}
       variant="small-text"

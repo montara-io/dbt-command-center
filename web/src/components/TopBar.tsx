@@ -3,14 +3,18 @@ import Typography from "../stories/Typography";
 import { DEFAULT_SPACING, SMALL_SPACING } from "../constants/style-units";
 import { LOGO_URL } from "../constants";
 import { AnalyticsEvent, trackEvent } from "../services/analytics";
+import { BORDER, HOVER_MENU_ITEM_BACKGROUND } from "../constants/colors";
 
 const StyledTopBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: ${HOVER_MENU_ITEM_BACKGROUND};
+  padding: 0 ${DEFAULT_SPACING};
+  border-bottom: 1px solid ${BORDER};
   .m-logo {
     cursor: pointer;
-    width: 15rem;
+    width: 10rem;
   }
 `;
 
@@ -21,7 +25,7 @@ function TopBar() {
         variant="h2"
         style={{ margin: `${SMALL_SPACING} 0 ${DEFAULT_SPACING} 0` }}
       >
-        🚀 dbt Command Center
+        🚀 dbt™ Command Center
       </Typography>
 
       <img

@@ -36,6 +36,7 @@ import RunLog from "./RunLog";
 const StyledRunDetails = styled.div`
   min-height: 95vh;
   font-family: var(--font-family);
+  padding: ${DEFAULT_SPACING};
   .m-scorecards-wrapper {
     display: flex;
     align-items: center;

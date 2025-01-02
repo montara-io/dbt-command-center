@@ -63,7 +63,7 @@ function Lineage({
               <div className="m-lineage-filter">
                 <Dropdown
                   id={"findModel"}
-                  label={`🔎 Highlight model`}
+                  label={`🔎 Highlight asset`}
                   options={
                     (formatted?.initialNodes ?? []).map(({ id }) => ({
                       label: id,

@@ -8,9 +8,8 @@ import {
   SMALL_FONT_SIZE,
   SMALL_SPACING,
 } from "../../constants/style-units";
-import { primary } from "../../constants/colors";
 import { GenericStatus } from "@montara-io/core-data-types";
-
+import { PRIMARY } from "../../constants/colors";
 export interface TagProps {
   status?: GenericStatus;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,7 +52,7 @@ const StyledTag = styled.div<{
 
   .m-tag-label {
     font-size: ${SMALLER_FONT_SIZE} !important;
-    color: ${primary};
+    color: ${PRIMARY};
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

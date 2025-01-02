@@ -13,7 +13,7 @@ import {
   SMALL_FONT_SIZE,
   SMALL_SPACING,
 } from "../../constants/style-units";
-import { GRAY_230, INPUT_BORDER, primary } from "../../constants/colors";
+import { GRAY_230, BORDER, PRIMARY } from "../../constants/colors";
 
 export type InputProps = {
   id: string;
@@ -56,7 +56,7 @@ const StyledInput = styled.div<{ hasText: boolean }>`
     font-family: inherit;
     font-size: ${DEFAULT_FONT_SIZE};
     border: 1px solid ${GRAY_230};
-    color: ${primary};
+    color: ${PRIMARY};
     outline: none;
     height: ${INPUT_HEIGHT};
     min-width: 10rem;
@@ -67,12 +67,12 @@ const StyledInput = styled.div<{ hasText: boolean }>`
 
     &:enabled {
       &:hover {
-        border-color: ${INPUT_BORDER};
+        border-color: ${BORDER};
       }
 
       &:focus {
         box-shadow: none;
-        border-color: ${INPUT_BORDER};
+        border-color: ${BORDER};
       }
     }
   }
@@ -153,7 +153,7 @@ function Input({
           {!!isClearable && value && (
             <ButtonIcon
               icon="times"
-              color={primary}
+              color={PRIMARY}
               onClick={() =>
                 typeof onChange === "function" &&
                 onChange({ target: { value: "" } })

@@ -9,14 +9,14 @@ import {
   initialMainState,
   mainReducer,
 } from "./main.redux";
+import { white } from "./constants/colors";
 
 type MainContextType = [MainState, Dispatch<MainAction>];
 
 const StyledBody = styled.div`
   height: 100vh;
   width: 100%;
-  background: #fff;
-  padding: 0.5rem 1rem 0rem 1rem;
+  background: ${white};
   overflow: hidden;
 `;
 

@@ -14,7 +14,7 @@ import {
   SMALL_SPACING,
   TINY_SPACING,
 } from "../../constants/style-units";
-import { BORDER, alertInfo, BLUE, primary } from "../../constants/colors";
+import { BORDER, INFO_BACKGROUND, PRIMARY } from "../../constants/colors";
 import { GenericStatus } from "@montara-io/core-data-types";
 
 const ImageDimensions = SMALLER_FONT_SIZE;
@@ -30,8 +30,8 @@ const StyledNodeWithIcon = styled.div<{
   gap: ${SMALL_SPACING};
   border: ${({ isHighlighted, isCurrent }) => {
     return isHighlighted
-      ? `2px solid ${BLUE}`
-      : `1px solid ${isCurrent ? primary : BORDER}`;
+      ? `2px solid ${PRIMARY}`
+      : `1px solid ${isCurrent ? PRIMARY : BORDER}`;
   }};
   font-weight: ${({ isHighlighted, isCurrent }) => {
     return isHighlighted ? BOLD : isCurrent ? BOLD : "normal";
@@ -53,7 +53,8 @@ const StyledNodeWithIcon = styled.div<{
   white-space: nowrap;
   font-size: ${SMALLER_FONT_SIZE};
   gap: ${TINY_SPACING};
-  background-color: ${({ isChecked }) => (isChecked ? alertInfo : "inherit")};
+  background-color: ${({ isChecked }) =>
+    isChecked ? INFO_BACKGROUND : "inherit"};
   img {
     height: ${ImageDimensions};
     width: ${ImageDimensions};
